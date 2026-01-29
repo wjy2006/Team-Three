@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SimpleDialogTest : MonoBehaviour
 {
-    [Header("Root UI (DialogPanel or whole dialog UI root)")]
+    [Header("Root UI")]
     public GameObject dialogRoot;
 
     [Header("UI References")]
@@ -15,6 +15,8 @@ public class SimpleDialogTest : MonoBehaviour
 
     private int index = 0;
     private StoryData story;
+    private PlayerInputReader input;
+    private int openFrame = -1;
 
     [Serializable] public class Line { public string name; public string text; }
     [Serializable] public class StoryData { public Line[] lines; }
@@ -26,43 +28,59 @@ public class SimpleDialogTest : MonoBehaviour
         IsOpen = false;
     }
 
+    void Start()
+    {
+        if (GameRoot.I != null) input = GameRoot.I.playerInput;
+    }
+
     void Update()
     {
         if (!IsOpen) return;
 
-        if (Input.GetKeyDown(KeyCode.Z) ||
-            Input.GetKeyDown(KeyCode.Return) ||
-            Input.GetKeyDown(KeyCode.Space) ||
-            Input.GetMouseButtonDown(0))
+        // 帧保护：防止开启对话的那一帧立刻触发下一句
+        if (Time.frameCount == openFrame) return;
+
+        bool nextInput = false;
+        bool cancelInput = false;
+
+        // 优先使用 GameRoot 的 InputReader
+        if (input != null)
         {
+            // 只有当 PlayerInteractor 不消耗时，这里才能读到 True
+            nextInput = input.ConsumeInteractDown();
+            cancelInput = input.ConsumeCancelDown();
+        }
+        else
+        {
+            // 备用方案
+            nextInput = Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0);
+            cancelInput = Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape);
+        }
+
+        if (nextInput)
+        {
+            // Debug.Log("Dialog: 检测到下一步输入，显示下一句"); // 调试用
             Next();
         }
 
-        if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape))
+        if (cancelInput)
         {
             Close();
         }
     }
 
-    // ⭐️ 新接口：直接传 TextAsset
     public void Open(TextAsset storyJson)
     {
-        if (storyJson == null)
-        {
-            Debug.LogError("Open 失败：storyJson 为空（没有绑定 TextAsset）");
-            return;
-        }
+        if (storyJson == null) return;
 
         story = JsonUtility.FromJson<StoryData>(storyJson.text);
-        if (story == null || story.lines == null || story.lines.Length == 0)
-        {
-            Debug.LogError("Open 失败：JSON 解析后没有 lines（检查格式）");
-            return;
-        }
+        if (story == null || story.lines == null) return;
 
         index = 0;
         dialogRoot.SetActive(true);
         IsOpen = true;
+        openFrame = Time.frameCount; // 记录开启帧
+
         ShowLine();
     }
 
@@ -85,7 +103,10 @@ public class SimpleDialogTest : MonoBehaviour
 
     private void ShowLine()
     {
-        nameText.text = story.lines[index].name;
-        contentText.text = story.lines[index].text;
+        if (index < story.lines.Length)
+        {
+            nameText.text = story.lines[index].name;
+            contentText.text = story.lines[index].text;
+        }
     }
 }

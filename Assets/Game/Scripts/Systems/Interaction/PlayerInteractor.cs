@@ -4,58 +4,51 @@ public class PlayerInteractor : MonoBehaviour
 {
     public TopDownMove2D mover;
     public SimpleDialogTest dialog;
+    public PlayerInputReader input;
 
     private InteractableNPC currentNPC;
-
-    // 新增：需要先松开交互键，才能再次触发
     private bool waitRelease = false;
 
     void Awake()
     {
         if (mover == null) mover = GetComponent<TopDownMove2D>();
+        if (input == null && GameRoot.I != null) input = GameRoot.I.playerInput;
+        if (dialog == null && GameRoot.I != null) dialog = GameRoot.I.Dialogue;
     }
 
     void Update()
     {
         if (GameRoot.I != null && GameRoot.I.InputLocked) return;
-        // 对话开着：禁止移动
+        if (input == null) return;
+
+        // 1. 优先检查对话框状态
+        // 如果对话框开着，这里就把控制权完全让给 SimpleDialogTest，不要调用 ConsumeInteractDown()
         if (dialog != null && dialog.IsOpen)
         {
             if (mover != null) mover.canMove = false;
-            waitRelease = true; // 对话期间按过交互键，先锁住
+            // 只要对话开着，我们就不处理任何交互逻辑，直接返回
             return;
         }
-        else
-        {
-            if (mover != null) mover.canMove = true;
-        }
 
-        // 如果还没松开交互键，就不允许再次触发
+        // 2. 对话没开，恢复移动
+        if (mover != null) mover.canMove = true;
+
+        // 3. 此时才去读取输入（因为确定没人跟我抢了）
+        bool interactDownThisFrame = input.ConsumeInteractDown();
+
+        // 交互键按住的逻辑处理（防连续触发）
         if (waitRelease)
         {
-            if (IsInteractKeyHeld()) return;
-            waitRelease = false; // 已松开，解除锁
+            if (input.InteractHeld) return;
+            waitRelease = false;
         }
 
-        // 按下交互键：Z / Enter / Space
-        if (currentNPC != null && IsInteractKeyDown())
+        // 4. 触发 NPC 交互
+        if (currentNPC != null && interactDownThisFrame)
         {
+            waitRelease = true;
             currentNPC.Interact();
         }
-    }
-
-    bool IsInteractKeyDown()
-    {
-        return Input.GetKeyDown(KeyCode.Z) ||
-               Input.GetKeyDown(KeyCode.Return) ||
-               Input.GetKeyDown(KeyCode.Space);
-    }
-
-    bool IsInteractKeyHeld()
-    {
-        return Input.GetKey(KeyCode.Z) ||
-               Input.GetKey(KeyCode.Return) ||
-               Input.GetKey(KeyCode.Space);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

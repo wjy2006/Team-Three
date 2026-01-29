@@ -1,9 +1,16 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerInputReader : MonoBehaviour
 {
     public Vector2 Move { get; private set; }
+
+    // 本帧按下（边沿触发）
+    public bool InteractDown { get; private set; }
+    public bool CancelDown { get; private set; }
+
+    // 是否按住
+    public bool InteractHeld { get; private set; }
+    public bool CancelHeld { get; private set; }
 
     private PlayerInputActions actions;
 
@@ -15,35 +22,50 @@ public class PlayerInputReader : MonoBehaviour
     private void OnEnable()
     {
         actions.Enable();
-
-        // Move 是 Value(Vector2)，performed/ canceled 都要接
-        actions.Player.Move.performed += OnMove;
-        actions.Player.Move.canceled += OnMove;
+        actions.Player.Enable();
     }
 
     private void OnDisable()
     {
-        actions.Player.Move.performed -= OnMove;
-        actions.Player.Move.canceled -= OnMove;
         actions.Disable();
     }
 
-    private void OnMove(InputAction.CallbackContext ctx)
+    private void Update()
     {
-        // ctx.ReadValue<Vector2>() 会稳定给你 (x,y)，按住 WD 就一直是 (1,1) normalized
-        Move = ctx.ReadValue<Vector2>();
+        // Move（Value Vector2）
+        Move = actions.Player.Move.ReadValue<Vector2>();
+
+        // Interact（Button）
+        InteractDown = actions.Player.Interact.WasPressedThisFrame();
+        InteractHeld = actions.Player.Interact.IsPressed();
+
+        // Cancel（Button）——如果你还没建 Cancel action，这里会编译不过；没建就先删这几行
+        CancelDown = actions.Player.Cancel.WasPressedThisFrame();
+        CancelHeld = actions.Player.Cancel.IsPressed();
     }
 
-    public void SetInputEnabled(bool enabled)
+    public bool ConsumeInteractDown()
+    {
+        if (!InteractDown) return false;
+        InteractDown = false;
+        return true;
+    }
+
+    public bool ConsumeCancelDown()
+    {
+        if (!CancelDown) return false;
+        CancelDown = false;
+        return true;
+    }
+
+    // 只锁移动（推荐用于对话）
+    public void SetMoveEnabled(bool enabled)
     {
         if (enabled)
-        {
-            actions.Player.Enable();
-        }
+            actions.Player.Move.Enable();
         else
         {
-            // 禁用 map 会让 Move 立刻 canceled -> Move 变 0
-            actions.Player.Disable();
+            actions.Player.Move.Disable();
             Move = Vector2.zero;
         }
     }

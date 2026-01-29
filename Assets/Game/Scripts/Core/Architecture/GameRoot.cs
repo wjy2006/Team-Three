@@ -48,6 +48,13 @@ public class GameRoot : MonoBehaviour
 
     public void SetInputLocked(bool locked) => InputLocked = locked;
 
+public void SetMoveLocked(bool locked)
+{
+    // locked=true => 关移动；locked=false => 开移动
+    if (playerInput != null)
+        playerInput.SetMoveEnabled(!locked);
+}
+
     // ========== 相机设置 ==========
     public void ApplyLevelCameraSettings()
     {
