@@ -8,6 +8,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scenes/Boot.scene
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Game/Scenes/Room_Lab_PlayerHouse.scene
+    guid: 26bc7cec5ee39704a8593ac4596d5280
+  - enabled: 1
+    path: Assets/Game/Scenes/Room_Lab_Signboard.scene
+    guid: 3b40bfb9eebbf4f4d9cf5db4f0f8a6cc
+  - enabled: 1
+    path: Assets/Game/Scenes/Room_Lab_Admin'sRoom.scene
+    guid: b94992dd6e8d7ef418fc3811c87833a6
+  - enabled: 1
+    path: Assets/Game/Scenes/Room_Lab_Box1.scene
+    guid: 3531e905aa70160418f1dc356f35edea
   m_BuildProfiles: []
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 668b30f8043be5441a5b1f86906f1d52, type: 3}

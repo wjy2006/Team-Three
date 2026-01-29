@@ -5,10 +5,10 @@ public class CameraFollow2D : MonoBehaviour
 {
     public enum FollowMode
     {
-        Fixed,          // 固定到 fixedPosition2D
-        HorizontalOnly, // 只跟随X，Y锁到 lockedAxisValue
-        VerticalOnly,   // 只跟随Y，X锁到 lockedAxisValue
-        Both            // X + Y
+        Fixed,
+        HorizontalOnly,
+        VerticalOnly,
+        Both
     }
 
     [Header("Target")]
@@ -20,10 +20,7 @@ public class CameraFollow2D : MonoBehaviour
     public Vector3 offset = new(0, 0, -10);
 
     [Header("Mode Anchors")]
-    [Tooltip("Fixed 模式下相机要去的世界坐标（2D部分）。你要回到(0,0)就保持默认。")]
     public Vector2 fixedPosition2D = Vector2.zero;
-
-    [Tooltip("HorizontalOnly/VerticalOnly 时，被锁住的轴要固定到的值（默认0）。")]
     public float lockedAxisValue = 0f;
 
     [Header("Bounds (Optional)")]
@@ -68,11 +65,11 @@ public class CameraFollow2D : MonoBehaviour
 
             case FollowMode.HorizontalOnly:
                 x = targetPos.x;
-                y = lockedAxisValue;   // ✅ 不保留旧Y，锁到固定值（默认0）
+                y = lockedAxisValue;
                 break;
 
             case FollowMode.VerticalOnly:
-                x = lockedAxisValue;   // ✅ 不保留旧X，锁到固定值（默认0）
+                x = lockedAxisValue;
                 y = targetPos.y;
                 break;
 
@@ -104,16 +101,14 @@ public class CameraFollow2D : MonoBehaviour
         return pos;
     }
 
-    // 运行时切换模式（给剧情/触发器用）
+
     public void SetFollowMode(FollowMode mode, bool snapImmediately = false)
     {
         followMode = mode;
-
-        // ✅ 切模式清掉 SmoothDamp 速度，避免“漂移”
         velocity = Vector3.zero;
 
         if (snapImmediately)
-            SnapToModeTarget();
+            SnapToTarget();
     }
 
     public void SetBounds(BoxCollider2D newBounds, bool snapImmediately = false)
@@ -122,23 +117,15 @@ public class CameraFollow2D : MonoBehaviour
         velocity = Vector3.zero;
 
         if (snapImmediately)
-            SnapToModeTarget();
+            SnapToTarget();
     }
 
-    // ✅ 直接把相机瞬移到“当前模式应该在的位置”
-    public void SnapToModeTarget()
+    public void SnapToTarget()
     {
-        Vector3 p = GetDesiredPosition();
+         Vector3 p = GetDesiredPosition();
         if (bounds != null && cam != null && cam.orthographic)
             p = ClampToBounds(p);
 
         transform.position = p;
-    }
-
-    // 保留你原来的函数名（如果外部已经在用）
-    public void SnapToTarget()
-    {
-        // 在新逻辑下，SnapToModeTarget 更准确
-        SnapToModeTarget();
     }
 }
