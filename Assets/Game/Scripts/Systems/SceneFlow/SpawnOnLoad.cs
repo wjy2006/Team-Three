@@ -17,7 +17,7 @@ public class SpawnOnLoad : MonoBehaviour
     public IEnumerator SpawnTo(string spawnId)
     {
         if (string.IsNullOrEmpty(spawnId)) yield break;
-
+        if (col != null) col.enabled = false;
         var points = FindObjectsOfType<SpawnPoint>();
         SpawnPoint target = null;
         foreach (var p in points)
@@ -31,14 +31,13 @@ public class SpawnOnLoad : MonoBehaviour
 
         var wp = target.transform.position;
         wp.z = transform.position.z;
-
+        
 
         rb.position = (Vector2)wp;
-        transform.position = new Vector3(wp.x, wp.y, transform.position.z); // 强制对齐
         rb.velocity = Vector2.zero;
-
         Physics2D.SyncTransforms();
-
+        if (col != null) col.enabled = true;
+        
         yield return null;
     }
 }

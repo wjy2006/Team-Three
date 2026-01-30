@@ -11,12 +11,14 @@ public class GameRoot : MonoBehaviour
     public CameraFollow2D cameraFollow;
     public FadeController fade;
     public PlayerInputReader playerInput;
+    
 
 
     public SimpleDialogTest Dialogue { get; private set; }
     public bool InputLocked { get; private set; }
 
-    private bool isTransitioning = false;
+    public bool IsTransitioning { get; private set; }
+
 
     private void Awake()
     {
@@ -42,7 +44,7 @@ public class GameRoot : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // 如果正在过场切换，TransitionRoutine 里会自己做相机设置和 Snap，这里不重复
-        if (isTransitioning) return;
+        if (IsTransitioning) return;
         ApplyLevelCameraSettings();
     }
 
@@ -83,34 +85,53 @@ public void SetMoveLocked(bool locked)
     // ========== 对外切场景入口 ==========
     public void TransitionTo(string toScene, string toSpawnId, float fadeOutTime = 0.12f, float fadeInTime = 0.10f)
     {
-        if (isTransitioning) return;
+        if (IsTransitioning) return;
         StartCoroutine(TransitionRoutine(toScene, toSpawnId, fadeOutTime, fadeInTime));
     }
 
     private IEnumerator TransitionRoutine(string toScene, string toSpawnId, float fadeOutTime, float fadeInTime)
+{
+    IsTransitioning = true;
+    SetInputLocked(true);
+    SetMoveLocked(true);
+
+    try
     {
-
-        SetInputLocked(true);
-
         if (Dialogue != null && Dialogue.IsOpen) Dialogue.Close();
 
         if (fade != null) yield return fade.FadeOut(fadeOutTime);
 
         SceneTransfer.NextSpawnId = toSpawnId;
 
-        var op = SceneManager.LoadSceneAsync(toScene);
-        while (!op.isDone) yield return null;
+        bool alreadyInScene = SceneManager.GetActiveScene().name == toScene;
+
+        if (!alreadyInScene)
+        {
+            var op = SceneManager.LoadSceneAsync(toScene);
+            while (!op.isDone) yield return null;
+        }
 
         yield return null;
+
         if (playerSpawn != null)
             yield return playerSpawn.SpawnTo(SceneTransfer.NextSpawnId);
 
+        yield return new WaitForFixedUpdate();
+
         ApplyLevelCameraSettings();
         cameraFollow?.SnapToTarget();
-        SetInputLocked(false);
 
         if (fade != null) yield return fade.FadeIn(fadeInTime);
     }
+    finally
+    {
+        SceneTransfer.NextSpawnId = null;
+        SetInputLocked(false);
+        SetMoveLocked(false);
+        IsTransitioning = false;
+    }
+}
+
 
 
 }
