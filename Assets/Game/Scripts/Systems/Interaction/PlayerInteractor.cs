@@ -1,12 +1,15 @@
 using UnityEngine;
 
+[RequireComponent(typeof(TopDownMove2D))]
 public class PlayerInteractor : MonoBehaviour
 {
     public TopDownMove2D mover;
-    public SimpleDialogTest dialog;
+    public DialogueSystem dialog;
     public PlayerInputReader input;
 
     private InteractableNPC currentNPC;
+    private SceneExit currentExit;
+
     private bool waitRelease = false;
 
     void Awake()
@@ -53,13 +56,14 @@ public class PlayerInteractor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        var npc = other.GetComponent<InteractableNPC>();
-        if (npc != null) currentNPC = npc;
+        if (other.TryGetComponent<InteractableNPC>(out var npc)) currentNPC = npc;
+        if (other.TryGetComponent<SceneExit>(out var exit)) currentExit = exit;
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         var npc = other.GetComponent<InteractableNPC>();
         if (npc == currentNPC) currentNPC = null;
+        if (other.TryGetComponent<SceneExit>(out var exit) && exit == currentExit) currentExit = null;
     }
 }

@@ -1,0 +1,36 @@
+key,text
+npc.lab.system.name,※※※
+npc.lab.unknown.name,？？？
+npc.lab.admin.name,管 理 员 
+
+dlg.lab.button.001,这里有一个按钮。
+dlg.lab.button.002,你按下了这个按钮。
+dlg.lab.button.003,没有什么变化，不过你只是莫名强烈地想到了一句话：
+dlg.lab.button.004,哦 ， 你 醒 了 ， 那 你 来 右 边 的 房 间 里 找 我 吧 。
+
+dlg.lab.chest1.001,箱子是空的。
+dlg.lab.chest1.002,好吧，这种事有时就是会发生。
+
+dlg.lab.chest1.003,你再次检查了这个箱子。
+dlg.lab.chest1.004,你发现这个箱子里真的什么也没有。
+
+dlg.lab.chest1.005,你没忍住又检查了一遍这个箱子。
+dlg.lab.chest1.006,令人惊奇的是，这个箱子里真的什么也没有！
+
+
+dlg.lab.chest2.001,你试图用力打开这个箱子。
+dlg.lab.chest2.002,你发现这并不是箱子，这只是一块箱子形状的石头。
+
+dlg.lab.chest2.003,你试图用力打开这块石头。
+dlg.lab.chest2.004,但是你真的没有力气去打开一块石头。
+
+dlg.lab.chest2.005,你真的真的没有力气打开这块石头。
+
+
+dlg.lab.admin.001,你 好 ， 新 人 ！
+dlg.lab.admin.002,我 是 这 片 区 域 的 管 理 者 ， 你 可 以 叫 我 管 理 员 。
+dlg.lab.admin.003,应 该 向 你 介 绍 的 东 西 其 实 有 很 多 ， 但 是 我 现 在 有 点 累 了 。
+dlg.lab.admin.004,你 先 要 知 道 这 个 地 方 叫 做 三 号 实 验 室 。
+dlg.lab.admin.005,然后管理员在原地睡着了。。。
+
+dlg.lab.admin.006,呼 呼 呼 ~

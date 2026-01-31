@@ -37,7 +37,6 @@ public class SpawnOnLoad : MonoBehaviour
         rb.velocity = Vector2.zero;
         Physics2D.SyncTransforms();
         if (col != null) col.enabled = true;
-        
         yield return null;
     }
 }

@@ -53,7 +53,7 @@ public class SimpleDialogTest : MonoBehaviour
         else
         {
             // 备用方案
-            nextInput = Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0);
+            nextInput = Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return);
             cancelInput = Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape);
         }
 

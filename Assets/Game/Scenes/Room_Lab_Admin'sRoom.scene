@@ -1610,7 +1610,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488d6b18a3483f44a9d729655a674bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueJson: {fileID: 4900000, guid: 4db1d390b35c77d46876e3e688d79195, type: 3}
+  npcId: npc.Lab.Admin
+  dialogue: {fileID: 11400000, guid: a85e90402caa4a8488c4a8a06c6e2a9c, type: 2}
 --- !u!1 &2121685139740237711
 GameObject:
   m_ObjectHideFlags: 0
@@ -4447,7 +4448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eea72654e872a574689749c66465f8cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toScene: Room_Lab_Admin'sRoom
+  toScene: Room_Lab_Signboard
   toSpawnId: Left
 --- !u!1 &7223176052264763718
 GameObject:

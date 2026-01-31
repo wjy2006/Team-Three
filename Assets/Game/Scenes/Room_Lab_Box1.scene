@@ -171,7 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488d6b18a3483f44a9d729655a674bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueJson: {fileID: 4900000, guid: 358b1062e864b314d825ce5a78be6c03, type: 3}
+  npcId: npc.lab.box2
+  dialogue: {fileID: 11400000, guid: 9fd44cb6ed9ee944280e1100a613cde7, type: 2}
 --- !u!61 &380243388
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10624,7 +10625,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488d6b18a3483f44a9d729655a674bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueJson: {fileID: 4900000, guid: 7d96b0308f2c6584e97b1c5578f7a9f8, type: 3}
+  npcId: npc.lab.box1
+  dialogue: {fileID: 11400000, guid: 186f74c40b657fe44ab44c934705991d, type: 2}
 --- !u!1839735485 &6469452099215955273
 Tilemap:
   m_ObjectHideFlags: 0

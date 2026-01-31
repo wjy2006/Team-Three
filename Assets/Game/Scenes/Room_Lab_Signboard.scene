@@ -2698,7 +2698,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488d6b18a3483f44a9d729655a674bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueJson: {fileID: 4900000, guid: 20cc7993cc4361749a96c66447852a1b, type: 3}
+  npcId: npc.lab.botton
+  dialogue: {fileID: 11400000, guid: 844f1980a7bdbcc4ea21f9be97e07ae3, type: 2}
 --- !u!114 &2709306810090157374
 MonoBehaviour:
   m_ObjectHideFlags: 0
