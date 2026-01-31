@@ -6,7 +6,10 @@ npc.lab.admin.name,管 理 员
 dlg.lab.button.001,这里有一个按钮。
 dlg.lab.button.002,你按下了这个按钮。
 dlg.lab.button.003,没有什么变化，不过你只是莫名强烈地想到了一句话：
-dlg.lab.button.004,哦 ， 你 醒 了 ， 那 你 来 右 边 的 房 间 里 找 我 吧 。
+dlg.lab.button.004,哦 ， 你 来 了 ， 那 你 来 右 边 的 房 间 里 找 我 吧 。
+
+dlg.lab.button.005,你按下了这个按钮。
+dlg.lab.button.006,什么都没有变化，你也没有想到任何东西。
 
 dlg.lab.chest1.001,箱子是空的。
 dlg.lab.chest1.002,好吧，这种事有时就是会发生。
@@ -24,13 +27,13 @@ dlg.lab.chest2.002,你发现这并不是箱子，这只是一块箱子形状的�
 dlg.lab.chest2.003,你试图用力打开这块石头。
 dlg.lab.chest2.004,但是你真的没有力气去打开一块石头。
 
-dlg.lab.chest2.005,你真的真的没有力气打开这块石头。
+dlg.lab.chest2.005,你发现自己确实没有力气打开一块石头。
 
 
-dlg.lab.admin.001,你 好 ， 新 人 ！
-dlg.lab.admin.002,我 是 这 片 区 域 的 管 理 者 ， 你 可 以 叫 我 管 理 员 。
-dlg.lab.admin.003,应 该 向 你 介 绍 的 东 西 其 实 有 很 多 ， 但 是 我 现 在 有 点 累 了 。
-dlg.lab.admin.004,你 先 要 知 道 这 个 地 方 叫 做 三 号 实 验 室 。
-dlg.lab.admin.005,然后管理员在原地睡着了。。。
+dlg.lab.admin.001,你 好 ， 玩 家 ！
+dlg.lab.admin.002,我 是 这 片 区 域 的 创 造 者 ， 你 可 以 叫 我 管 理 员 。
+dlg.lab.admin.003,你 有 玩 过 传 说 之 下 吗 ？ 我 正 在 制 作 一 个 类 似 的 游 戏 ！
+dlg.lab.admin.004,不 过 有 很 多 地 方 我 还 没 来 得 及 做 好 ，  所 以 我 们 的 形 象 还 都 暂 时 只 是 小 方 块 ！
+dlg.lab.admin.005,向 右 边 出 发 开 启 我 为 你 打 造 的 冒 险 吧 ！
 
-dlg.lab.admin.006,呼 呼 呼 ~
+dlg.lab.admin.006,哦 ， 我 的 电 脑 就 是 悬 浮 在 桌 子 上 面 的 ， 不 要 在 意 。 。 。

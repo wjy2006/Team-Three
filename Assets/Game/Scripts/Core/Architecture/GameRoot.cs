@@ -14,6 +14,8 @@ public class GameRoot : MonoBehaviour
     public PlayerInteractor PlayerInteractor { get; private set; }
     public LocalizationService Localization { get; private set; }
     public DialogueSystem Dialogue { get; private set; }
+    public GlobalState Global { get; private set; } = new GlobalState();
+
 
     [SerializeField] private GameObject player;
 

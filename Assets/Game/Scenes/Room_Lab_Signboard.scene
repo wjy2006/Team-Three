@@ -2699,7 +2699,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcId: npc.lab.botton
-  dialogue: {fileID: 11400000, guid: 844f1980a7bdbcc4ea21f9be97e07ae3, type: 2}
+  dialogue: {fileID: 11400000, guid: 66f99bfd5188f0746ae281b0445a7302, type: 2}
 --- !u!114 &2709306810090157374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3711,7 +3711,7 @@ GameObject:
   - component: {fileID: 2664480445901781692}
   m_Layer: 0
   m_HasEditorInfo: 1
-  m_Name: NPC
+  m_Name: Botton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

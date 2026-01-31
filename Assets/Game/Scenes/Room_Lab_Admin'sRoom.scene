@@ -644,7 +644,7 @@ GameObject:
   - component: {fileID: 2056624022553731924}
   m_Layer: 0
   m_HasEditorInfo: 1
-  m_Name: NPC
+  m_Name: Admin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1611,7 +1611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcId: npc.Lab.Admin
-  dialogue: {fileID: 11400000, guid: a85e90402caa4a8488c4a8a06c6e2a9c, type: 2}
+  dialogue: {fileID: 11400000, guid: b67fdbebc6eead047ba490d9e9e587f9, type: 2}
 --- !u!1 &2121685139740237711
 GameObject:
   m_ObjectHideFlags: 0
@@ -4376,7 +4376,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -5.5, y: 1.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.95, y: 0.95, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3371754403603185896}

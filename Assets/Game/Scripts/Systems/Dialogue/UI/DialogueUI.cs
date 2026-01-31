@@ -1,5 +1,7 @@
 using TMPro;
 using UnityEngine;
+using System;
+
 
 public class DialogueUI : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class DialogueUI : MonoBehaviour
     private DialogueLine[] lines;
     private int index;
     private int openFrame;
+    public event Action OnClosed;
+
 
     public bool IsOpen { get; private set; }
 
@@ -89,6 +93,7 @@ public class DialogueUI : MonoBehaviour
     public void Close()
     {
         IsOpen = false;
+        OnClosed?.Invoke();
         dialogRoot.SetActive(false);
     }
 }

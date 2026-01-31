@@ -21,7 +21,7 @@ MonoBehaviour:
     textKey: dlg.lab.admin.003
   - speakerKey: npc.lab.admin.name
     textKey: dlg.lab.admin.004
-  - speakerKey: npc.lab.system.name
+  - speakerKey: npc.lab.admin.name
     textKey: dlg.lab.admin.005
   second:
   - speakerKey: npc.lab.admin.name
