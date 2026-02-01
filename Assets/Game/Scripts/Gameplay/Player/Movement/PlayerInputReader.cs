@@ -4,13 +4,20 @@ public class PlayerInputReader : MonoBehaviour
 {
     public Vector2 Move { get; private set; }
 
-    // 本帧按下（边沿触发）
     public bool InteractDown { get; private set; }
     public bool CancelDown { get; private set; }
 
-    // 是否按住
     public bool InteractHeld { get; private set; }
     public bool CancelHeld { get; private set; }
+
+    public bool MenuDown { get; private set; }
+    public bool UpDown { get; private set; }
+    public bool DownDown { get; private set; }
+    public bool ContinueDown { get; private set; }
+
+    public bool LeftDown { get; private set; }
+    public bool RightDown { get; private set; }
+    public bool ClickDown { get; private set; }
 
     private PlayerInputActions actions;
 
@@ -32,16 +39,23 @@ public class PlayerInputReader : MonoBehaviour
 
     private void Update()
     {
-        // Move（Value Vector2）
         Move = actions.Player.Move.ReadValue<Vector2>();
 
-        // Interact（Button）
         InteractDown = actions.Player.Interact.WasPressedThisFrame();
         InteractHeld = actions.Player.Interact.IsPressed();
 
-        // Cancel（Button）——如果你还没建 Cancel action，这里会编译不过；没建就先删这几行
         CancelDown = actions.Player.Cancel.WasPressedThisFrame();
         CancelHeld = actions.Player.Cancel.IsPressed();
+
+        MenuDown = actions.Player.Menu.WasPressedThisFrame();
+        UpDown = actions.Player.Up.WasPressedThisFrame();
+        DownDown = actions.Player.Down.WasPressedThisFrame();
+        ContinueDown = actions.Player.Continue.WasPressedThisFrame();
+
+        LeftDown = actions.Player.Left.WasPressedThisFrame();
+        RightDown = actions.Player.Right.WasPressedThisFrame();
+
+        ClickDown = actions.Player.Click.WasPressedThisFrame();
     }
 
     public bool ConsumeInteractDown()
@@ -58,7 +72,56 @@ public class PlayerInputReader : MonoBehaviour
         return true;
     }
 
-    // 只锁移动（推荐用于对话）
+    public bool ConsumeMenuDown()
+    {
+        if (!MenuDown) return false;
+        MenuDown = false;
+        return true;
+    }
+
+    public bool ConsumeUpDown()
+    {
+        if (!UpDown) return false;
+        UpDown = false;
+        return true;
+    }
+
+    public bool ConsumeDownDown()
+    {
+        if (!DownDown) return false;
+        DownDown = false;
+        return true;
+    }
+
+    public bool ConsumeContinueDown()
+    {
+        if (!ContinueDown) return false;
+        ContinueDown = false;
+        return true;
+    }
+
+    // ✅ 新增 Consume
+    public bool ConsumeLeftDown()
+    {
+        if (!LeftDown) return false;
+        LeftDown = false;
+        return true;
+    }
+
+    public bool ConsumeRightDown()
+    {
+        if (!RightDown) return false;
+        RightDown = false;
+        return true;
+    }
+
+    public bool ConsumeClickDown()
+    {
+        if (!ClickDown) return false;
+        ClickDown = false;
+        return true;
+    }
+
     public void SetMoveEnabled(bool enabled)
     {
         if (enabled)

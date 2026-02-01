@@ -1,4 +1,12 @@
 key,text
+npc.all.system.name,※※※
+npc.all.ancients.name,古人
+dlg.all.empty_dropped,本来无一物，何处惹尘埃？
+dlg.all.empty_checked,此中有真意，欲辨已忘言。
+dlg.all.default_dropped,你丢弃了它。
+dlg.all.default_checked,没有描述。
+npc.all.unknown.name,？？？
+
 npc.lab.system.name,※※※
 npc.lab.unknown.name,？？？
 npc.lab.admin.name,管 理 员 
@@ -21,13 +29,10 @@ dlg.lab.chest1.005,你没忍住又检查了一遍这个箱子。
 dlg.lab.chest1.006,令人惊奇的是，这个箱子里真的什么也没有！
 
 
-dlg.lab.chest2.001,你试图用力打开这个箱子。
-dlg.lab.chest2.002,你发现这并不是箱子，这只是一块箱子形状的石头。
+dlg.lab.chest2.001,你试图打开这个箱子。有点吃力。
+dlg.lab.chest2.002,不过箱子终于打开了，你获得了一瓶生命药水。
 
-dlg.lab.chest2.003,你试图用力打开这块石头。
-dlg.lab.chest2.004,但是你真的没有力气去打开一块石头。
-
-dlg.lab.chest2.005,你发现自己确实没有力气打开一块石头。
+dlg.lab.chest2.003,这个箱子里已经没有东西了。
 
 
 dlg.lab.admin.001,你 好 ， 玩 家 ！

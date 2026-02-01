@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdf6184cac687f24c97ddb55fc97b76a, type: 3}
+  m_Name: LabBox2
+  m_EditorClassIdentifier: 
+  startNodeId: start
+  nodes:
+  - id: start
+    type: 1
+    lines: []
+    nextId: 
+    boolKey: lab.box2.given
+    trueNextId: given
+    falseNextId: not given
+    boolValue: 0
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: not given
+    type: 0
+    lines:
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.001
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.002
+    nextId: not given 2
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: given
+    type: 0
+    lines:
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.003
+    nextId: 
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: not given 2
+    type: 2
+    lines:
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.001
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.001
+    nextId: not given 3
+    boolKey: lab.box2.given
+    trueNextId: 
+    falseNextId: 
+    boolValue: 1
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: not given 3
+    type: 5
+    lines:
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.001
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.001
+    nextId: 
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: 20aaef52690a830489189e91100a7465, type: 2}
+    successNextId: 
+    failNextId: 

@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdf6184cac687f24c97ddb55fc97b76a, type: 3}
+  m_Name: LabBottonGraphed
+  m_EditorClassIdentifier: 
+  startNodeId: start
+  nodes:
+  - id: start
+    type: 1
+    lines: []
+    nextId: 
+    boolKey: lab.admin.met
+    trueNextId: say2
+    falseNextId: say1
+    boolValue: 0
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: say2
+    type: 0
+    lines:
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.button.005
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.button.006
+    nextId: end
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: say1
+    type: 0
+    lines:
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.button.001
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.button.002
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.button.003
+    - speakerKey: npc.lab.unknown.name
+      textKey: dlg.lab.button.004
+    nextId: end
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: end
+    type: 6
+    lines: []
+    nextId: 
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 

@@ -15,9 +15,6 @@ public class GraphDialogueAsset : DialogueAsset
 
         // Say 节点：你可以用 lines（多行），也可以用 speakerKey/textKey 单行
         public DialogueLine[] lines;
-        public string speakerKey;
-        public string textKey;
-
         // 跳转
         public string nextId;
 
@@ -31,6 +28,10 @@ public class GraphDialogueAsset : DialogueAsset
 
         public string intKey;
         public int intValue;
+        public Assets.Game.Scripts.Systems.Items.ItemDefinition itemToGive;
+        // 成功 / 失败 分支
+        public string successNextId;
+        public string failNextId;
     }
 
     public enum NodeType
@@ -40,6 +41,7 @@ public class GraphDialogueAsset : DialogueAsset
         SetBool,
         AddInt,
         SetInt,
+        GiveItem,
         End
     }
 

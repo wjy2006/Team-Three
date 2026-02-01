@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 using System;
 
-
 public class DialogueUI : MonoBehaviour
 {
     [Header("Root UI")]
@@ -17,7 +16,6 @@ public class DialogueUI : MonoBehaviour
     private int index;
     private int openFrame;
     public event Action OnClosed;
-
 
     public bool IsOpen { get; private set; }
 
@@ -37,20 +35,37 @@ public class DialogueUI : MonoBehaviour
     {
         if (!IsOpen) return;
 
+        // ✅ 你原来的“打开当帧保护”
         if (Time.frameCount == openFrame) return;
 
-        bool nextInput = false;
-        bool cancelInput = false;
+        if (input == null) return;
 
-        if (input != null)
+        // ✅ 对话期间：不允许菜单键穿透
+        // （即便有人在别处 ConsumeMenuDown，也不会拿到）
+        input.ConsumeMenuDown();
+
+        // ✅ Continue：推进对话
+        if (input.ConsumeContinueDown())
         {
-            nextInput = input.ConsumeInteractDown();
-            cancelInput = input.ConsumeCancelDown();
+            // ✅ 关键：同一帧把 Interact 也吞掉
+            // 防止 Z/Enter 同时触发“结束对话 + Interact”
+            input.ConsumeInteractDown();
+
+            Next();
+            return;
         }
 
-        if (nextInput) Next();
-        if (cancelInput) Close();
+        // Cancel：关闭对话
+        if (input.ConsumeCancelDown())
+        {
+            // ✅ 同帧也吞一下 Interact（避免 Cancel 和 Interact 混绑时穿透）
+            input.ConsumeInteractDown();
+
+            Close();
+            return;
+        }
     }
+
 
     public void Open(DialogueLine[] newLines)
     {
@@ -83,12 +98,9 @@ public class DialogueUI : MonoBehaviour
         string speaker = lines[index].speakerKey;
         string content = lines[index].textKey;
 
-        // 如果找不到 Localization，就退回显示 key，方便排错
         nameText.text = loc != null ? loc.Get(speaker) : speaker;
         contentText.text = loc != null ? loc.Get(content) : content;
     }
-
-
 
     public void Close()
     {

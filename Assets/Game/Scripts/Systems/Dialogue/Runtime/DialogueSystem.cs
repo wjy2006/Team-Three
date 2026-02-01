@@ -80,90 +80,124 @@ public class DialogueSystem : MonoBehaviour
         switch (node.type)
         {
             case GraphDialogueAsset.NodeType.Say:
-            {
-                DialogueLine[] linesToPlay = null;
+                {
+                    DialogueLine[] linesToPlay = null;
 
-                if (node.lines != null && node.lines.Length > 0)
-                {
-                    linesToPlay = node.lines;
-                }
-                else if (!string.IsNullOrEmpty(node.speakerKey) || !string.IsNullOrEmpty(node.textKey))
-                {
-                    linesToPlay = new DialogueLine[]
+                    if (node.lines != null && node.lines.Length > 0)
                     {
-                        new DialogueLine { speakerKey = node.speakerKey, textKey = node.textKey }
-                    };
+                        linesToPlay = node.lines;
+                    }
+
+                    // ✅ Say 没内容：如果 nextId 为空就结束，否则继续走 next
+                    if (linesToPlay == null || linesToPlay.Length == 0)
+                    {
+                        Debug.LogWarning($"GraphDialogue: Say 节点没有内容 id={node.id}", graph);
+                        nodeId = node.nextId;
+
+                        if (string.IsNullOrEmpty(nodeId)) { Close(); return; }
+                        StepGraph();
+                        return;
+                    }
+
+                    // 记录下一步要去哪（播完再继续）
+                    nodeId = node.nextId;
+
+                    // ✅ 如果 nextId 为空：播完这段就结束（不再挂 ContinueAfterSay）
+                    if (string.IsNullOrEmpty(nodeId))
+                    {
+                        // 直接播放，播完用户按到最后一句会触发 UI Close；
+                        // 我们不需要继续图，所以不要 HookContinueOnClose。
+                        ui.Open(linesToPlay);
+                        return;
+                    }
+
+                    HookContinueOnClose();
+                    ui.Open(linesToPlay);
+                    break;
                 }
 
-                // ✅ Say 没内容：如果 nextId 为空就结束，否则继续走 next
-                if (linesToPlay == null || linesToPlay.Length == 0)
+            case GraphDialogueAsset.NodeType.IfBool:
                 {
-                    Debug.LogWarning($"GraphDialogue: Say 节点没有内容 id={node.id}", graph);
+                    bool v = global.GetBool(node.boolKey);
+                    nodeId = v ? node.trueNextId : node.falseNextId;
+
+                    // ✅ 分支结果为空：结束；否则继续
+                    if (string.IsNullOrEmpty(nodeId)) { Close(); return; }
+                    StepGraph();
+                    break;
+                }
+
+            case GraphDialogueAsset.NodeType.SetBool:
+                {
+                    global.SetBool(node.boolKey, node.boolValue);
+                    nodeId = node.nextId;
+
+                    // ✅ nextId 为空：结束
+                    if (string.IsNullOrEmpty(nodeId)) { Close(); return; }
+                    StepGraph();
+                    break;
+                }
+
+            case GraphDialogueAsset.NodeType.AddInt:
+                {
+                    global.AddInt(node.intKey, node.intValue);
                     nodeId = node.nextId;
 
                     if (string.IsNullOrEmpty(nodeId)) { Close(); return; }
                     StepGraph();
-                    return;
+                    break;
                 }
-
-                // 记录下一步要去哪（播完再继续）
-                nodeId = node.nextId;
-
-                // ✅ 如果 nextId 为空：播完这段就结束（不再挂 ContinueAfterSay）
-                if (string.IsNullOrEmpty(nodeId))
-                {
-                    // 直接播放，播完用户按到最后一句会触发 UI Close；
-                    // 我们不需要继续图，所以不要 HookContinueOnClose。
-                    ui.Open(linesToPlay);
-                    return;
-                }
-
-                HookContinueOnClose();
-                ui.Open(linesToPlay);
-                break;
-            }
-
-            case GraphDialogueAsset.NodeType.IfBool:
-            {
-                bool v = global.GetBool(node.boolKey);
-                nodeId = v ? node.trueNextId : node.falseNextId;
-
-                // ✅ 分支结果为空：结束；否则继续
-                if (string.IsNullOrEmpty(nodeId)) { Close(); return; }
-                StepGraph();
-                break;
-            }
-
-            case GraphDialogueAsset.NodeType.SetBool:
-            {
-                global.SetBool(node.boolKey, node.boolValue);
-                nodeId = node.nextId;
-
-                // ✅ nextId 为空：结束
-                if (string.IsNullOrEmpty(nodeId)) { Close(); return; }
-                StepGraph();
-                break;
-            }
-
-            case GraphDialogueAsset.NodeType.AddInt:
-            {
-                global.AddInt(node.intKey, node.intValue);
-                nodeId = node.nextId;
-
-                if (string.IsNullOrEmpty(nodeId)) { Close(); return; }
-                StepGraph();
-                break;
-            }
 
             case GraphDialogueAsset.NodeType.SetInt:
-            {
-                global.SetInt(node.intKey, node.intValue);
-                nodeId = node.nextId;
+                {
+                    global.SetInt(node.intKey, node.intValue);
+                    nodeId = node.nextId;
 
-                if (string.IsNullOrEmpty(nodeId)) { Close(); return; }
-                StepGraph();
-                break;
-            }
+                    if (string.IsNullOrEmpty(nodeId)) { Close(); return; }
+                    StepGraph();
+                    break;
+                }
+            case GraphDialogueAsset.NodeType.GiveItem:
+                {
+
+                    var inventory = GameRoot.I != null ? GameRoot.I.Inventory : null; ;
+                    if (inventory == null)
+                    {
+                        Debug.LogError("GiveItem: 玩家没有 Inventory");
+                        Close();
+                        return;
+                    }
+
+                    if (node.itemToGive == null)
+                    {
+                        Debug.LogWarning($"GiveItem 节点 {node.id} 没设置 itemToGive", graph);
+                        Close();
+                        return;
+                    }
+
+                    bool success = inventory.TryAdd(node.itemToGive);
+
+                    if (success)
+                    {
+                        nodeId = node.successNextId;
+                        StepGraph();
+                    }
+                    else
+                    {
+                        // 背包满分支
+                        nodeId = node.failNextId;
+
+                        if (string.IsNullOrEmpty(nodeId))
+                        {
+                            Debug.LogWarning("背包已满且未设置NodeId。你最好设置一下。");
+                            Close();
+                        }
+
+                        StepGraph();
+                    }
+
+                    break;
+                }
 
             case GraphDialogueAsset.NodeType.End:
             default:
