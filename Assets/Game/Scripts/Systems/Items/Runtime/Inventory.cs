@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace Assets.Game.Scripts.Systems.Items
+namespace Game.Systems.Items
 {
     public class Inventory : MonoBehaviour
     {

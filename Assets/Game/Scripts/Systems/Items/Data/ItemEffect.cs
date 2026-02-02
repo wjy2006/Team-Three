@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Game.Scripts.Systems.Items
+namespace Game.Systems.Items
 {
     public abstract class ItemEffect : ScriptableObject
     {

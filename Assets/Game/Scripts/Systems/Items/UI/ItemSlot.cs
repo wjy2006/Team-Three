@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Assets.Game.Scripts.Systems.Items
+namespace Game.Systems.Items
 {
     [Serializable]
     public class ItemSlot

@@ -28,7 +28,7 @@ public class GraphDialogueAsset : DialogueAsset
 
         public string intKey;
         public int intValue;
-        public Assets.Game.Scripts.Systems.Items.ItemDefinition itemToGive;
+        public Game.Systems.Items.ItemDefinition itemToGive;
         // 成功 / 失败 分支
         public string successNextId;
         public string failNextId;

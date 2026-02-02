@@ -21,6 +21,12 @@ public class PlayerInputReader : MonoBehaviour
 
     private PlayerInputActions actions;
 
+    // ✅ Only debounce Interact + Continue
+    [SerializeField] private float interactDebounceSeconds = 0.03f;
+
+    private float lastInteractDownTime = -999f;
+    private float lastContinueDownTime = -999f;
+
     private void Awake()
     {
         actions = new PlayerInputActions();
@@ -41,21 +47,37 @@ public class PlayerInputReader : MonoBehaviour
     {
         Move = actions.Player.Move.ReadValue<Vector2>();
 
-        InteractDown = actions.Player.Interact.WasPressedThisFrame();
+        // Held (no debounce)
         InteractHeld = actions.Player.Interact.IsPressed();
-
-        CancelDown = actions.Player.Cancel.WasPressedThisFrame();
         CancelHeld = actions.Player.Cancel.IsPressed();
+
+        // Down (debounce only Interact & Continue)
+        InteractDown = DebouncedDown(actions.Player.Interact.WasPressedThisFrame(), ref lastInteractDownTime, interactDebounceSeconds);
+        ContinueDown = DebouncedDown(actions.Player.Continue.WasPressedThisFrame(), ref lastContinueDownTime, interactDebounceSeconds);
+
+        // Other Down inputs unchanged (no debounce)
+        CancelDown = actions.Player.Cancel.WasPressedThisFrame();
 
         MenuDown = actions.Player.Menu.WasPressedThisFrame();
         UpDown = actions.Player.Up.WasPressedThisFrame();
         DownDown = actions.Player.Down.WasPressedThisFrame();
-        ContinueDown = actions.Player.Continue.WasPressedThisFrame();
 
         LeftDown = actions.Player.Left.WasPressedThisFrame();
         RightDown = actions.Player.Right.WasPressedThisFrame();
 
         ClickDown = actions.Player.Click.WasPressedThisFrame();
+    }
+
+    private bool DebouncedDown(bool rawDown, ref float lastDownTime, float debounceSeconds)
+    {
+        if (!rawDown) return false;
+
+        float now = Time.unscaledTime;
+        if (now - lastDownTime < debounceSeconds)
+            return false;
+
+        lastDownTime = now;
+        return true;
     }
 
     public bool ConsumeInteractDown()
@@ -100,7 +122,6 @@ public class PlayerInputReader : MonoBehaviour
         return true;
     }
 
-    // ✅ 新增 Consume
     public bool ConsumeLeftDown()
     {
         if (!LeftDown) return false;

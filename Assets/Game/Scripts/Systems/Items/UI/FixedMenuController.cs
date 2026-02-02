@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using Game.Gameplay.Player;
-using Assets.Game.Scripts.Systems.Items;
+using Game.Systems.Items;
 
 namespace Game.UI.Menu
 {
@@ -31,7 +31,9 @@ namespace Game.UI.Menu
         public PlayerStats stats;
         public HeldItem heldItem;
         public Inventory inventory;
-        [Header("Empty Slot Dialogues (optional)")]
+        [Header("Empty Slot Dialogues")]
+        public DialogueAsset EmptyDropped;
+        public DialogueAsset EmptyChecked;
 
 
         private PlayerInputReader input;
@@ -180,7 +182,7 @@ namespace Game.UI.Menu
                                 OpenOneLine("npc.all.unknown.name","dlg.all.default_checked");
                         }
                         else
-                            OpenOneLine("npc.all.ancients.name","dlg.all.empty_checked");
+                            OpenDialogueAsset(EmptyChecked);
 
                         return;
                     }
@@ -209,7 +211,7 @@ namespace Game.UI.Menu
                                 OpenOneLine("npc.all.unknown.name","dlg.all.default_dropped");
                         }
                         else
-                            OpenOneLine("npc.all.ancients.name","dlg.all.empty_dropped");
+                            OpenDialogueAsset(EmptyDropped);
 
                         return;
                     }
@@ -259,8 +261,8 @@ namespace Game.UI.Menu
         {
             if (stats != null)
             {
-                if (hpText != null) hpText.text = $"HP {stats.hp}/{stats.maxHp}";
-                if (moneyText != null) moneyText.text = $"G  {stats.money,6}";
+                if (hpText != null) hpText.text = $"HP {stats.Hp}/{stats.MaxHp}";
+                if (moneyText != null) moneyText.text = $"G  {stats.Money,6}";
             }
 
             // heldText 只显示手持物

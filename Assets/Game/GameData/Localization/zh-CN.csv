@@ -1,8 +1,13 @@
 key,text
 npc.all.system.name,※※※
 npc.all.ancients.name,古人
-dlg.all.empty_dropped,本来无一物，何处惹尘埃？
-dlg.all.empty_checked,此中有真意，欲辨已忘言。
+dlg.all.empty_checked.001,坦白来说，这个横线只是代表一个空的槽位。
+dlg.all.empty_checked.002,如果你真的想查看一个关于 “空” 的信息，我会引用古人的一句话。
+dlg.all.empty_checked.003,此中有真意，欲辨已忘言。
+
+dlg.all.empty_dropped.001,这个槽位是空的，所以你无法丢掉任何东西。
+dlg.all.empty_dropped.002,本来无一物，何处惹尘埃？
+
 dlg.all.default_dropped,你丢弃了它。
 dlg.all.default_checked,没有描述。
 npc.all.unknown.name,？？？

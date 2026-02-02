@@ -7,7 +7,7 @@ public class GameRoot : MonoBehaviour
     public static GameRoot I { get; private set; }
 
     [Header("Refs (Boot Scene)")]
-    public Assets.Game.Scripts.Systems.Items.Inventory Inventory;
+    public Game.Systems.Items.Inventory Inventory;
     public SpawnOnLoad playerSpawn;
     public CameraFollow2D cameraFollow;
     public FadeController fade;

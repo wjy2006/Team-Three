@@ -1,5 +1,5 @@
 using UnityEngine;
-using Assets.Game.Scripts.Systems.Items;
+using Game.Systems.Items;
 
 namespace Game.Gameplay.Player
 {
