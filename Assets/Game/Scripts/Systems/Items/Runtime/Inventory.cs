@@ -63,26 +63,6 @@ namespace Game.Systems.Items
                 if (slots[i].IsEmpty) return i;
             return -1;
         }
-        public bool UseAt(int index, GameObject user)
-        {
-            if (!IsValidIndex(index)) return false;
-            if (slots[index].IsEmpty) return false;
-
-            var item = slots[index].Item;
-            if (item.Effect == null)
-            {
-                Debug.LogWarning($"物品 {item.name} 没有绑定 Effect，无法使用。");
-                return false;
-            }
-
-            bool consume = item.Effect.Apply(user);
-            if (consume)
-            {
-                slots[index].Clear();
-                OnChanged?.Invoke();
-            }
-            return true;
-        }
         public bool SetAt(int index, ItemDefinition item)
         {
             // 允许 item 为 null（表示清空）

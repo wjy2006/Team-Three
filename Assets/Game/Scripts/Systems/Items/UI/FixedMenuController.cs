@@ -261,7 +261,7 @@ namespace Game.UI.Menu
         {
             if (stats != null)
             {
-                if (hpText != null) hpText.text = $"HP {stats.Hp}/{stats.MaxHp}";
+                if (hpText != null) hpText.text = $"HP  {stats.Hp,2}/{stats.MaxHp,2}";
                 if (moneyText != null) moneyText.text = $"G  {stats.Money,6}";
             }
 

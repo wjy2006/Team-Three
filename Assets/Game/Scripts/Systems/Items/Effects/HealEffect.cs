@@ -8,8 +8,9 @@ namespace Game.Systems.Items.Effects
     {
         [Min(1)] public int amount = 10;
 
-        public override bool Apply(GameObject user)
+        public override bool Apply(ItemUseContext ctx)
         {
+            var user=ctx.user;
             if (user == null)
             {
                 Debug.LogWarning("[ItemEffect] HealEffect.Apply called with null user");
@@ -24,7 +25,7 @@ namespace Game.Systems.Items.Effects
             stats.Heal(amount);
 
             Debug.Log($"[ItemEffect] {user.name} healed +{amount} HP");
-            return true; // 消耗品：用完消失
+            return false;
         }
     }
 }

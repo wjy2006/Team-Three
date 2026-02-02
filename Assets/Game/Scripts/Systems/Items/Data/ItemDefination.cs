@@ -16,7 +16,15 @@ namespace Game.Systems.Items
         public DialogueAsset dropDialogue;
 
         [Header("Presentation")]
-        [SerializeField] private Sprite icon;
+        [Header("World Presentation")]
+        [SerializeField] private Sprite worldSprite;
+
+        [SerializeField] private ItemVisualRotationMode rotationMode = ItemVisualRotationMode.RotateWithAim;
+
+        [SerializeField] private float defaultAngleOffset = 0f; // 角度修正（单位：度）
+
+        [SerializeField] private float holdDistance = 1f; // 距离玩家多远
+
 
         [Header("Category")]
         [SerializeField] private ItemType type;
@@ -30,10 +38,14 @@ namespace Game.Systems.Items
         // ======= 对外只读访问 =======
         public string ItemId => itemId;
         public string DisplayName => displayName;
-        public Sprite Icon => icon;
+        public Sprite WorldSprite => worldSprite;
         public ItemType Type => type;
         public int BuyPrice => buyPrice;
         public int SellPrice => sellPrice;
         public ItemEffect Effect => effect;
+        public ItemVisualRotationMode RotationMode => rotationMode;
+        public float DefaultAngleOffset => defaultAngleOffset;
+        public float HoldDistance => holdDistance;
+
     }
 }

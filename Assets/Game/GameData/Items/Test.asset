@@ -14,8 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: Test
   displayName: "\u6D4B\u8BD5\u7269\u54C1"
-  description: "\u8FD9\u662F\u4E00\u4E2A\u6D4B\u8BD5\u7269\u54C1\u3002"
-  icon: {fileID: 0}
+  infoDialogue: {fileID: 0}
+  dropDialogue: {fileID: 0}
+  worldSprite: {fileID: 1050221129, guid: e2b8a47063216a645ab88f51783a547c, type: 3}
+  rotationMode: 0
+  defaultAngleOffset: -135
+  holdDistance: 1
   type: 0
   buyPrice: 0
   sellPrice: 0

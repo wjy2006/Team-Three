@@ -18,6 +18,9 @@ public class PlayerInputReader : MonoBehaviour
     public bool LeftDown { get; private set; }
     public bool RightDown { get; private set; }
     public bool ClickDown { get; private set; }
+    public Vector2 PointerPos { get; private set; }      // 实时屏幕坐标
+    public Vector2 ClickScreenPos { get; private set; }  // 点击瞬间屏幕坐标
+
 
     private PlayerInputActions actions;
 
@@ -56,6 +59,13 @@ public class PlayerInputReader : MonoBehaviour
         RightDown = actions.Player.Right.WasPressedThisFrame();
 
         ClickDown = actions.Player.Click.WasPressedThisFrame();
+        PointerPos = actions.Player.Point.ReadValue<Vector2>();
+
+        if (ClickDown)
+        {
+            ClickScreenPos = PointerPos;
+        }
+
     }
 
     public bool ConsumeInteractDown()
@@ -115,12 +125,6 @@ public class PlayerInputReader : MonoBehaviour
         return true;
     }
 
-    public bool ConsumeClickDown()
-    {
-        if (!ClickDown) return false;
-        ClickDown = false;
-        return true;
-    }
 
     public void SetMoveEnabled(bool enabled)
     {
@@ -132,4 +136,16 @@ public class PlayerInputReader : MonoBehaviour
             Move = Vector2.zero;
         }
     }
+    public bool ConsumeClickDown(out Vector2 clickScreenPos)
+    {
+        if (!ClickDown)
+        {
+            clickScreenPos = default;
+            return false;
+        }
+        ClickDown = false;
+        clickScreenPos = ClickScreenPos;
+        return true;
+    }
+
 }
