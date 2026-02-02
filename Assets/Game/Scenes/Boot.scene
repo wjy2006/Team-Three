@@ -323,6 +323,8 @@ MonoBehaviour:
   stats: {fileID: 8435163443797893739}
   heldItem: {fileID: 8435163443797893737}
   inventory: {fileID: 8435163443797893736}
+  EmptyDropped: {fileID: 11400000, guid: 973cda59f8bf1d644bc3e58679fd8fba, type: 2}
+  EmptyChecked: {fileID: 11400000, guid: 8d01227a149b78444b482eb63b7d8851, type: 2}
 --- !u!1 &180642654
 GameObject:
   m_ObjectHideFlags: 0
@@ -4839,6 +4841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd4ac3144c28ed4da7609f2425341c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactDebounceSeconds: 0.03
 --- !u!1 &5728205039507414011
 GameObject:
   m_ObjectHideFlags: 0

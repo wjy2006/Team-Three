@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f4623452e9962e49b8ef55c539b3c70, type: 3}
   m_Name: EmptyChecked
   m_EditorClassIdentifier: 
-  lines: []
+  lines:
+  - speakerKey: npc.all.system.name
+    textKey: dlg.all.empty_checked.001
+  - speakerKey: npc.all.system.name
+    textKey: dlg.all.empty_checked.002
+  - speakerKey: npc.all.ancients.name
+    textKey: dlg.all.empty_checked.003

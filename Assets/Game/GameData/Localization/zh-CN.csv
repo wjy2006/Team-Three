@@ -2,7 +2,7 @@ key,text
 npc.all.system.name,※※※
 npc.all.ancients.name,古人
 dlg.all.empty_checked.001,坦白来说，这个横线只是代表一个空的槽位。
-dlg.all.empty_checked.002,如果你真的想查看一个关于 “空” 的信息，我会引用古人的一句话。
+dlg.all.empty_checked.002,如果你真的想查看关于 “空” 的信息，我会引用古人的一句话。
 dlg.all.empty_checked.003,此中有真意，欲辨已忘言。
 
 dlg.all.empty_dropped.001,这个槽位是空的，所以你无法丢掉任何东西。
@@ -43,7 +43,7 @@ dlg.lab.chest2.003,这个箱子里已经没有东西了。
 dlg.lab.admin.001,你 好 ， 玩 家 ！
 dlg.lab.admin.002,我 是 这 片 区 域 的 创 造 者 ， 你 可 以 叫 我 管 理 员 。
 dlg.lab.admin.003,你 有 玩 过 传 说 之 下 吗 ？ 我 正 在 制 作 一 个 类 似 的 游 戏 ！
-dlg.lab.admin.004,不 过 有 很 多 地 方 我 还 没 来 得 及 做 好 ，  所 以 我 们 的 形 象 还 都 暂 时 只 是 小 方 块 ！
+dlg.lab.admin.004,不 过 有 很 多 地 方 我 还 没 来 得 及 做 好 ，  所 以 我 们 的 形 象 都 还 暂 时 只 是 小 方 块 ！
 dlg.lab.admin.005,向 右 边 出 发 开 启 我 为 你 打 造 的 冒 险 吧 ！
 
 dlg.lab.admin.006,哦 ， 我 的 电 脑 就 是 悬 浮 在 桌 子 上 面 的 ， 不 要 在 意 。 。 。
