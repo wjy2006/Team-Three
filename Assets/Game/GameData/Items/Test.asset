@@ -16,11 +16,13 @@ MonoBehaviour:
   displayName: "\u6D4B\u8BD5\u7269\u54C1"
   infoDialogue: {fileID: 0}
   dropDialogue: {fileID: 0}
-  worldSprite: {fileID: 1050221129, guid: e2b8a47063216a645ab88f51783a547c, type: 3}
-  rotationMode: 0
-  defaultAngleOffset: -135
-  holdDistance: 1
-  type: 0
+  visual:
+    worldSprite: {fileID: 736734270, guid: 646ad1f6f36c3254dba2cb381657b3dd, type: 3}
+    rotationMode: 1
+    defaultAngleOffset: -135
+    holdDistance: 0
+    z: 0
+  type: 1
   buyPrice: 0
   sellPrice: 0
   effect: {fileID: 11400000, guid: 81a9292ea58f90448b02500b13867f58, type: 2}

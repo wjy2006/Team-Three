@@ -1,9 +1,10 @@
 using UnityEngine;
 using System;
+using Game.Gameplay.Combat;
 
 namespace Game.Gameplay.Player
 {
-    public class PlayerStats : MonoBehaviour
+    public class PlayerStats : MonoBehaviour, IDamageable
     {
         [Header("HP")]
         [SerializeField] private int maxHp = 20;   // 固定20
@@ -77,5 +78,16 @@ namespace Game.Gameplay.Player
             OnStatsChanged?.Invoke();
             return true;
         }
+        public void TakeDamage(DamageInfo info)
+        {
+            // 这里决定怎么把 float 转成 int
+            int amount = Mathf.RoundToInt(info.amount);
+
+            TakeDamage(amount);
+
+            // 可选：击退 / 受击反馈
+            // Debug.Log($"Player hit by {info.source?.name}");
+        }
+
     }
 }

@@ -12,6 +12,13 @@ dlg.all.default_dropped,你丢弃了它。
 dlg.all.default_checked,没有描述。
 npc.all.unknown.name,？？？
 
+dlg.all.StG44_checked.001,这是一把StG44。
+dlg.all.StG44_checked.002,现代步枪的鼻祖。
+dlg.all.StG44_dropped.001,你丢掉了突击步枪。可能是因为它太重了。
+
+dlg.all.admin's_pistol_checked.001,一把让人费解的小手枪。从前属于管理员。
+dlg.all.admin's_pistol_dropped.001,因为某些原因，你丢掉了管理员小手枪。
+
 npc.lab.system.name,※※※
 npc.lab.unknown.name,？？？
 npc.lab.admin.name,管 理 员 

@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 380243389}
   - component: {fileID: 380243388}
   - component: {fileID: 380243387}
-  m_Layer: 0
+  m_Layer: 8
   m_HasEditorInfo: 1
   m_Name: Box2
   m_TagString: Untagged
@@ -15054,7 +15054,7 @@ GameObject:
   - component: {fileID: 3349147180684040643}
   - component: {fileID: 321407353496605797}
   - component: {fileID: 5985577348930270645}
-  m_Layer: 0
+  m_Layer: 8
   m_HasEditorInfo: 1
   m_Name: Box1
   m_TagString: Untagged
@@ -23747,7 +23747,7 @@ GameObject:
   - component: {fileID: 243870738511424234}
   - component: {fileID: 2760474159453763419}
   - component: {fileID: 1268195794095715727}
-  m_Layer: 0
+  m_Layer: 8
   m_HasEditorInfo: 1
   m_Name: TM_Wall
   m_TagString: Untagged

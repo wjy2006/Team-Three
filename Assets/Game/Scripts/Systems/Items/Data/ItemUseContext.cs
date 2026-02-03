@@ -7,5 +7,7 @@ namespace Game.Systems.Items
         public GameObject user;
         public Vector2 aimWorldPos;
         public Vector2 aimDir;
+        public ItemDefinition item;
     }
+    
 }

@@ -642,7 +642,7 @@ GameObject:
   - component: {fileID: 7052951313099329314}
   - component: {fileID: 5471394215400850052}
   - component: {fileID: 2056624022553731924}
-  m_Layer: 0
+  m_Layer: 7
   m_HasEditorInfo: 1
   m_Name: Admin
   m_TagString: Untagged
@@ -1624,7 +1624,7 @@ GameObject:
   - component: {fileID: 4689483716623249676}
   - component: {fileID: 6362567344826152499}
   - component: {fileID: 7168178894816952405}
-  m_Layer: 0
+  m_Layer: 10
   m_HasEditorInfo: 1
   m_Name: Exit_ToRight
   m_TagString: Untagged
@@ -1656,7 +1656,7 @@ GameObject:
   serializedVersion: 7
   m_Component:
   - component: {fileID: 3218795934103978049}
-  m_Layer: 0
+  m_Layer: 10
   m_HasEditorInfo: 1
   m_Name: Exits
   m_TagString: Untagged
@@ -1792,7 +1792,7 @@ GameObject:
   - component: {fileID: 5546734213619825675}
   - component: {fileID: 7625929918792573370}
   - component: {fileID: 6774006610063614830}
-  m_Layer: 0
+  m_Layer: 8
   m_HasEditorInfo: 1
   m_Name: TM_Wall
   m_TagString: Untagged
@@ -1825,7 +1825,7 @@ GameObject:
   serializedVersion: 7
   m_Component:
   - component: {fileID: 9210605398519942550}
-  m_Layer: 0
+  m_Layer: 7
   m_HasEditorInfo: 1
   m_Name: _Entities
   m_TagString: Untagged
@@ -3837,7 +3837,7 @@ GameObject:
   serializedVersion: 7
   m_Component:
   - component: {fileID: 1535955419854450039}
-  m_Layer: 0
+  m_Layer: 10
   m_HasEditorInfo: 1
   m_Name: StoryTriggers
   m_TagString: Untagged
@@ -4072,7 +4072,7 @@ GameObject:
   serializedVersion: 7
   m_Component:
   - component: {fileID: 3371754403603185896}
-  m_Layer: 0
+  m_Layer: 7
   m_HasEditorInfo: 1
   m_Name: NPCs
   m_TagString: Untagged
@@ -4716,7 +4716,7 @@ GameObject:
   serializedVersion: 7
   m_Component:
   - component: {fileID: 6887316675681470205}
-  m_Layer: 0
+  m_Layer: 10
   m_HasEditorInfo: 1
   m_Name: _Triggers
   m_TagString: Untagged
@@ -4766,7 +4766,7 @@ GameObject:
   - component: {fileID: 6618418474690142335}
   - component: {fileID: 7617056800780128292}
   - component: {fileID: 1405425996668269622}
-  m_Layer: 0
+  m_Layer: 10
   m_HasEditorInfo: 1
   m_Name: Exit_ToLeft
   m_TagString: Untagged

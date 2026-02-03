@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdf6184cac687f24c97ddb55fc97b76a, type: 3}
-  m_Name: LabBottonGraphed
+  m_Name: LabAdmin
   m_EditorClassIdentifier: 
   startNodeId: start
   nodes:
@@ -27,14 +27,20 @@ MonoBehaviour:
     itemToGive: {fileID: 0}
     successNextId: 
     failNextId: 
-  - id: say2
+  - id: say1
     type: 0
     lines:
-    - speakerKey: npc.lab.system.name
-      textKey: dlg.lab.button.005
-    - speakerKey: npc.lab.system.name
-      textKey: dlg.lab.button.006
-    nextId: end
+    - speakerKey: npc.lab.unknown.name
+      textKey: dlg.lab.admin.001
+    - speakerKey: npc.lab.unknown.name
+      textKey: dlg.lab.admin.002
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.003
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.004
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.005
+    nextId: Set
     boolKey: 
     trueNextId: 
     falseNextId: 
@@ -44,22 +50,31 @@ MonoBehaviour:
     itemToGive: {fileID: 0}
     successNextId: 
     failNextId: 
-  - id: say1
+  - id: say2
     type: 0
     lines:
-    - speakerKey: npc.lab.system.name
-      textKey: dlg.lab.button.001
-    - speakerKey: npc.lab.system.name
-      textKey: dlg.lab.button.002
-    - speakerKey: npc.lab.system.name
-      textKey: dlg.lab.button.003
-    - speakerKey: npc.lab.unknown.name
-      textKey: dlg.lab.button.004
-    nextId: end
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.006
+    nextId: 
     boolKey: 
     trueNextId: 
     falseNextId: 
     boolValue: 0
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: Set
+    type: 2
+    lines:
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.006
+    nextId: end
+    boolKey: lab.admin.met
+    trueNextId: 
+    falseNextId: 
+    boolValue: 1
     intKey: 
     intValue: 0
     itemToGive: {fileID: 0}
@@ -67,7 +82,9 @@ MonoBehaviour:
     failNextId: 
   - id: end
     type: 6
-    lines: []
+    lines:
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.006
     nextId: 
     boolKey: 
     trueNextId: 

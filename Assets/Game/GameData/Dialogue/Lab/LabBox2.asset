@@ -90,6 +90,6 @@ MonoBehaviour:
     boolValue: 0
     intKey: 
     intValue: 0
-    itemToGive: {fileID: 11400000, guid: 20aaef52690a830489189e91100a7465, type: 2}
+    itemToGive: {fileID: 11400000, guid: 1d7aba94f8b9ae74b8d9392b717d0511, type: 2}
     successNextId: 
     failNextId: 

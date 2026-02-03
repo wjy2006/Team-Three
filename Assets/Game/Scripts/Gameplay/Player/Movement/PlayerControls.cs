@@ -360,6 +360,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""6937c46d-1bce-406d-9b14-481f37d4532a"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""41e3f249-c3f3-46c3-9cec-7d303d71beec"",
                     ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",

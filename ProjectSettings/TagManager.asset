@@ -11,11 +11,11 @@ TagManager:
   - CameraBounds
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Damagable
+  - Wall
+  - Bullet
+  - Trigger
   - 
   - 
   - 
@@ -38,6 +38,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: UI
+    uniqueID: 1586730333
+    locked: 0
+  - name: Items
+    uniqueID: 1896422589
+    locked: 0
+  - name: Player
+    uniqueID: 4085313543
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

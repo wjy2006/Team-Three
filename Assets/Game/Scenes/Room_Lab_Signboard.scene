@@ -411,7 +411,7 @@ GameObject:
   - component: {fileID: 9113119037346407356}
   - component: {fileID: 5525108324578771845}
   - component: {fileID: 8371802898951426093}
-  m_Layer: 0
+  m_Layer: 10
   m_HasEditorInfo: 1
   m_Name: Exit_ToLeft
   m_TagString: Untagged
@@ -2522,7 +2522,7 @@ GameObject:
   serializedVersion: 7
   m_Component:
   - component: {fileID: 636070455147791551}
-  m_Layer: 0
+  m_Layer: 10
   m_HasEditorInfo: 1
   m_Name: _Triggers
   m_TagString: Untagged
@@ -2560,7 +2560,7 @@ GameObject:
   - component: {fileID: 1903529862567757541}
   - component: {fileID: 4090462816262023430}
   - component: {fileID: 2709306810090157374}
-  m_Layer: 0
+  m_Layer: 10
   m_HasEditorInfo: 1
   m_Name: Exit_ToUp
   m_TagString: Untagged
@@ -3709,9 +3709,9 @@ GameObject:
   - component: {fileID: 6570101515950965896}
   - component: {fileID: 5068844837662772107}
   - component: {fileID: 2664480445901781692}
-  m_Layer: 0
+  m_Layer: 10
   m_HasEditorInfo: 1
-  m_Name: Botton
+  m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4229,7 +4229,7 @@ GameObject:
   - component: {fileID: 3071842073436166771}
   - component: {fileID: 6089284302789210106}
   - component: {fileID: 977230259987312008}
-  m_Layer: 0
+  m_Layer: 10
   m_HasEditorInfo: 1
   m_Name: Exit_ToRight
   m_TagString: Untagged
@@ -4301,7 +4301,7 @@ GameObject:
   serializedVersion: 7
   m_Component:
   - component: {fileID: 7070968643430995725}
-  m_Layer: 0
+  m_Layer: 10
   m_HasEditorInfo: 1
   m_Name: StoryTriggers
   m_TagString: Untagged
@@ -4345,7 +4345,7 @@ GameObject:
   serializedVersion: 7
   m_Component:
   - component: {fileID: 2976918350468146408}
-  m_Layer: 0
+  m_Layer: 10
   m_HasEditorInfo: 1
   m_Name: Exits
   m_TagString: Untagged
@@ -4543,7 +4543,7 @@ GameObject:
   - component: {fileID: 554196681337264469}
   - component: {fileID: 6677767180808256754}
   - component: {fileID: 5783401906702783806}
-  m_Layer: 0
+  m_Layer: 8
   m_HasEditorInfo: 1
   m_Name: TM_Wall
   m_TagString: Untagged
