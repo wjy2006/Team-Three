@@ -4,46 +4,72 @@ using Game.Gameplay.Combat;
 
 namespace Game.Gameplay.Player
 {
-    public class PlayerStats : MonoBehaviour, IDamageable
+    public class PlayerStats : MonoBehaviour, IDamageable, IHealthView
     {
         [Header("HP")]
-        [SerializeField] private int maxHp = 20;   // 固定20
+        [SerializeField] private int maxHp = 20;
         [SerializeField] private int hp = 20;
 
         [Header("Money")]
         [SerializeField] private int money = 0;
 
-        // 对外只读
         public int MaxHp => maxHp;
         public int Hp => hp;
+        public float Current => hp;
+        public float Max => maxHp;
+
         public int Money => money;
 
         public bool IsDead => hp <= 0;
         public bool IsFullHp => hp >= maxHp;
 
-        // 当数值变化时通知外界（UI等）
         public event Action OnStatsChanged;
+        public event Action<DamageInfo> OnDamaged;
 
-        void Awake()
+        private void Awake()
         {
             hp = Mathf.Clamp(hp, 0, maxHp);
         }
 
-        // ===== HP =====
-
-        public void TakeDamage(int amount)
+        // ===============================
+        // 统一伤害入口（只保留这个）
+        // ===============================
+        public void TakeDamage(DamageInfo info)
         {
-            if (amount <= 0 || IsDead) return;
+            if (IsDead) return;
+            if (info.amount <= 0f) return;
+
+            int amount = Mathf.RoundToInt(info.amount);
 
             hp -= amount;
             hp = Mathf.Clamp(hp, 0, maxHp);
 
+            OnDamaged?.Invoke(info);     // ⭐ 把完整 info 传出去
             OnStatsChanged?.Invoke();
+
+            if (hp <= 0)
+            {
+                Die(info);
+            }
         }
 
+        private void Die(DamageInfo info)
+        {
+            Debug.Log($"Player died. killer={info.source.name}");
+
+            // 以后可以加：
+            // 禁用控制
+            // 播放死亡动画
+            // 切场景
+        }
+
+        // ===============================
+        // 治疗
+        // ===============================
         public void Heal(int amount)
         {
             if (IsDead) return;
+            if (amount <= 0) return;
 
             hp += amount;
             hp = Mathf.Clamp(hp, 0, maxHp);
@@ -59,8 +85,9 @@ namespace Game.Gameplay.Player
             OnStatsChanged?.Invoke();
         }
 
-        // ===== Money =====
-
+        // ===============================
+        // 金钱
+        // ===============================
         public void AddMoney(int amount)
         {
             if (amount <= 0) return;
@@ -78,16 +105,5 @@ namespace Game.Gameplay.Player
             OnStatsChanged?.Invoke();
             return true;
         }
-        public void TakeDamage(DamageInfo info)
-        {
-            // 这里决定怎么把 float 转成 int
-            int amount = Mathf.RoundToInt(info.amount);
-
-            TakeDamage(amount);
-
-            // 可选：击退 / 受击反馈
-            // Debug.Log($"Player hit by {info.source?.name}");
-        }
-
     }
 }

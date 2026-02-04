@@ -2,41 +2,29 @@ using UnityEngine;
 
 namespace Game.Gameplay.Combat
 {
-    public class Health2D : MonoBehaviour, IDamageable
+    public class Health2D : MonoBehaviour, IDamageable, IHealthView
     {
-        [Header("Health")]
-        public float maxHp = 10f;
-        public float hp = 10f;
+        public float maxHp = 10;
+        public float hp = 10;
 
-        [Header("Options")]
-        public bool destroyOnDeath = true;
+        public float Current => hp;
+        public float Max => maxHp;
+
+        public System.Action<DamageInfo> OnDamaged;
 
         private void Awake()
         {
             hp = Mathf.Clamp(hp, 0, maxHp);
-            if (hp <= 0) hp = maxHp; // 第一次放进场景默认满血
+            if (hp <= 0) hp = maxHp;
         }
 
         public void TakeDamage(DamageInfo info)
         {
             if (info.amount <= 0) return;
+            hp = Mathf.Clamp(hp - info.amount, 0, maxHp);
+            OnDamaged?.Invoke(info);
 
-            hp -= info.amount;
-            Debug.Log($"{name} took {info.amount} damage from {(info.source ? info.source.name : "unknown")}  hp={hp}/{maxHp}");
-
-            if (hp <= 0)
-            {
-                Die(info);
-            }
-        }
-
-        private void Die(DamageInfo info)
-        {
-            Debug.Log($"{name} died. killer={(info.source ? info.source.name : "unknown")}");
-
-            // 这里以后可以播动画、掉落、禁用控制等
-            if (destroyOnDeath)
-                Destroy(gameObject);
+            if (hp <= 0) Destroy(gameObject);
         }
     }
 }

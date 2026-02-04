@@ -19,8 +19,8 @@ MonoBehaviour:
   visual:
     worldSprite: {fileID: 736734270, guid: 646ad1f6f36c3254dba2cb381657b3dd, type: 3}
     rotationMode: 1
-    defaultAngleOffset: -135
-    holdDistance: 0
+    defaultAngleOffset: 0
+    holdDistance: 1
     z: 0
   type: 1
   buyPrice: 0
