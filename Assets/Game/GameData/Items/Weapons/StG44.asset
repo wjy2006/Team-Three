@@ -28,7 +28,7 @@ MonoBehaviour:
   effect: {fileID: 11400000, guid: 023c83b22fd9caa4db4f33168e4c33f7, type: 2}
   fireRate: 6
   bulletSpeed: 25
-  spreadDegrees: 0
+  spreadDegrees: 3
   pellets: 1
   recoil: 0
   fireMode: 1

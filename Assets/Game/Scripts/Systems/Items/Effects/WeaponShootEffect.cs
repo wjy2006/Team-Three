@@ -24,8 +24,6 @@ namespace Game.Systems.Items
             if (ctx.user.TryGetComponent<Gameplay.Player.HeldItemVisualController>(out var visual))
                 spawnPos = visual.GetFirePointWorldPos();
 
-            // 2) 计算发射方向（支持散射/多弹丸）
-            Vector2 baseDir = ctx.aimDir.sqrMagnitude < 0.0001f ? Vector2.right : ctx.aimDir.normalized;
 
             int pellets = Mathf.Max(1, weapon.pellets);
             float spread = weapon.spreadDegrees;
@@ -34,7 +32,11 @@ namespace Game.Systems.Items
             {
                 float t = pellets == 1 ? 0f : (i / (float)(pellets - 1) - 0.5f); // [-0.5, 0.5]
                 float angle = (t * spread) + weapon.fireAngleOffset;
-                Vector2 dir = Rotate(baseDir, angle);
+                Vector2 baseDir = ctx.aimDir;
+
+                float randomOffset = Random.Range(-weapon.spreadDegrees, weapon.spreadDegrees);
+                Vector2 dir = Rotate(baseDir, randomOffset);
+
 
                 var go = Instantiate(weapon.bulletPrefab, spawnPos, Quaternion.identity);
 

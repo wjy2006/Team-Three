@@ -47,7 +47,7 @@ namespace Game.UI.Menu
         private MenuState state = MenuState.Inventory;
 
         // 0 Info, 1 Hold, 2 Drop
-        private int actionIndex = 0;
+        private int actionIndex = 1;
 
         void Awake()
         {
@@ -113,7 +113,7 @@ namespace Game.UI.Menu
                 if (input.ConsumeInteractDown())
                 {
                     state = MenuState.ItemAction;
-                    actionIndex = 0; // 默认 Info
+                    actionIndex = 1; // 默认 Hold
                     RefreshAll();
                 }
             }

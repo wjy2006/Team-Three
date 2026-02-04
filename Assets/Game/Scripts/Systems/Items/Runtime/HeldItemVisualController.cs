@@ -78,37 +78,39 @@ namespace Game.Gameplay.Player
                 // 计算鼠标世界坐标
                 if (useMainCamera)
                 {
-                    if (cam == null) cam = Camera.main;
-                    if (cam == null) return;
-
-                    Vector3 wp3 = cam.ScreenToWorldPoint(new Vector3(input.PointerPos.x, input.PointerPos.y, -cam.transform.position.z));
+                    Vector3 wp3 = cam.ScreenToWorldPoint(
+                        new Vector3(input.PointerPos.x, input.PointerPos.y, -cam.transform.position.z)
+                    );
                     Vector2 mouseWorld = (Vector2)wp3;
 
-                    // 计算方向
-                    Vector2 dir = mouseWorld - (Vector2)transform.position;
+                    Vector2 origin = transform.position;
+                    Vector2 toMouse = mouseWorld - origin;
 
-                    if ((mouseWorld - (Vector2)transform.position).sqrMagnitude < 0.0001f)
+                    // ✅ 归一化方向：holdDistance 才是真正的“距离=1”
+                    Vector2 dir;
+                    if (toMouse.sqrMagnitude < 0.0001f)
                         dir = Vector2.up;
                     else
-                        (mouseWorld - (Vector2)transform.position).Normalize();
+                        dir = toMouse.normalized;
 
-                    // 位置：玩家身边 distance=1
+                    // ✅ 位置：玩家身边 holdDistance
                     float dist = item.Visual.holdDistance;
-                    Vector3 pos = transform.position + (Vector3)((mouseWorld - (Vector2)transform.position) * dist);
-                    pos.z = -5f; // ⭐ 固定Z层
+                    Vector3 pos = (Vector3)(origin + dir * dist);
+                    pos.z = item.Visual.z;
                     spriteRenderer.transform.position = pos;
 
-
+                    // ✅ 旋转：用 dir，而不是重复算 (mouseWorld - origin)
                     if (item.Visual.rotationMode == ItemVisualRotationMode.RotateWithAim)
                     {
-                        float angle = Mathf.Atan2((mouseWorld - (Vector2)transform.position).y, (mouseWorld - (Vector2)transform.position).x) * Mathf.Rad2Deg;
+                        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                         angle += item.Visual.defaultAngleOffset;
                         spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, angle);
                     }
-                    else // FixedUp
+                    else
                     {
                         spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, item.Visual.defaultAngleOffset);
                     }
+
 
                 }
             }
@@ -122,20 +124,6 @@ namespace Game.Gameplay.Player
         {
             if (firePoint != null) return firePoint.position;
             return (Vector2)spriteRenderer.transform.position; // 兜底：用武器中心
-        }
-        private void ApplyItemFirePoint1(ItemDefinition item)
-        {
-            if (firePoint == null) return;
-
-            // 没拿武器：可以恢复默认（可选）
-            if (item == null)
-                return;
-
-            // 只有武器才有 firePointLocal
-            if (item is WeaponDefinition weapon)
-            {
-                firePoint.localPosition = weapon.firePointLocal;
-            }
         }
         private void ApplyItemFirePoint(ItemDefinition item)
         {
@@ -155,7 +143,7 @@ namespace Game.Gameplay.Player
             }
 
             // ✅ 只有 WeaponDefinition 才有 firePointLocal
-            if (item is Game.Systems.Items.WeaponDefinition weapon)
+            if (item is WeaponDefinition weapon)
             {
                 firePoint.localPosition = weapon.firePointLocal;
                 Debug.Log($"[FirePoint] Applied {weapon.DisplayName} firePointLocal={weapon.firePointLocal}");

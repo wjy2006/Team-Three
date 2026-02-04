@@ -9,13 +9,17 @@ namespace Game.Gameplay.Combat
         [Header("Settings")]
         [Tooltip("开启后，会在控制台打印子弹撞到了什么")]
         public bool enableDebugLog = true;
-        
+
         [Tooltip("子弹能击中哪些层？建议排除 Player 层")]
-        public LayerMask hitLayer; 
+        public LayerMask hitLayer;
 
         [Header("Runtime Ref")]
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private Collider2D col;
+        [Header("Explosion VFX")]
+        public GameObject explodeVfxPrefab;
+        public float explodeVfxLife = 1.0f; // 自动销毁特效
+
 
         private GameObject owner;
         private float damage;
@@ -44,7 +48,7 @@ namespace Game.Gameplay.Combat
             // ✅ 优化 1: 使用 LayerMask，不再检测 Everything
             // 如果你在 Inspector 没设置 LayerMask (值为0)，为了防止无效，默认还是 Everything，但建议你去设置！
             filter = new ContactFilter2D();
-            filter.useTriggers = true; 
+            filter.useTriggers = true;
             if (hitLayer.value != 0)
             {
                 filter.useLayerMask = true;
@@ -53,7 +57,7 @@ namespace Game.Gameplay.Combat
             else
             {
                 filter.useLayerMask = false; // 没设置层级时的回退方案
-                if(enableDebugLog) Debug.LogWarning($"[Bullet2D] {name} 未设置 Hit Layer，正在检测所有层级，容易误爆！");
+                if (enableDebugLog) Debug.LogWarning($"[Bullet2D] {name} 未设置 Hit Layer，正在检测所有层级，容易误爆！");
             }
         }
 
@@ -64,18 +68,7 @@ namespace Game.Gameplay.Combat
             this.lifeTime = lifeTime;
 
             spawnTime = Time.time;
-            armUntil = Time.time + 0.05f; // 稍微加长一点容错
-
-            // ✅ 优化 2: 物理级忽略碰撞 (双重保险)
-            // 找到 Owner 身上所有的 Collider，直接告诉物理引擎忽略碰撞
-            if (owner != null)
-            {
-                var ownerColliders = owner.GetComponentsInChildren<Collider2D>();
-                foreach (var ownerCol in ownerColliders)
-                {
-                    Physics2D.IgnoreCollision(col, ownerCol, true);
-                }
-            }
+            armUntil = Time.time + 0.05f;
 
             dir = dir.sqrMagnitude < 0.0001f ? Vector2.right : dir.normalized;
             rb.velocity = dir * speed;
@@ -116,11 +109,9 @@ namespace Game.Gameplay.Combat
                         var h = hits[i];
                         if (h.collider == null) continue;
 
-                        // ✅ 优化 3: 根节点判定法 (比 IsChildOf 更稳健)
-                        // 如果撞到的是 Owner 及其任何子物体/父物体（只要根节点相同）
-                        if (owner != null && h.collider.transform.root == owner.transform.root)
+                        if (Time.time < armUntil && owner != null && h.collider.transform.root == owner.transform.root)
                             continue;
-                        
+
                         // 额外的 LayerMask 双重检查 (Cast 有时会漏)
                         if (hitLayer.value != 0 && ((1 << h.collider.gameObject.layer) & hitLayer.value) == 0)
                             continue;
@@ -148,10 +139,10 @@ namespace Game.Gameplay.Combat
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!useTriggerMode) return;
-            
-            // 同样的过滤逻辑
-            if (owner != null && other.transform.root == owner.transform.root) return;
-            
+
+            if (Time.time < armUntil && owner != null && other.transform.root == owner.transform.root) return;
+
+
             // 必须在检测层级内
             if (hitLayer.value != 0 && ((1 << other.gameObject.layer) & hitLayer.value) == 0) return;
 
@@ -160,17 +151,50 @@ namespace Game.Gameplay.Combat
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (useTriggerMode) return;
-            // 物理碰撞模式暂未处理，如果需要可以照搬上面的过滤逻辑
+            if (useTriggerMode) return; // 只有非trigger子弹走这里（管理员小手枪）
+
+            var other = collision.collider;
+            if (other == null) return;
+
+            // ✅ 出生保护：在很短时间内忽略“命中自己”，防止枪口在自己碰撞体内导致出生即自爆
+            if (Time.time < armUntil && owner != null && other.transform.root == owner.transform.root)
+                return;
+
+            // LayerMask 检查（如果你设置了 hitLayer）
+            if (hitLayer.value != 0 && ((1 << other.gameObject.layer) & hitLayer.value) == 0)
+                return;
+
+            // 命中可受伤对象：扣血 + 销毁（包括 player / 自己，只要过了 arm）
+            if (other.TryGetComponent<IDamageable>(out var damageable))
+            {
+                Vector2 hitPoint = collision.GetContact(0).point;
+
+                var info = new DamageInfo
+                {
+                    amount = damage,
+                    source = owner,
+                    hitPoint = hitPoint,
+                    direction = rb != null && rb.velocity.sqrMagnitude > 0.0001f ? rb.velocity.normalized : Vector2.zero,
+                    kind = "bullet"
+                };
+
+                damageable.TakeDamage(info);
+                SpawnExplosionVfx(hitPoint);
+                Destroy(gameObject);
+                return;
+            }
+
+            // 撞到触发器：一般不处理（不过 collision 里通常不会是 trigger）
+            if (other.isTrigger) return;
         }
+
 
         private void HandleHit(Collider2D other, Vector2 hitPoint)
         {
             // 命中可受伤目标
             if (other.TryGetComponent<IDamageable>(out var damageable))
             {
-                if (enableDebugLog) Debug.Log($"[Bullet2D] 击中敌人: {other.name}");
-                
+
                 var info = new DamageInfo
                 {
                     amount = damage,
@@ -188,11 +212,20 @@ namespace Game.Gameplay.Combat
             if (other.isTrigger)
             {
                 // 如果你想要子弹穿过触发器，这里直接 return，不要销毁
-                return; 
+                return;
             }
-
-            
+            SpawnExplosionVfx(hitPoint);
             Destroy(gameObject);
         }
+        private void SpawnExplosionVfx(Vector2 hitPoint)
+        {
+            if (explodeVfxPrefab == null) return;
+
+            var vfx = Instantiate(explodeVfxPrefab, hitPoint, Quaternion.identity);
+
+            if (explodeVfxLife > 0f)
+                Destroy(vfx, explodeVfxLife);
+        }
+
     }
 }

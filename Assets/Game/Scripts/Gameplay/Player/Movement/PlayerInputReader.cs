@@ -24,6 +24,9 @@ public class PlayerInputReader : MonoBehaviour
 
 
     private PlayerInputActions actions;
+    [SerializeField, Min(0f)] private float interactDebounce = 0.1f; // 100ms
+    private float nextInteractTime = 0f;
+
 
     private void Awake()
     {
@@ -45,8 +48,18 @@ public class PlayerInputReader : MonoBehaviour
     {
         Move = actions.Player.Move.ReadValue<Vector2>();
 
-        InteractDown = actions.Player.Interact.WasPressedThisFrame();
         InteractHeld = actions.Player.Interact.IsPressed();
+
+        bool rawInteractDown = actions.Player.Interact.WasPressedThisFrame();
+
+        if (rawInteractDown && Time.unscaledTime >= nextInteractTime)
+        {
+            InteractDown = true;
+            nextInteractTime = Time.unscaledTime + interactDebounce;
+        }
+        else
+            InteractDown = false;
+
 
         CancelDown = actions.Player.Cancel.WasPressedThisFrame();
         CancelHeld = actions.Player.Cancel.IsPressed();
@@ -60,7 +73,7 @@ public class PlayerInputReader : MonoBehaviour
         RightDown = actions.Player.Right.WasPressedThisFrame();
 
         ClickDown = actions.Player.Click.WasPressedThisFrame();
-        ClickHeld = actions.Player.Click.IsPressed(); 
+        ClickHeld = actions.Player.Click.IsPressed();
         PointerPos = actions.Player.Point.ReadValue<Vector2>();
 
         if (ClickDown)

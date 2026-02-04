@@ -91,5 +91,39 @@ MonoBehaviour:
     intKey: 
     intValue: 0
     itemToGive: {fileID: 11400000, guid: 1d7aba94f8b9ae74b8d9392b717d0511, type: 2}
+    successNextId: not given 4
+    failNextId: not given 4
+  - id: not given 4
+    type: 5
+    lines:
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.001
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.001
+    nextId: 
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: 1336b23204492904b9398c4c019650d6, type: 2}
+    successNextId: not given 5
+    failNextId: not given 5
+  - id: not given 5
+    type: 5
+    lines:
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.001
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.001
+    nextId: 
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: 20aaef52690a830489189e91100a7465, type: 2}
     successNextId: 
     failNextId: 
