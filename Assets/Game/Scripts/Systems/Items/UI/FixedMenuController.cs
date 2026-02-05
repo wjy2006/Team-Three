@@ -147,7 +147,11 @@ namespace Game.UI.Menu
 
             if (menuPanel != null) menuPanel.SetActive(true);
 
-            // 菜单锁移动
+            // ✅ 暂停世界
+            if (GameRoot.I != null && GameRoot.I.Pause != null)
+                GameRoot.I.Pause.PushPause("Menu");
+
+            // 菜单锁移动（即使暂停了也建议做，防止你未来改为局部暂停）
             if (input != null) input.SetMoveEnabled(false);
 
             RefreshAll();
@@ -160,9 +164,14 @@ namespace Game.UI.Menu
 
             if (menuPanel != null) menuPanel.SetActive(false);
 
+            // ✅ 恢复暂停计数
+            if (GameRoot.I != null && GameRoot.I.Pause != null)
+                GameRoot.I.Pause.PopPause("Menu");
+
             // 恢复移动
             if (input != null) input.SetMoveEnabled(true);
         }
+
 
         void ExecuteAction()
         {
@@ -179,7 +188,7 @@ namespace Game.UI.Menu
                             if (item.infoDialogue != null)
                                 OpenDialogueAsset(item.infoDialogue);
                             else
-                                OpenOneLine("npc.all.unknown.name","dlg.all.default_checked");
+                                OpenOneLine("npc.all.unknown.name", "dlg.all.default_checked");
                         }
                         else
                             OpenDialogueAsset(EmptyChecked);
@@ -208,7 +217,7 @@ namespace Game.UI.Menu
                             if (item.dropDialogue != null)
                                 OpenDialogueAsset(item.dropDialogue);
                             else
-                                OpenOneLine("npc.all.unknown.name","dlg.all.default_dropped");
+                                OpenOneLine("npc.all.unknown.name", "dlg.all.default_dropped");
                         }
                         else
                             OpenDialogueAsset(EmptyDropped);
@@ -303,7 +312,7 @@ namespace Game.UI.Menu
             GameRoot.I.Dialogue.Open("_menu", asset);
         }
 
-        void OpenOneLine(string name,string content)
+        void OpenOneLine(string name, string content)
         {
             if (GameRoot.I == null || GameRoot.I.Dialogue == null || GameRoot.I.Dialogue.ui == null) return;
 

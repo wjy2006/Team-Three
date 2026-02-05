@@ -25,7 +25,7 @@ namespace Game.Systems.Items.Effects
             stats.Heal(amount);
 
             Debug.Log($"[ItemEffect] {user.name} healed +{amount} HP");
-            return false;
+            return true;
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class DialogueSystem : MonoBehaviour
@@ -18,7 +19,7 @@ public class DialogueSystem : MonoBehaviour
 
         currentNpcId = npcId;
 
-        // Graph 特判
+        // Graph 模式
         if (asset is GraphDialogueAsset g)
         {
             graph = g;
@@ -27,7 +28,7 @@ public class DialogueSystem : MonoBehaviour
             return;
         }
 
-        // Repeat/Count：走你已有的 BuildSession
+        // 简单对话模式 (Repeat/Count)
         DialogueSession session = asset.BuildSession(npcId, DialogueState);
         if (session == null || session.lines == null || session.lines.Length == 0) return;
         ui.Open(session.lines);
@@ -35,8 +36,12 @@ public class DialogueSystem : MonoBehaviour
 
     public void Close()
     {
-        if (!IsOpen) return;
-        ui.Close();
+        // 无论 UI 状态如何，只要调用了 Close，就强制清理数据
+        if (ui != null && ui.IsOpen) 
+        {
+            ui.Close();
+        }
+        
         ClearGraphRuntime();
     }
 
@@ -49,17 +54,12 @@ public class DialogueSystem : MonoBehaviour
         if (ui != null) ui.OnClosed -= ContinueAfterSay;
     }
 
-    // ===== Graph 解释器（无选项版）=====
+    // ===== Graph 核心解释器 =====
     private void StepGraph()
     {
+        // 1. 基础检查
         if (graph == null) { Close(); return; }
-
-        // ✅ 如果 nodeId 为空，默认结束（不再强制 End 节点）
-        if (string.IsNullOrEmpty(nodeId))
-        {
-            Close();
-            return;
-        }
+        if (string.IsNullOrEmpty(nodeId)) { Close(); return; }
 
         var node = graph.Find(nodeId);
         if (node == null)
@@ -70,47 +70,35 @@ public class DialogueSystem : MonoBehaviour
         }
 
         var global = GameRoot.I != null ? GameRoot.I.Global : null;
-        if (global == null)
-        {
-            Debug.LogError("GraphDialogue: GameRoot.Global 未就绪（Boot 是否加载？）");
-            Close();
-            return;
-        }
 
+        // 2. 根据节点类型执行逻辑
         switch (node.type)
         {
             case GraphDialogueAsset.NodeType.Say:
                 {
                     DialogueLine[] linesToPlay = null;
-
                     if (node.lines != null && node.lines.Length > 0)
-                    {
                         linesToPlay = node.lines;
-                    }
 
-                    // ✅ Say 没内容：如果 nextId 为空就结束，否则继续走 next
+                    // 如果 Say 节点没内容，直接跳下一个
                     if (linesToPlay == null || linesToPlay.Length == 0)
                     {
-                        Debug.LogWarning($"GraphDialogue: Say 节点没有内容 id={node.id}", graph);
                         nodeId = node.nextId;
-
-                        if (string.IsNullOrEmpty(nodeId)) { Close(); return; }
-                        StepGraph();
+                        StepGraph(); // 递归
                         return;
                     }
 
-                    // 记录下一步要去哪（播完再继续）
+                    // 预设好下一站 ID
                     nodeId = node.nextId;
 
-                    // ✅ 如果 nextId 为空：播完这段就结束（不再挂 ContinueAfterSay）
+                    // 如果没有下一站了，就不需要 Hook 关闭事件，播完即止
                     if (string.IsNullOrEmpty(nodeId))
                     {
-                        // 直接播放，播完用户按到最后一句会触发 UI Close；
-                        // 我们不需要继续图，所以不要 HookContinueOnClose。
                         ui.Open(linesToPlay);
                         return;
                     }
 
+                    // 还有下一站，Hook 关闭事件
                     HookContinueOnClose();
                     ui.Open(linesToPlay);
                     break;
@@ -118,84 +106,82 @@ public class DialogueSystem : MonoBehaviour
 
             case GraphDialogueAsset.NodeType.IfBool:
                 {
-                    bool v = global.GetBool(node.boolKey);
+                    bool v = false;
+                    if (global != null) v = global.GetBool(node.boolKey);
+                    
                     nodeId = v ? node.trueNextId : node.falseNextId;
-
-                    // ✅ 分支结果为空：结束；否则继续
-                    if (string.IsNullOrEmpty(nodeId)) { Close(); return; }
-                    StepGraph();
+                    StepGraph(); // 递归继续
                     break;
                 }
 
             case GraphDialogueAsset.NodeType.SetBool:
                 {
-                    global.SetBool(node.boolKey, node.boolValue);
+                    if (global != null) global.SetBool(node.boolKey, node.boolValue);
+                    
                     nodeId = node.nextId;
-
-                    // ✅ nextId 为空：结束
-                    if (string.IsNullOrEmpty(nodeId)) { Close(); return; }
-                    StepGraph();
+                    StepGraph(); // 递归继续
                     break;
                 }
 
             case GraphDialogueAsset.NodeType.AddInt:
                 {
-                    global.AddInt(node.intKey, node.intValue);
+                    if (global != null) global.AddInt(node.intKey, node.intValue);
+                    
                     nodeId = node.nextId;
-
-                    if (string.IsNullOrEmpty(nodeId)) { Close(); return; }
-                    StepGraph();
+                    StepGraph(); // 递归继续
                     break;
                 }
 
             case GraphDialogueAsset.NodeType.SetInt:
                 {
-                    global.SetInt(node.intKey, node.intValue);
+                    if (global != null) global.SetInt(node.intKey, node.intValue);
+                    
                     nodeId = node.nextId;
-
-                    if (string.IsNullOrEmpty(nodeId)) { Close(); return; }
-                    StepGraph();
+                    StepGraph(); // 递归继续
                     break;
                 }
+
             case GraphDialogueAsset.NodeType.GiveItem:
                 {
-
-                    var inventory = GameRoot.I != null ? GameRoot.I.Inventory : null; ;
+                    // ⚠️ 这里是之前可能出问题的地方：Inventory 引用和逻辑流
+                    
+                    // 1. 获取 Inventory (加上判空保护)
+                    var inventory = GameRoot.I != null ? GameRoot.I.Inventory : null;
                     if (inventory == null)
                     {
-                        Debug.LogError("GiveItem: 玩家没有 Inventory");
-                        Close();
+                        Debug.LogError("GiveItem 失败: GameRoot.I.Inventory 为空！请检查 GameRoot 是否初始化了 Inventory。");
+                        // 为了不卡死游戏，尝试直接跳到 success 或 close
+                        nodeId = node.successNextId; 
+                        if(string.IsNullOrEmpty(nodeId)) Close();
+                        else StepGraph();
                         return;
                     }
 
+                    // 2. 检查物品配置
                     if (node.itemToGive == null)
                     {
-                        Debug.LogWarning($"GiveItem 节点 {node.id} 没设置 itemToGive", graph);
-                        Close();
+                        Debug.LogWarning($"GiveItem 节点 {node.id} 未配置 itemToGive");
+                        nodeId = node.failNextId; // 没配置这就当失败处理
+                        StepGraph();
                         return;
                     }
 
+                    // 3. 执行添加逻辑
                     bool success = inventory.TryAdd(node.itemToGive);
+                    Debug.Log($"[Dialogue] GiveItem: {node.itemToGive.name} | Result: {success}");
 
+                    // 4. 根据结果跳转
                     if (success)
                     {
                         nodeId = node.successNextId;
-                        StepGraph();
                     }
                     else
                     {
-                        // 背包满分支
                         nodeId = node.failNextId;
-
-                        if (string.IsNullOrEmpty(nodeId))
-                        {
-                            Debug.LogWarning("背包已满且未设置NodeId。你最好设置一下。");
-                            Close();
-                        }
-
-                        StepGraph();
                     }
 
+                    // 5. 关键：必须递归执行下一步！
+                    StepGraph();
                     break;
                 }
 
@@ -219,17 +205,22 @@ public class DialogueSystem : MonoBehaviour
         ui.OnClosed -= ContinueAfterSay;
         waitingContinue = false;
 
-        // 如果中途手动 Close，graph 会被 Clear 掉
+        // 如果中途被关闭了，graph 会为空
         if (graph == null) return;
 
-        // ✅ nodeId 为空：结束（不再强制 End）
-        if (string.IsNullOrEmpty(nodeId))
-        {
-            Close();
-            return;
-        }
+        // 启动协程，等待一帧后再执行，解决按键穿透问题
+        StartCoroutine(StepGraphNextFrame());
+    }
 
-        // 继续下一节点
-        StepGraph();
+    private IEnumerator StepGraphNextFrame()
+    {
+        // 关键：等待帧结束，让 Input.GetKeyDown 状态失效
+        yield return null;
+
+        // 等待回来后，再次确认 graph 还在（防止等待期间被意外关闭）
+        if (graph != null)
+        {
+            StepGraph();
+        }
     }
 }

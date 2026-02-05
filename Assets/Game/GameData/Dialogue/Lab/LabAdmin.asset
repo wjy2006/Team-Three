@@ -54,7 +54,7 @@ MonoBehaviour:
     type: 0
     lines:
     - speakerKey: npc.lab.admin.name
-      textKey: dlg.lab.admin.006
+      textKey: dlg.lab.admin.007
     nextId: 
     boolKey: 
     trueNextId: 
@@ -70,7 +70,7 @@ MonoBehaviour:
     lines:
     - speakerKey: npc.lab.admin.name
       textKey: dlg.lab.admin.006
-    nextId: end
+    nextId: if medal
     boolKey: lab.admin.met
     trueNextId: 
     falseNextId: 
@@ -89,6 +89,36 @@ MonoBehaviour:
     boolKey: 
     trueNextId: 
     falseNextId: 
+    boolValue: 0
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: if medal
+    type: 1
+    lines:
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.006
+    nextId: 
+    boolKey: lab.box2.given
+    trueNextId: say medal
+    falseNextId: end
+    boolValue: 0
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: say medal
+    type: 0
+    lines:
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.006
+    nextId: 
+    boolKey: lab.box2.given
+    trueNextId: say medal
+    falseNextId: say1
     boolValue: 0
     intKey: 
     intValue: 0

@@ -1,4 +1,5 @@
 using System.Collections;
+using Game.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,6 +17,7 @@ public class GameRoot : MonoBehaviour
     public LocalizationService Localization { get; private set; }
     public DialogueSystem Dialogue { get; private set; }
     public GlobalState Global { get; private set; } = new GlobalState();
+    public PauseManager Pause { get; private set; }
 
 
     [SerializeField] private GameObject player;
@@ -47,6 +49,7 @@ public class GameRoot : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         Localization = GetComponentInChildren<LocalizationService>(true);
         Dialogue = GetComponentInChildren<DialogueSystem>(true);
+        Pause = GetComponentInChildren<PauseManager>(true);
     }
 
     private void OnDestroy()

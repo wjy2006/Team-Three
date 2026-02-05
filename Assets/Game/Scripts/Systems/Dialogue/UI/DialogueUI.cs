@@ -90,6 +90,10 @@ public class DialogueUI : MonoBehaviour
     {
         if (newLines == null || newLines.Length == 0) return;
 
+        // ✅ 暂停世界
+        if (GameRoot.I != null && GameRoot.I.Pause != null)
+            GameRoot.I.Pause.PushPause("Dialogue");
+
         lines = newLines;
         index = 0;
         IsOpen = true;
@@ -188,18 +192,20 @@ public class DialogueUI : MonoBehaviour
     private bool IsPunctuation(char c)
     {
         // 中英文常见停顿符号
-        return c == '.' || c == '!' || c == '?' || c == ',' ||
-               c == '。' || c == '！' || c == '？' || c == '，' ||
+        return c == '。' || c == '！' || c == '？' || c == '，' ||
                c == '、' || c == '：' || c == ';' || c == '；';
     }
 
     public void Close()
     {
-        // 结束时也停掉打字协程，避免残留
         StopTypingIfNeeded();
 
         IsOpen = false;
         OnClosed?.Invoke();
         dialogRoot.SetActive(false);
+
+        // ✅ 恢复暂停计数
+        if (GameRoot.I != null && GameRoot.I.Pause != null)
+            GameRoot.I.Pause.PopPause("Dialogue");
     }
 }

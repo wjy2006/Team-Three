@@ -53,7 +53,9 @@ namespace Game.Gameplay.Player
                 if (GameRoot.I != null) input = GameRoot.I.playerInput;
                 if (input == null) return;
             }
-
+            // ✅ 世界暂停：武器视觉也冻结（不跟鼠标，不转）
+            if (GameRoot.I != null && GameRoot.I.Pause != null && GameRoot.I.Pause.IsPaused)
+                return;
             if (spriteRenderer == null) return;
             if (heldItem == null) return;
 

@@ -10,6 +10,7 @@ dlg.all.empty_dropped.002,本来无一物，何处惹尘埃？
 
 dlg.all.default_dropped,你丢弃了它。
 dlg.all.default_checked,没有描述。
+dlg.all.default_full,你拿的东西太多了。
 npc.all.unknown.name,？？？
 
 dlg.all.StG44_checked.001,这是一把StG44，现代步枪的鼻祖。
@@ -18,6 +19,15 @@ dlg.all.StG44_dropped.001,你丢掉了突击步枪。可能是因为它太重了
 
 dlg.all.admin's_pistol_checked.001,一把让人费解的小手枪。从前属于管理员。
 dlg.all.admin's_pistol_dropped.001,因为某些原因，你丢掉了管理员小手枪。
+
+dlg.all.maze_medal_checked.001,一枚奖章。绶带上写着： “克里特征服者” 。
+dlg.all.maze_medal_checked.002,如果你乐意的话，它可以在商店换取50G 。
+dlg.all.maze_medal_dropped.001,你丢掉了迷宫支配者奖章。
+dlg.all.maze_medal_dropped.002,看起来你并不是很热衷于荣誉。
+
+dlg.all.health_potion_checked.001,平平无奇的治疗药水。一次回复20HP。
+dlg.all.health_potion_dropped.001,你丢掉了治疗药水。
+
 
 npc.lab.system.name,※※※
 npc.lab.unknown.name,？？？
@@ -33,24 +43,26 @@ dlg.lab.button.006,什么都没有变化，你也没有想到任何东西。
 
 dlg.lab.chest1.001,箱子是空的。
 dlg.lab.chest1.002,好吧，这种事有时就是会发生。
-
 dlg.lab.chest1.003,你再次检查了这个箱子。
 dlg.lab.chest1.004,你发现这个箱子里真的什么也没有。
-
 dlg.lab.chest1.005,你没忍住又检查了一遍这个箱子。
 dlg.lab.chest1.006,令人惊奇的是，这个箱子里真的什么也没有！
 
 
 dlg.lab.chest2.001,你试图打开这个箱子。有点吃力。
-dlg.lab.chest2.002,不过箱子终于打开了，你获得了一瓶生命药水。
-
+dlg.lab.chest2.002,不过箱子终于打开了，你获得了一块专属奖章。
 dlg.lab.chest2.003,这个箱子里已经没有东西了。
 
 
 dlg.lab.admin.001,你 好 ， 玩 家 ！
 dlg.lab.admin.002,我 是 这 片 区 域 的 创 造 者 ， 你 可 以 叫 我 管 理 员 。
 dlg.lab.admin.003,你 有 玩 过 传 说 之 下 吗 ？ 我 正 在 制 作 一 个 类 似 的 游 戏 ！
-dlg.lab.admin.004,不 过 有 很 多 地 方 我 还 没 来 得 及 做 好 ，  所 以 我 们 的 形 象 都 还 暂 时 只 是 小 方 块 ！
+dlg.lab.admin.004,但 是 有 很 多 地 方 我 还 没 来 得 及 做 好 ，  所 以 我 们 的 形 象 都 还 暂 时 只 是 小 方 块 ！
 dlg.lab.admin.005,向 右 边 出 发 开 启 我 为 你 打 造 的 冒 险 吧 ！
+dlg.lab.admin.006,不 过 话 说 你 刚 刚 去 了 哪 里 吗 ？ 我 等 了 你 非 常 久 。 。 。
+dlg.lab.admin.007,哦 ， 我 的 电 脑 就 是 悬 浮 在 桌 子 上 面 的 ， 不 要 在 意 。 。 。
 
-dlg.lab.admin.006,哦 ， 我 的 电 脑 就 是 悬 浮 在 桌 子 上 面 的 ， 不 要 在 意 。 。 。
+dlg.lab.locked_door.001,这扇门锁住了，你打不开。
+
+dlg.lab.admin.008,你 为 什 么 又 回 到 这 里 了 ？
+dlg.lab.admin.009,是 我 的 冒 险 没 能 让 你 满 意 吗 ？

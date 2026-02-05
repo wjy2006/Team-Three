@@ -19,6 +19,9 @@ namespace Game.Gameplay.Combat
         [Header("Explosion VFX")]
         public GameObject explodeVfxPrefab;
         public float explodeVfxLife = 1.0f; // 自动销毁特效
+        private Vector2 savedVelocity;
+        private bool frozen;
+
 
 
         private GameObject owner;
@@ -81,9 +84,30 @@ namespace Game.Gameplay.Combat
 
         private void Update()
         {
+            // ✅ 暂停：冻结子弹速度（防止任何脚本/物理残留导致“还在动”）
+            if (GameRoot.I != null && GameRoot.I.Pause != null && GameRoot.I.Pause.IsPaused)
+            {
+                if (!frozen && rb != null)
+                {
+                    savedVelocity = rb.velocity;
+                    rb.velocity = Vector2.zero;
+                    rb.simulated = false; // 彻底停物理
+                    frozen = true;
+                }
+                return;
+            }
+            else if (frozen && rb != null)
+            {
+                // 恢复
+                rb.simulated = true;
+                rb.velocity = savedVelocity;
+                frozen = false;
+            }
+
             if (lifeTime > 0 && Time.time - spawnTime >= lifeTime)
                 Destroy(gameObject);
         }
+
 
         private void FixedUpdate()
         {

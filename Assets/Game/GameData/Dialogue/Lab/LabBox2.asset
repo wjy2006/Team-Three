@@ -27,23 +27,6 @@ MonoBehaviour:
     itemToGive: {fileID: 0}
     successNextId: 
     failNextId: 
-  - id: not given
-    type: 0
-    lines:
-    - speakerKey: npc.lab.system.name
-      textKey: dlg.lab.chest2.001
-    - speakerKey: npc.lab.system.name
-      textKey: dlg.lab.chest2.002
-    nextId: not given 2
-    boolKey: 
-    trueNextId: 
-    falseNextId: 
-    boolValue: 0
-    intKey: 
-    intValue: 0
-    itemToGive: {fileID: 0}
-    successNextId: 
-    failNextId: 
   - id: given
     type: 0
     lines:
@@ -59,14 +42,48 @@ MonoBehaviour:
     itemToGive: {fileID: 0}
     successNextId: 
     failNextId: 
+  - id: not given
+    type: 5
+    lines:
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.001
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.001
+    nextId: 
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: 02673c42567b48d48980903300afb0e9, type: 2}
+    successNextId: not given 2
+    failNextId: not given fulled
   - id: not given 2
+    type: 0
+    lines:
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.001
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.002
+    nextId: not given 3
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: not given 3
     type: 2
     lines:
     - speakerKey: npc.lab.system.name
       textKey: dlg.lab.chest2.001
     - speakerKey: npc.lab.system.name
       textKey: dlg.lab.chest2.001
-    nextId: not given 3
+    nextId: 
     boolKey: lab.box2.given
     trueNextId: 
     falseNextId: 
@@ -76,54 +93,18 @@ MonoBehaviour:
     itemToGive: {fileID: 0}
     successNextId: 
     failNextId: 
-  - id: not given 3
-    type: 5
+  - id: not given fulled
+    type: 0
     lines:
     - speakerKey: npc.lab.system.name
-      textKey: dlg.lab.chest2.001
-    - speakerKey: npc.lab.system.name
-      textKey: dlg.lab.chest2.001
+      textKey: dlg.all.default_full
     nextId: 
-    boolKey: 
+    boolKey: lab.box2.given
     trueNextId: 
     falseNextId: 
-    boolValue: 0
+    boolValue: 1
     intKey: 
     intValue: 0
-    itemToGive: {fileID: 11400000, guid: 1d7aba94f8b9ae74b8d9392b717d0511, type: 2}
-    successNextId: not given 4
-    failNextId: not given 4
-  - id: not given 4
-    type: 5
-    lines:
-    - speakerKey: npc.lab.system.name
-      textKey: dlg.lab.chest2.001
-    - speakerKey: npc.lab.system.name
-      textKey: dlg.lab.chest2.001
-    nextId: 
-    boolKey: 
-    trueNextId: 
-    falseNextId: 
-    boolValue: 0
-    intKey: 
-    intValue: 0
-    itemToGive: {fileID: 11400000, guid: 1336b23204492904b9398c4c019650d6, type: 2}
-    successNextId: not given 5
-    failNextId: not given 5
-  - id: not given 5
-    type: 5
-    lines:
-    - speakerKey: npc.lab.system.name
-      textKey: dlg.lab.chest2.001
-    - speakerKey: npc.lab.system.name
-      textKey: dlg.lab.chest2.001
-    nextId: 
-    boolKey: 
-    trueNextId: 
-    falseNextId: 
-    boolValue: 0
-    intKey: 
-    intValue: 0
-    itemToGive: {fileID: 11400000, guid: 20aaef52690a830489189e91100a7465, type: 2}
+    itemToGive: {fileID: 0}
     successNextId: 
     failNextId: 

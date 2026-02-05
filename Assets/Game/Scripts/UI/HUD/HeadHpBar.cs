@@ -4,73 +4,210 @@ using Game.Gameplay.Player;
 
 namespace Game.UI
 {
-    public class HeadHpBar : MonoBehaviour
+    public class PixelHeadHpBarAdvanced : MonoBehaviour
     {
+        [Header("Refs")]
         [SerializeField] private Transform barRoot;
-        [SerializeField] private SpriteRenderer fillRenderer;
+        [SerializeField] private SpriteRenderer fill; // 红条：即时
+        [SerializeField] private SpriteRenderer lag;  // 白条：延迟
+        [SerializeField] private SpriteRenderer bg;   // 背景/框（可空）
 
+        [Header("Placement")]
         [SerializeField] private Vector3 offset = new Vector3(0, 0, 0);
-        [SerializeField] private float showTime = 5f;
+        [SerializeField] private float z = -5f;
+
+        [Header("Show/Hide")]
+        [SerializeField] private float showTime = 5;      // 受击后保持多久再开始淡出
+        [SerializeField] private float fadeDuration = 3; // 淡出时长
+
+        [Header("Lag (gray bar)")]
+        [SerializeField] private float lagCatchupSpeed = 0.2f;   // 白条追红条的速度（越大越快）
+        [SerializeField] private float lagDelay = 0.2f;         // 红条变化后，白条延迟多久才开始追
 
         private IHealthView health;
         private float hideAt;
+        private float alpha = 0f;
+        private bool fading = false;
+
+        // 用于 lag 逻辑
+        private float lagValue01 = 1f;          // 白条当前显示比例
+        private float lagDelayUntil = 0f;       // 白条延迟到这个时间才开始追
+
+        // 事件源（兼容两种）
+        private PlayerStats playerStats;
+        private Health2D health2D;
 
         private void Awake()
         {
             health = GetComponent<IHealthView>();
+            if (health == null)
+            {
+                Debug.LogError($"{name}: 缺少 IHealthView（PlayerStats/Health2D 需要实现）");
+                enabled = false;
+                return;
+            }
 
             if (barRoot == null)
-                barRoot = transform.Find("HpBarRoot");
+            {
+                var t = transform.Find("HpBarRoot");
+                if (t != null) barRoot = t;
+            }
 
-            if (fillRenderer == null)
-                fillRenderer = barRoot.Find("Fill").GetComponent<SpriteRenderer>();
+            if (barRoot == null)
+            {
+                Debug.LogError($"{name}: 找不到 barRoot（请在角色下建 HpBarRoot 并拖给脚本）");
+                enabled = false;
+                return;
+            }
+
+            if (fill == null)
+            {
+                var t = barRoot.Find("Fill");
+                if (t != null) fill = t.GetComponent<SpriteRenderer>();
+            }
+            if (lag == null)
+            {
+                var t = barRoot.Find("Lag");
+                if (t != null) lag = t.GetComponent<SpriteRenderer>();
+            }
+            if (bg == null)
+            {
+                var t = barRoot.Find("Bg");
+                if (t != null) bg = t.GetComponent<SpriteRenderer>();
+            }
+
+            if (fill == null || lag == null)
+            {
+                Debug.LogError($"{name}: Fill 或 Lag 没绑定（请确认 HpBarRoot 下有 Fill/Lag SpriteRenderer）");
+                enabled = false;
+                return;
+            }
+
+            playerStats = GetComponent<PlayerStats>();
+            health2D = GetComponent<Health2D>();
 
             barRoot.gameObject.SetActive(false);
+            SetAlpha(0f);
+
+            // 初始同步（避免第一次显示时白条不对）
+            float t01 = GetHp01();
+            lagValue01 = t01;
+            ApplyScale(fill, t01);
+            ApplyScale(lag, t01);
         }
 
         private void OnEnable()
         {
-            if (TryGetComponent<IDamageable>(out var d))
-            {
-                if (d is PlayerStats ps)
-                    ps.OnDamaged += OnDamaged;
-                if (d is Health2D h2)
-                    h2.OnDamaged += OnDamaged;
-            }
+            if (playerStats != null) playerStats.OnDamaged += OnDamaged;
+            if (health2D != null) health2D.OnDamaged += OnDamaged;
         }
 
         private void OnDisable()
         {
-            if (TryGetComponent<IDamageable>(out var d))
-            {
-                if (d is PlayerStats ps)
-                    ps.OnDamaged -= OnDamaged;
-                if (d is Health2D h2)
-                    h2.OnDamaged -= OnDamaged;
-            }
+            if (playerStats != null) playerStats.OnDamaged -= OnDamaged;
+            if (health2D != null) health2D.OnDamaged -= OnDamaged;
         }
 
         private void LateUpdate()
         {
-            if (barRoot == null || health == null) return;
+            // 跟随头顶
+            Vector3 pos = transform.position + offset;
+            pos.z = z;
+            barRoot.position = pos;
 
-            barRoot.position = transform.position + offset;
+            float hp01 = GetHp01();
 
-            float t = health.Current / health.Max;
-            t = Mathf.Clamp01(t);
+            // 红条：立即跟随
+            ApplyScale(fill, hp01);
 
-            // ⭐ 关键：修改 X scale
-            fillRenderer.transform.localScale =
-                new Vector3(t, 1f, 1f);
+            // 白条：延迟后缓慢追随（通常只“向下追”，回血时可选择立刻跟上）
+            if (Time.time >= lagDelayUntil)
+            {
+                // 常见规则：回血时白条直接跟上（看起来更干净）
+                if (hp01 > lagValue01)
+                {
+                    lagValue01 = hp01;
+                }
+                else
+                {
+                    // 掉血时白条慢慢追红条
+                    lagValue01 = Mathf.MoveTowards(lagValue01, hp01, lagCatchupSpeed * Time.deltaTime);
+                }
+            }
 
-            if (barRoot.gameObject.activeSelf && Time.time > hideAt)
-                barRoot.gameObject.SetActive(false);
+            ApplyScale(lag, lagValue01);
+
+            // 淡出逻辑
+            if (barRoot.gameObject.activeSelf)
+            {
+                if (!fading && Time.time >= hideAt)
+                {
+                    fading = true;
+                }
+
+                if (fading)
+                {
+                    alpha -= Time.deltaTime / Mathf.Max(0.0001f, fadeDuration);
+                    SetAlpha(alpha);
+
+                    if (alpha <= 0f)
+                    {
+                        barRoot.gameObject.SetActive(false);
+                        fading = false;
+                    }
+                }
+            }
         }
 
         private void OnDamaged(DamageInfo info)
         {
+            // 显示并重置计时
             barRoot.gameObject.SetActive(true);
             hideAt = Time.time + showTime;
+
+            // 立刻不透明
+            fading = false;
+            alpha = 1f;
+            SetAlpha(1f);
+
+            // 关键：掉血时，让白条稍微延迟再开始追
+            lagDelayUntil = Time.time + lagDelay;
+
+            // 如果是第一次显示或数值突变，先把白条至少不低于当前（避免白条小于红条）
+            float hp01 = GetHp01();
+            if (lagValue01 < hp01) lagValue01 = hp01;
+        }
+
+        private float GetHp01()
+        {
+            float max = Mathf.Max(0.0001f, health.Max);
+            return Mathf.Clamp01(health.Current / max);
+        }
+
+        private static void ApplyScale(SpriteRenderer r, float x01)
+        {
+            if (r == null) return;
+            var s = r.transform.localScale;
+            s.x = x01;
+            r.transform.localScale = s;
+        }
+
+        private void SetAlpha(float a)
+        {
+            a = Mathf.Clamp01(a);
+
+            if (bg != null)
+            {
+                var c = bg.color; c.a = a; bg.color = c;
+            }
+            if (lag != null)
+            {
+                var c = lag.color; c.a = a; lag.color = c;
+            }
+            if (fill != null)
+            {
+                var c = fill.color; c.a = a; fill.color = c;
+            }
         }
     }
 }
