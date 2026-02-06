@@ -3956,6 +3956,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1936437435}
   m_CullTransparentMesh: 1
+--- !u!1 &1960009212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 7
+  m_Component:
+  - component: {fileID: 1960009213}
+  - component: {fileID: 1960009214}
+  - component: {fileID: 1960009215}
+  m_Layer: 0
+  m_HasEditorInfo: 1
+  m_Name: StorySystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1960009213
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960009212}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8674876803235041049}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1960009214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960009212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58543044d287bd049bc9dd9f015a401e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1960009215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960009212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2607799b2fbfdfe4d8211d3ede71081f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2102424475
 GameObject:
   m_ObjectHideFlags: 0
@@ -4305,6 +4363,12 @@ MonoBehaviour:
   cameraFollow: {fileID: 2073570126796791170}
   fade: {fileID: 7020750976318942874}
   playerInput: {fileID: 5680874913707256839}
+  playerHeldItem: {fileID: 8435163443797893737}
+  blackboard: {fileID: 1960009215}
+  storyManager: {fileID: 1960009214}
+  localization: {fileID: 1424088696}
+  dialogue: {fileID: 7486960129235580374}
+  pause: {fileID: 1101612953}
   player: {fileID: 4455213691704363990}
 --- !u!1 &979074709769840143
 GameObject:
@@ -5353,6 +5417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactDebounce: 0.1
+  menuDebounce: 0.1
 --- !u!1 &5728205039507414011
 GameObject:
   m_ObjectHideFlags: 0
@@ -6073,6 +6138,7 @@ Transform:
   - {fileID: 9064892333684477674}
   - {fileID: 8657297153423688614}
   - {fileID: 1339176719}
+  - {fileID: 1960009213}
   m_Father: {fileID: 7954225934576160508}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &8832749489734789176

@@ -21,12 +21,16 @@ public class PlayerInputReader : MonoBehaviour
     public Vector2 PointerPos { get; private set; }      // 实时屏幕坐标
     public Vector2 ClickScreenPos { get; private set; }  // 点击瞬间屏幕坐标
     public bool ClickHeld { get; private set; }
-
+    private bool gameplayEnabled = true;
+    public void SetAllGameplayEnabled(bool enabled) => gameplayEnabled = enabled;
 
     private PlayerInputActions actions;
-    [SerializeField, Min(0f)] private float interactDebounce = 0.1f; // 100ms
-    private float nextInteractTime = 0f;
 
+    [SerializeField, Min(0f)] private float interactDebounce = 0.1f; // 100ms
+    [SerializeField, Min(0f)] private float menuDebounce = 0.1f;     // 100ms
+
+    private float nextInteractTime = 0f;
+    private float nextMenuTime = 0f; // ✅ 新增：Menu 防抖计时
 
     private void Awake()
     {
@@ -51,20 +55,31 @@ public class PlayerInputReader : MonoBehaviour
         InteractHeld = actions.Player.Interact.IsPressed();
 
         bool rawInteractDown = actions.Player.Interact.WasPressedThisFrame();
-
         if (rawInteractDown && Time.unscaledTime >= nextInteractTime)
         {
             InteractDown = true;
             nextInteractTime = Time.unscaledTime + interactDebounce;
         }
         else
+        {
             InteractDown = false;
-
+        }
 
         CancelDown = actions.Player.Cancel.WasPressedThisFrame();
         CancelHeld = actions.Player.Cancel.IsPressed();
 
-        MenuDown = actions.Player.Menu.WasPressedThisFrame();
+        // ✅ MenuDebounce：和 Interact 一样做防抖
+        bool rawMenuDown = actions.Player.Menu.WasPressedThisFrame();
+        if (rawMenuDown && Time.unscaledTime >= nextMenuTime)
+        {
+            MenuDown = true;
+            nextMenuTime = Time.unscaledTime + menuDebounce;
+        }
+        else
+        {
+            MenuDown = false;
+        }
+
         UpDown = actions.Player.Up.WasPressedThisFrame();
         DownDown = actions.Player.Down.WasPressedThisFrame();
         ContinueDown = actions.Player.Continue.WasPressedThisFrame();
@@ -80,11 +95,11 @@ public class PlayerInputReader : MonoBehaviour
         {
             ClickScreenPos = PointerPos;
         }
-
     }
 
     public bool ConsumeInteractDown()
     {
+        if (!gameplayEnabled) return false;
         if (!InteractDown) return false;
         InteractDown = false;
         return true;
@@ -99,6 +114,7 @@ public class PlayerInputReader : MonoBehaviour
 
     public bool ConsumeMenuDown()
     {
+        if (!gameplayEnabled) return false;
         if (!MenuDown) return false;
         MenuDown = false;
         return true;
@@ -125,7 +141,6 @@ public class PlayerInputReader : MonoBehaviour
         return true;
     }
 
-    // ✅ 新增 Consume
     public bool ConsumeLeftDown()
     {
         if (!LeftDown) return false;
@@ -140,10 +155,9 @@ public class PlayerInputReader : MonoBehaviour
         return true;
     }
 
-
     public void SetMoveEnabled(bool enabled)
     {
-        if (enabled)
+        if (enabled&&gameplayEnabled)
             actions.Player.Move.Enable();
         else
         {
@@ -151,6 +165,7 @@ public class PlayerInputReader : MonoBehaviour
             Move = Vector2.zero;
         }
     }
+
     public bool ConsumeClickDown(out Vector2 clickScreenPos)
     {
         if (!ClickDown)
@@ -158,9 +173,10 @@ public class PlayerInputReader : MonoBehaviour
             clickScreenPos = default;
             return false;
         }
+
         ClickDown = false;
         clickScreenPos = ClickScreenPos;
+        if (!gameplayEnabled) return false;
         return true;
     }
-
 }

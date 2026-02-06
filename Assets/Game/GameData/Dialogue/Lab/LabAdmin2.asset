@@ -31,10 +31,10 @@ MonoBehaviour:
     type: 0
     lines:
     - speakerKey: npc.lab.admin.name
-      textKey: dlg.lab.admin.007
-    - speakerKey: npc.lab.admin.name
       textKey: dlg.lab.admin.008
-    nextId: Set
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.009
+    nextId: 
     boolKey: 
     trueNextId: 
     falseNextId: 
@@ -82,7 +82,7 @@ MonoBehaviour:
     nextId: 
     boolKey: lab.box2.given
     trueNextId: say medal
-    falseNextId: end
+    falseNextId: 
     boolValue: 0
     intKey: 
     intValue: 0
