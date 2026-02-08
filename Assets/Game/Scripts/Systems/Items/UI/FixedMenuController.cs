@@ -232,36 +232,38 @@ namespace Game.UI.Menu
         {
             if (heldItem == null || inventory == null) return;
 
-            var slotItem = inventory.GetAt(selectedIndex); // 可能为 null
-            var handItem = heldItem.held;                  // 可能为 null
+            var before = heldItem.held;
 
-            // 槽空 & 手空：不做事
+            var slotItem = inventory.GetAt(selectedIndex);
+            var handItem = heldItem.held;
+
             if (slotItem == null && handItem == null) return;
 
-            // 槽有 & 手空：拿起
             if (slotItem != null && handItem == null)
             {
                 heldItem.held = slotItem;
                 inventory.RemoveAt(selectedIndex);
-                return;
             }
-
-            // 槽空 & 手有：放下
-            if (slotItem == null && handItem != null)
+            else if (slotItem == null && handItem != null)
             {
                 inventory.SetAt(selectedIndex, handItem);
                 heldItem.held = null;
-                return;
             }
-
-            // 槽有 & 手有：互换
-            if (slotItem != null && handItem != null)
+            else if (slotItem != null && handItem != null)
             {
                 heldItem.held = slotItem;
                 inventory.SetAt(selectedIndex, handItem);
-                return;
+            }
+
+            if (before != heldItem.held)
+            {
+                if (GameRoot.I != null && GameRoot.I.Triggers != null)
+                {
+                    GameRoot.I.Triggers.RaiseNextFrame(new HeldItemChangedEvent(), this);
+                }
             }
         }
+
 
 
 

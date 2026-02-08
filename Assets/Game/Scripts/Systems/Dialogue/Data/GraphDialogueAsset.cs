@@ -25,6 +25,7 @@ public class GraphDialogueAsset : DialogueAsset
 
         // 写状态节点（SetBool / AddInt / SetInt）
         public bool boolValue;
+        public StoryCondition condition; // IfCondition 节点用
 
         public string intKey;
         public int intValue;
@@ -38,12 +39,14 @@ public class GraphDialogueAsset : DialogueAsset
     {
         Say,
         IfBool,
+        IfCondition, // ✅ 新增
         SetBool,
         AddInt,
         SetInt,
         GiveItem,
         End
     }
+
 
     // Graph 不是一次性 BuildSession，所以这里不用
     public override DialogueSession BuildSession(string npcId, DialogueState state) => null;

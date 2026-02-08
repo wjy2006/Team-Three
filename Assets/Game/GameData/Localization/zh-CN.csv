@@ -2,9 +2,8 @@ key,text
 npc.all.system.name,※※※
 npc.all.ancients.name,古人
 dlg.all.empty_checked.001,坦白来说，这个横线只是代表一个空的槽位。
-dlg.all.empty_checked.002,如果你真的想查看关于 “空” 的信息，我会引用古人的一句话。
+dlg.all.empty_checked.002,如果你真的想查看关于“空”的信息，我会引用古人的一句话。
 dlg.all.empty_checked.003,此中有真意，欲辨已忘言。
-
 dlg.all.empty_dropped.001,这个槽位是空的，所以你无法丢掉任何东西。
 dlg.all.empty_dropped.002,本来无一物，何处惹尘埃？
 
@@ -17,11 +16,11 @@ dlg.all.StG44_checked.001,这是一把StG44，现代步枪的鼻祖。
 dlg.all.StG44_checked.002,不知道为什么，它看起来非常大。
 dlg.all.StG44_dropped.001,你丢掉了突击步枪。可能是因为它太重了。
 
-dlg.all.admin's_pistol_checked.001,一把让人费解的小手枪。从前属于管理员。
-dlg.all.admin's_pistol_dropped.001,因为某些原因，你丢掉了管理员小手枪。
+dlg.all.admin's_pistol_checked.001,一把让人费解的小手枪。之前属于管理员。
+dlg.all.admin's_pistol_dropped.001,因为某些原因，你丢掉了管理员的手枪。
 
-dlg.all.maze_medal_checked.001,一枚奖章。绶带上写着： “克里特征服者” 。
-dlg.all.maze_medal_checked.002,如果你乐意的话，它可以在商店换取50G 。
+dlg.all.maze_medal_checked.001,一枚奖章。绶带上写着：“可以征服混沌的人”。
+dlg.all.maze_medal_checked.002,如果你乐意的话，它可以在商店换取50G。
 dlg.all.maze_medal_dropped.001,你丢掉了迷宫支配者奖章。
 dlg.all.maze_medal_dropped.002,看起来你并不是很热衷于荣誉。
 
@@ -31,15 +30,15 @@ dlg.all.health_potion_dropped.001,你丢掉了治疗药水。
 
 npc.lab.system.name,※※※
 npc.lab.unknown.name,？？？
-npc.lab.admin.name,管 理 员 
+npc.lab.admin.name,管理员
 
 dlg.lab.button.001,这里有一个按钮。
-dlg.lab.button.002,你按下了这个按钮。
-dlg.lab.button.003,没有什么变化，不过你只是莫名强烈地想到了一句话：
-dlg.lab.button.004,哦 ， 你 来 了 ， 那 你 来 右 边 的 房 间 里 找 我 吧 。
+dlg.lab.button.002,你按下了它。
+dlg.lab.button.003,电流嗡嗡作响，不知道在哪里的喇叭开始播放一段声音：
+dlg.lab.button.004,“你好，欢迎你来玩我的游戏。你可以到右边的房间里来找我。”
 
 dlg.lab.button.005,你按下了这个按钮。
-dlg.lab.button.006,什么都没有变化，你也没有想到任何东西。
+dlg.lab.button.006,没有任何变化。
 
 dlg.lab.chest1.001,箱子是空的。
 dlg.lab.chest1.002,好吧，这种事有时就是会发生。
@@ -54,15 +53,27 @@ dlg.lab.chest2.002,不过箱子终于打开了，你获得了一块专属奖章�
 dlg.lab.chest2.003,这个箱子里已经没有东西了。
 
 
-dlg.lab.admin.001,你 好 ， 玩 家 ！
-dlg.lab.admin.002,我 是 这 片 区 域 的 创 造 者 ， 你 可 以 叫 我 管 理 员 。
-dlg.lab.admin.003,你 有 玩 过 传 说 之 下 吗 ？ 我 正 在 制 作 一 个 类 似 的 游 戏 ！
-dlg.lab.admin.004,但 是 有 很 多 地 方 我 还 没 来 得 及 做 好 ，  所 以 我 们 的 形 象 都 还 暂 时 只 是 小 方 块 ！
-dlg.lab.admin.005,向 右 边 出 发 开 启 我 为 你 打 造 的 冒 险 吧 ！
-dlg.lab.admin.006,不 过 话 说 你 刚 刚 去 了 哪 里 吗 ？ 我 等 了 你 非 常 久 。 。 。
-dlg.lab.admin.007,哦 ， 我 的 电 脑 就 是 悬 浮 在 桌 子 上 面 的 ， 不 要 在 意 。 。 。
+dlg.lab.admin.001,你好，玩家。
+dlg.lab.admin.002,这个地方是我搭建的，你可以叫我管理员。
+dlg.lab.admin.003,你有玩过传说之下吗？我的游戏可能和它有点像。
+dlg.lab.admin.004,不过其实我还没做完。说实话，我遇到了一些困难。
+dlg.lab.admin.005,如果你要出发，向右边走就可以了。
+
+dlg.lab.admin.006,不过你刚刚去了哪里吗？我等了你非常久。。。
+
+dlg.lab.admin.007,你最好过段时间再来找我，我现在需要认真思考这些代码逻辑。
+dlg.lab.admin.008,你看到管理员正在焦急地等待AI的回复。
+
+dlg.lab.admin.009,哦，那是迷宫支配者勋章吗？
+dlg.lab.admin.010,我还以为没人能找得到的，那你很厉害了。
+
+dlg.lab.admin.011,你好，玩家。
+dlg.lab.admin.012,这个地方是我搭建的，你可以叫我管理员。
+dlg.lab.admin.013,你有玩过传说之下吗？我的游戏可能和它有点像。
+dlg.lab.admin.014,不过其实我还没做完。说实话，我遇到了一些困难。
+dlg.lab.admin.015,如果你要出发，向右边走就可以了。
+dlg.lab.admin.016,话说，你现在拿的是迷宫支配者勋章吗？
+dlg.lab.admin.017,我还以为没人能找得到的，那你很有实力了。
+
 
 dlg.lab.locked_door.001,这扇门锁住了，你打不开。
-
-dlg.lab.admin.008,你 为 什 么 又 回 到 这 里 了 ？
-dlg.lab.admin.009,是 我 的 冒 险 没 能 让 你 满 意 吗 ？

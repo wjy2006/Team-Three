@@ -19,6 +19,7 @@ public class TopDownMove2D : MonoBehaviour
     private void FixedUpdate()
     {
         if (!canMove) return;
+        
         if (GameRoot.I != null && GameRoot.I.InputLocked) return;
 
         Vector2 move = input != null ? input.Move : Vector2.zero;

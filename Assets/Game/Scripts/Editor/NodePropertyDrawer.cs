@@ -27,7 +27,8 @@ public class GraphDialogueNodeDrawer : PropertyDrawer
                 break;
 
             case GraphDialogueAsset.NodeType.IfBool:
-                height += Line(); // boolKey
+            case GraphDialogueAsset.NodeType.IfCondition:
+                height += Line(); // boolKey 或 condition
                 height += Line(); // trueNext
                 height += Line(); // falseNext
                 break;
@@ -81,6 +82,8 @@ public class GraphDialogueNodeDrawer : PropertyDrawer
         var nextIdProp = property.FindPropertyRelative("nextId");
 
         var boolKeyProp = property.FindPropertyRelative("boolKey");
+        var conditionProp = property.FindPropertyRelative("condition");
+
         var trueNextProp = property.FindPropertyRelative("trueNextId");
         var falseNextProp = property.FindPropertyRelative("falseNextId");
 
@@ -116,6 +119,15 @@ public class GraphDialogueNodeDrawer : PropertyDrawer
 
             case GraphDialogueAsset.NodeType.IfBool:
                 EditorGUI.PropertyField(r, boolKeyProp);
+                r.y += r.height + VERTICAL_SPACING;
+
+                EditorGUI.PropertyField(r, trueNextProp);
+                r.y += r.height + VERTICAL_SPACING;
+
+                EditorGUI.PropertyField(r, falseNextProp);
+                break;
+            case GraphDialogueAsset.NodeType.IfCondition:
+                EditorGUI.PropertyField(r, conditionProp);
                 r.y += r.height + VERTICAL_SPACING;
 
                 EditorGUI.PropertyField(r, trueNextProp);
@@ -174,7 +186,9 @@ public class GraphDialogueNodeDrawer : PropertyDrawer
                 return new Color(0.7f, 0.85f, 1f, 0.3f); // 淡蓝
 
             case GraphDialogueAsset.NodeType.IfBool:
+            case GraphDialogueAsset.NodeType.IfCondition:
                 return new Color(0.85f, 0.7f, 1f, 0.3f); // 淡紫
+
 
             case GraphDialogueAsset.NodeType.SetBool:
                 return new Color(0.7f, 1f, 0.7f, 0.3f); // 淡绿

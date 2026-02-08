@@ -20,7 +20,7 @@ MonoBehaviour:
     worldSprite: {fileID: 21300000, guid: bfe59d4b9aa98404cbbd946d75d5ee0d, type: 3}
     rotationMode: 1
     defaultAngleOffset: 0
-    holdDistance: 1
+    holdDistance: 0
     z: 0
   type: 2
   buyPrice: 2

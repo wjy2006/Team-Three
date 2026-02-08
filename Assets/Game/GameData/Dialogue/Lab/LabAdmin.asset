@@ -20,8 +20,27 @@ MonoBehaviour:
     nextId: 
     boolKey: lab.admin.met
     trueNextId: say2
-    falseNextId: say1
+    falseNextId: if condition
     boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: say2
+    type: 0
+    lines:
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.007
+    - speakerKey: npc.all.system.name
+      textKey: dlg.lab.admin.008
+    nextId: 
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    condition: {fileID: 0}
     intKey: 
     intValue: 0
     itemToGive: {fileID: 0}
@@ -45,51 +64,7 @@ MonoBehaviour:
     trueNextId: 
     falseNextId: 
     boolValue: 0
-    intKey: 
-    intValue: 0
-    itemToGive: {fileID: 0}
-    successNextId: 
-    failNextId: 
-  - id: say2
-    type: 0
-    lines:
-    - speakerKey: npc.lab.admin.name
-      textKey: dlg.lab.admin.007
-    nextId: 
-    boolKey: 
-    trueNextId: 
-    falseNextId: 
-    boolValue: 0
-    intKey: 
-    intValue: 0
-    itemToGive: {fileID: 0}
-    successNextId: 
-    failNextId: 
-  - id: Set
-    type: 2
-    lines:
-    - speakerKey: npc.lab.admin.name
-      textKey: dlg.lab.admin.006
-    nextId: if medal
-    boolKey: lab.admin.met
-    trueNextId: 
-    falseNextId: 
-    boolValue: 1
-    intKey: 
-    intValue: 0
-    itemToGive: {fileID: 0}
-    successNextId: 
-    failNextId: 
-  - id: end
-    type: 6
-    lines:
-    - speakerKey: npc.lab.admin.name
-      textKey: dlg.lab.admin.006
-    nextId: 
-    boolKey: 
-    trueNextId: 
-    falseNextId: 
-    boolValue: 0
+    condition: {fileID: 0}
     intKey: 
     intValue: 0
     itemToGive: {fileID: 0}
@@ -103,8 +78,9 @@ MonoBehaviour:
     nextId: 
     boolKey: lab.box2.given
     trueNextId: say medal
-    falseNextId: end
+    falseNextId: 
     boolValue: 0
+    condition: {fileID: 0}
     intKey: 
     intValue: 0
     itemToGive: {fileID: 0}
@@ -120,6 +96,111 @@ MonoBehaviour:
     trueNextId: say medal
     falseNextId: say1
     boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: if condition
+    type: 2
+    lines:
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.006
+    nextId: 
+    boolKey: lab.box2.given
+    trueNextId: say3
+    falseNextId: say1
+    boolValue: 0
+    condition: {fileID: 11400000, guid: aca8a7b1e5498cc42a58cba61ca99c53, type: 2}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: say3
+    type: 0
+    lines:
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.011
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.012
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.013
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.014
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.015
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.016
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.017
+    nextId: setNoCondition
+    boolKey: lab.box2.given
+    trueNextId: say3
+    falseNextId: say medal
+    boolValue: 0
+    condition: {fileID: 11400000, guid: aca8a7b1e5498cc42a58cba61ca99c53, type: 2}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: setNoCondition
+    type: 3
+    lines:
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.011
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.012
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.013
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.014
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.015
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.016
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.017
+    nextId: setend
+    boolKey: lab.medalled
+    trueNextId: say3
+    falseNextId: say medal
+    boolValue: 1
+    condition: {fileID: 11400000, guid: aca8a7b1e5498cc42a58cba61ca99c53, type: 2}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: Set
+    type: 3
+    lines:
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.006
+    nextId: if medal
+    boolKey: lab.admin.met
+    trueNextId: 
+    falseNextId: 
+    boolValue: 1
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: setend
+    type: 3
+    lines:
+    - speakerKey: npc.lab.admin.name
+      textKey: dlg.lab.admin.006
+    nextId: 
+    boolKey: lab.admin.met
+    trueNextId: 
+    falseNextId: 
+    boolValue: 1
+    condition: {fileID: 0}
     intKey: 
     intValue: 0
     itemToGive: {fileID: 0}

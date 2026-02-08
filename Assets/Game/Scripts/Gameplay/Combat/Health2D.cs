@@ -23,7 +23,7 @@ namespace Game.Gameplay.Combat
             if (info.amount <= 0) return;
             hp = Mathf.Clamp(hp - info.amount, 0, maxHp);
             OnDamaged?.Invoke(info);
-
+            GameRoot.I.Triggers.Raise(new DamagedEvent(gameObject, info));
             if (hp <= 0) Destroy(gameObject);
         }
     }

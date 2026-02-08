@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcbcc0bbca1ea3d4fb0c254dcb7174fb, type: 3}
+  m_Name: HodingMedal
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: 02673c42567b48d48980903300afb0e9, type: 2}

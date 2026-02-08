@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Game/Story/Steps/Move Transform")]
+[CreateAssetMenu(menuName = "Story/Steps/Move Transform")]
 public class MoveTransformStep : StoryStep
 {
     public Transform target;

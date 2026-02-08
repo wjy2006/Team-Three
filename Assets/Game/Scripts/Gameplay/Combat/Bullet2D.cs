@@ -175,7 +175,7 @@ namespace Game.Gameplay.Combat
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (useTriggerMode) return; // 只有非trigger子弹走这里（管理员小手枪）
+            if (useTriggerMode) return; // 只有非trigger子弹走这里（管理员的手枪）
 
             var other = collision.collider;
             if (other == null) return;

@@ -25,11 +25,12 @@ public class DialogueUI : MonoBehaviour
     private int openFrame;
 
     private Coroutine typingCo;
-    private string fullContent;       // 当前句的完整文本（已本地化）
+    private string fullContent;       // 当前句的完整文本
     private bool isTyping;            // 是否正在逐字输出
     private bool skipTypingRequested; // 是否请求“立刻显示完本句”
 
-    public event Action OnClosed;
+    public event Action OnClosed;     // 整个对话UI彻底关闭时触发
+    public event Action OnNodeEnd;   // ✅ 新增：当前节点的所有句子播完时触发
 
     public bool IsOpen { get; private set; }
 
@@ -51,20 +52,19 @@ public class DialogueUI : MonoBehaviour
 
         // ✅ 打开当帧保护
         if (Time.frameCount == openFrame) return;
-
         if (input == null) return;
 
         // ✅ 对话期间：不允许菜单键穿透
         input.ConsumeMenuDown();
 
-        // ✅ Continue：只有在“本句已打完”时才推进
+        // ✅ Continue 键逻辑
         if (input.ConsumeContinueDown())
         {
-            input.ConsumeInteractDown(); // 同帧吞掉
+            input.ConsumeInteractDown(); // 同帧吞掉交互
 
             if (isTyping)
             {
-                // ✅ Undertale风格：没打完时按 Continue 不推进、也不加速（直接无效）
+                // Undertale风格：没打完时按 Continue 不推进（如果你想按确认键也跳过文字，可以这里调 RequestSkip）
                 return;
             }
 
@@ -72,16 +72,15 @@ public class DialogueUI : MonoBehaviour
             return;
         }
 
-        // ✅ Cancel：用于“立刻显示完本句”，而不是关闭对话
+        // ✅ Cancel 键逻辑
         if (input.ConsumeCancelDown())
         {
-            input.ConsumeInteractDown(); // 同帧吞掉
+            input.ConsumeInteractDown(); // 同帧吞掉交互
 
             if (isTyping)
             {
                 RequestSkipTyping();
             }
-            // 如果已经打完，则不做任何事（Ut里也不会用X关闭对话）
             return;
         }
     }
@@ -90,16 +89,19 @@ public class DialogueUI : MonoBehaviour
     {
         if (newLines == null || newLines.Length == 0) return;
 
-        // ✅ 暂停世界
-        if (GameRoot.I != null && GameRoot.I.Pause != null)
-            GameRoot.I.Pause.PushPause("Dialogue");
+        // ✅ 只有从“完全关闭”状态进入时，才执行暂停和开启动画
+        if (!IsOpen)
+        {
+            if (GameRoot.I != null && GameRoot.I.Pause != null)
+                GameRoot.I.Pause.PushPause("Dialogue");
+            
+            dialogRoot.SetActive(true);
+            IsOpen = true;
+            openFrame = Time.frameCount;
+        }
 
         lines = newLines;
         index = 0;
-        IsOpen = true;
-        openFrame = Time.frameCount;
-
-        dialogRoot.SetActive(true);
         Show();
     }
 
@@ -108,7 +110,9 @@ public class DialogueUI : MonoBehaviour
         index++;
         if (index >= lines.Length)
         {
-            Close();
+            // ✅ 关键改动：一节话说完后，不直接 Close，而是通知 System
+            // System 会决定是给下一段对话（无缝切换）还是真的 Close
+            OnNodeEnd?.Invoke();
             return;
         }
         Show();
@@ -116,7 +120,6 @@ public class DialogueUI : MonoBehaviour
 
     void Show()
     {
-        // 停掉上一句的打字协程
         StopTypingIfNeeded();
 
         var loc = GameRoot.I != null ? GameRoot.I.Localization : null;
@@ -125,10 +128,9 @@ public class DialogueUI : MonoBehaviour
         string contentKey = lines[index].textKey;
 
         nameText.text = loc != null ? loc.Get(speaker) : speaker;
-
         fullContent = loc != null ? loc.Get(contentKey) : contentKey;
 
-        // 开始逐字
+        // 开始逐字打字
         contentText.text = "";
         isTyping = true;
         skipTypingRequested = false;
@@ -137,23 +139,19 @@ public class DialogueUI : MonoBehaviour
 
     private IEnumerator TypeLine(string text)
     {
-        if (charsPerSecond <= 0f) charsPerSecond = 9999f; // 防御：<=0 就当瞬间显示
-
+        if (charsPerSecond <= 0f) charsPerSecond = 9999f;
         float secPerChar = 1f / charsPerSecond;
 
         for (int i = 0; i < text.Length; i++)
         {
-            if (skipTypingRequested)
-                break;
+            if (skipTypingRequested) break;
 
             contentText.text += text[i];
 
-            // 标点额外停顿（可选）
             float extra = 0f;
             if (punctuationPause > 0f && IsPunctuation(text[i]))
                 extra = punctuationPause;
 
-            // 用 unscaled，避免你以后 timeScale=0 时对话不动
             float wait = secPerChar + extra;
             float t = 0f;
             while (t < wait)
@@ -164,18 +162,15 @@ public class DialogueUI : MonoBehaviour
             }
         }
 
-        // 跳过或输出完：直接显示全句
-        contentText.text = text;
-
+        contentText.text = text; // 确保结束显示完整
         isTyping = false;
         typingCo = null;
         skipTypingRequested = false;
     }
 
-    private void RequestSkipTyping()
+    public void RequestSkipTyping()
     {
         skipTypingRequested = true;
-        // 协程会在下一次循环检测到并直接显示全文
     }
 
     private void StopTypingIfNeeded()
@@ -191,21 +186,22 @@ public class DialogueUI : MonoBehaviour
 
     private bool IsPunctuation(char c)
     {
-        // 中英文常见停顿符号
         return c == '。' || c == '！' || c == '？' || c == '，' ||
                c == '、' || c == '：' || c == ';' || c == '；';
     }
 
+    // ✅ 这个方法现在由 System 真正决定何时调用
     public void Close()
     {
-        StopTypingIfNeeded();
+        if (!IsOpen) return;
 
+        StopTypingIfNeeded();
         IsOpen = false;
-        OnClosed?.Invoke();
         dialogRoot.SetActive(false);
 
-        // ✅ 恢复暂停计数
         if (GameRoot.I != null && GameRoot.I.Pause != null)
             GameRoot.I.Pause.PopPause("Dialogue");
+
+        OnClosed?.Invoke();
     }
 }

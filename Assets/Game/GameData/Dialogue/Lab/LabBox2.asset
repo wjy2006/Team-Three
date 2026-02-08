@@ -22,6 +22,7 @@ MonoBehaviour:
     trueNextId: given
     falseNextId: not given
     boolValue: 0
+    condition: {fileID: 0}
     intKey: 
     intValue: 0
     itemToGive: {fileID: 0}
@@ -37,13 +38,14 @@ MonoBehaviour:
     trueNextId: 
     falseNextId: 
     boolValue: 0
+    condition: {fileID: 0}
     intKey: 
     intValue: 0
     itemToGive: {fileID: 0}
     successNextId: 
     failNextId: 
   - id: not given
-    type: 5
+    type: 6
     lines:
     - speakerKey: npc.lab.system.name
       textKey: dlg.lab.chest2.001
@@ -54,6 +56,7 @@ MonoBehaviour:
     trueNextId: 
     falseNextId: 
     boolValue: 0
+    condition: {fileID: 0}
     intKey: 
     intValue: 0
     itemToGive: {fileID: 11400000, guid: 02673c42567b48d48980903300afb0e9, type: 2}
@@ -71,13 +74,14 @@ MonoBehaviour:
     trueNextId: 
     falseNextId: 
     boolValue: 0
+    condition: {fileID: 0}
     intKey: 
     intValue: 0
     itemToGive: {fileID: 0}
     successNextId: 
     failNextId: 
   - id: not given 3
-    type: 2
+    type: 3
     lines:
     - speakerKey: npc.lab.system.name
       textKey: dlg.lab.chest2.001
@@ -88,6 +92,7 @@ MonoBehaviour:
     trueNextId: 
     falseNextId: 
     boolValue: 1
+    condition: {fileID: 0}
     intKey: 
     intValue: 0
     itemToGive: {fileID: 0}
@@ -103,6 +108,7 @@ MonoBehaviour:
     trueNextId: 
     falseNextId: 
     boolValue: 1
+    condition: {fileID: 0}
     intKey: 
     intValue: 0
     itemToGive: {fileID: 0}

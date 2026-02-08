@@ -62,22 +62,23 @@ public class HeldItemClickUse : MonoBehaviour
             return;
 
         // ====== 1) 武器：射速/连发 ======
+        // ====== 1) 如果是武器：走射速/连发 ======
         if (item is WeaponDefinition weapon)
         {
+            // ✅ 只在“按下那一帧”触发事件（无论 Auto/SemiAuto）
+            // ClickDown 是边沿；ConsumeClickDown 会把边沿吞掉，防止同一帧多次使用
+            bool justPressedThisFrame = input.ClickDown;
+            if (justPressedThisFrame)
+                input.ConsumeClickDown(out _); // 吞掉边沿，后面不再重复用它
+
             bool wantsShoot =
                 weapon.fireMode == WeaponFireMode.Auto
                     ? input.ClickHeld
-                    : input.ClickDown; // SemiAuto：只认按下这一帧
+                    : justPressedThisFrame; // SemiAuto 只认按下那一帧
 
             if (!wantsShoot) return;
 
-            // SemiAuto：消耗 ClickDown（避免同一帧多次触发）
-            if (weapon.fireMode == WeaponFireMode.SemiAuto)
-            {
-                if (!input.ConsumeClickDown(out _)) return;
-            }
-
-            // Auto：射速控制（注意：Time.time 在暂停期间不走；这里没问题）
+            // Auto：射速控制（真正的连发仍然在这里发生）
             if (weapon.fireMode == WeaponFireMode.Auto)
             {
                 if (Time.time < nextFireTime) return;
@@ -100,9 +101,20 @@ public class HeldItemClickUse : MonoBehaviour
                 aimDir = aimDir
             };
 
+            // ✅ 实际射击（Auto 会多次走到这里，但事件不会重复发）
             weapon.Effect.Apply(ctx);
+
+            // ✅ 事件：只在“按下那一帧” Raise 一次（作为“开始使用该武器”的事实）
+            if (justPressedThisFrame && GameRoot.I != null && GameRoot.I.Triggers != null)
+            {
+                GameRoot.I.Triggers.Raise(new HeldItemUsedEvent(
+                    item: weapon
+                ));
+            }
+
             return;
         }
+
 
         // ====== 2) 非武器：点一下使用一次 ======
         if (!input.ConsumeClickDown(out _)) return;
@@ -122,6 +134,12 @@ public class HeldItemClickUse : MonoBehaviour
         };
 
         bool consume = item.Effect.Apply(ctx2);
+        if (GameRoot.I != null && GameRoot.I.Triggers != null)
+        {
+            GameRoot.I.Triggers.Raise(new HeldItemUsedEvent(
+                item: item
+            ));
+        }
 
         if (consume)
         {

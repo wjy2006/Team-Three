@@ -46,6 +46,7 @@ namespace Game.Gameplay.Player
 
             OnDamaged?.Invoke(info);     // ⭐ 把完整 info 传出去
             OnStatsChanged?.Invoke();
+            GameRoot.I.Triggers.Raise(new DamagedEvent(gameObject, info));
 
             if (hp <= 0)
             {

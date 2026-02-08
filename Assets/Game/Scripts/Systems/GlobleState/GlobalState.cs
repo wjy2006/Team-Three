@@ -31,4 +31,22 @@ public class GlobalState
 
     public void SetString(string key, string value)
         => strings[key] = value;
+
+    // ===== Utility =====
+    public bool HasKey(string key)
+        => bools.ContainsKey(key) || ints.ContainsKey(key) || strings.ContainsKey(key);
+
+    public void Clear(string key)
+    {
+        bools.Remove(key);
+        ints.Remove(key);
+        strings.Remove(key);
+    }
+
+    public void ClearAll()
+    {
+        bools.Clear();
+        ints.Clear();
+        strings.Clear();
+    }
 }

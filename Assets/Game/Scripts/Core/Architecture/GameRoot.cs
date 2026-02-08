@@ -17,19 +17,20 @@ public class GameRoot : MonoBehaviour
     public HeldItem playerHeldItem;
 
     [Header("Systems (Boot Scene children)")]
-    [SerializeField] private StoryBlackboard blackboard;
     [SerializeField] private StoryManager storyManager;
     [SerializeField] private LocalizationService localization;
     [SerializeField] private DialogueSystem dialogue;
     [SerializeField] private PauseManager pause;
-
+    [SerializeField] private TriggerManager triggerManager;
     [Header("Runtime (auto found)")]
     [SerializeField] private GameObject player;
+    
+    public TriggerManager Triggers => triggerManager;
+
 
     public PlayerInteractor PlayerInteractor { get; private set; }
 
     // 对外暴露（统一口径）
-    public StoryBlackboard Blackboard => blackboard;
     public StoryManager Story => storyManager;
     public LocalizationService Localization => localization;
     public DialogueSystem Dialogue => dialogue;
@@ -48,14 +49,19 @@ public class GameRoot : MonoBehaviour
             return;
         }
         I = this;
-        DontDestroyOnLoad(gameObject);
+        Debug.Log($"[GameRoot] Awake id={gameObject.GetInstanceID()} scene={gameObject.scene.name}");
+
+        if (transform.parent == null && gameObject.scene.name != "DontDestroyOnLoad")
+        {
+            DontDestroyOnLoad(gameObject);
+        }
 
         // ✅ Boot 内系统：优先用 Inspector 绑定；没绑就从子物体里找
         if (localization == null) localization = GetComponentInChildren<LocalizationService>(true);
         if (dialogue == null) dialogue = GetComponentInChildren<DialogueSystem>(true);
         if (pause == null) pause = GetComponentInChildren<PauseManager>(true);
-        if (blackboard == null) blackboard = GetComponentInChildren<StoryBlackboard>(true);
         if (storyManager == null) storyManager = GetComponentInChildren<StoryManager>(true);
+        if (triggerManager == null) triggerManager = GetComponentInChildren<TriggerManager>(true);
 
         // 玩家/相机等运行时对象：第一次抓取
         RefreshRuntimeRefs();
@@ -167,11 +173,7 @@ public class GameRoot : MonoBehaviour
 
         // 过场期间：锁输入/锁移动
         SetInputLocked(true);
-        SetMoveLocked(true);
-
-        // 过场期间：也建议暂停世界（如果你希望切场景时世界也冻结）
-        // 如果你不想切场景时暂停，把这一段删掉
-        //if (Pause != null) Pause.PushPause("Transition");
+        //SetMoveLocked(true);
 
         try
         {
@@ -210,11 +212,14 @@ public class GameRoot : MonoBehaviour
         {
             SceneTransfer.NextSpawnId = null;
 
-            if (Pause != null) Pause.PopPause("Transition");
-
             SetInputLocked(false);
-            SetMoveLocked(false);
+            //SetMoveLocked(false);
             IsTransitioning = false;
+            Triggers.Raise(new SceneEnteredEvent());
         }
+    }
+    private void OnApplicationQuit()
+    {
+        I = null;
     }
 }
