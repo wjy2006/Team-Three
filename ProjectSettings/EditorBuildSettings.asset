@@ -1,35 +1,13 @@
 %YAML 1.1
-%TAG !u! tag:yousandi.cn,2023:
+%TAG !u! tag:unity3d.com,2011:
 --- !u!1045 &1
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Game/Scenes/Boot.scene
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/Game/Scenes/Room_Lab_PlayerHouse.scene
-    guid: 26bc7cec5ee39704a8593ac4596d5280
-  - enabled: 1
-    path: Assets/Game/Scenes/Room_Lab_Signboard.scene
-    guid: 3b40bfb9eebbf4f4d9cf5db4f0f8a6cc
-  - enabled: 1
-    path: Assets/Game/Scenes/Room_Lab_Admin'sRoom.scene
-    guid: b94992dd6e8d7ef418fc3811c87833a6
-  - enabled: 1
-    path: Assets/Game/Scenes/Room_Lab_Box1.scene
-    guid: 3531e905aa70160418f1dc356f35edea
-  m_BuildProfiles: []
+    path: Assets/Scenes/SampleScene.unity
+    guid: 8c9cfa26abfee488c85f1582747f6a02
   m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 668b30f8043be5441a5b1f86906f1d52, type: 3}
-  m_SlimFeaturesWeixinMiniGame:
-    ACLDecompression: 0
-    AllocateOverhead: 1
-    DecompressASTC: 0
-    DecompressDXT: 0
-    DecompressETC: 1
-    FreeTypeSfntPng: 1
-    LightProbe: 2
-    RootMotion: 0
-    UseStringInternPool: 2
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  m_UseUCBPForAssetBundles: 0

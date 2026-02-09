@@ -1,14 +1,14 @@
 %YAML 1.1
-%TAG !u! tag:yousandi.cn,2023:
+%TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
+  serializedVersion: 3
   tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - CameraBounds
+  - CameraBound
   - Water
   - UI
   - Player
@@ -42,11 +42,13 @@ TagManager:
     uniqueID: 0
     locked: 0
   - name: Player
-    uniqueID: 4085313543
+    uniqueID: 2146856959
     locked: 0
   - name: Items
-    uniqueID: 1896422589
+    uniqueID: 1584434363
     locked: 0
   - name: UI
-    uniqueID: 1586730333
+    uniqueID: 2091098509
     locked: 0
+  m_RenderingLayers:
+  - Default

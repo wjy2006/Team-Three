@@ -48,7 +48,7 @@ namespace Game.Systems.Items
                 else
                 {
                     // 兜底：没有 Bullet2D 组件就直接给速度
-                    if (go.TryGetComponent<Rigidbody2D>(out var rb)) rb.velocity = dir * weapon.bulletSpeed;
+                    if (go.TryGetComponent<Rigidbody2D>(out var rb)) rb.linearVelocity = dir * weapon.bulletSpeed;
                 }
 
             }

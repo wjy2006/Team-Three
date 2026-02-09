@@ -20,7 +20,7 @@ public class CameraSceneBinder : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // 1) 找到关卡场景里的 LevelCameraSettings（如果没有就不改）
-        var settings = FindObjectOfType<LevelCameraSettings>(true);
+        var settings = FindAnyObjectByType<LevelCameraSettings>();
         if (settings != null)
         {
             follow.followMode = settings.defaultMode;

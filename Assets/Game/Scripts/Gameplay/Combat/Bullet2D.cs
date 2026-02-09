@@ -74,7 +74,7 @@ namespace Game.Gameplay.Combat
             armUntil = Time.time + 0.05f;
 
             dir = dir.sqrMagnitude < 0.0001f ? Vector2.right : dir.normalized;
-            rb.velocity = dir * speed;
+            rb.linearVelocity = dir * speed;
 
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, angle);
@@ -89,8 +89,8 @@ namespace Game.Gameplay.Combat
             {
                 if (!frozen && rb != null)
                 {
-                    savedVelocity = rb.velocity;
-                    rb.velocity = Vector2.zero;
+                    savedVelocity = rb.linearVelocity;
+                    rb.linearVelocity = Vector2.zero;
                     rb.simulated = false; // 彻底停物理
                     frozen = true;
                 }
@@ -100,7 +100,7 @@ namespace Game.Gameplay.Combat
             {
                 // 恢复
                 rb.simulated = true;
-                rb.velocity = savedVelocity;
+                rb.linearVelocity = savedVelocity;
                 frozen = false;
             }
 
@@ -198,7 +198,7 @@ namespace Game.Gameplay.Combat
                     amount = damage,
                     source = owner,
                     hitPoint = hitPoint,
-                    direction = rb != null && rb.velocity.sqrMagnitude > 0.0001f ? rb.velocity.normalized : Vector2.zero,
+                    direction = rb != null && rb.linearVelocity.sqrMagnitude > 0.0001f ? rb.linearVelocity.normalized : Vector2.zero,
                     kind = "bullet"
                 };
 
@@ -224,7 +224,7 @@ namespace Game.Gameplay.Combat
                     amount = damage,
                     source = owner,
                     hitPoint = hitPoint,
-                    direction = rb != null && rb.velocity.sqrMagnitude > 0.0001f ? rb.velocity.normalized : Vector2.zero,
+                    direction = rb != null && rb.linearVelocity.sqrMagnitude > 0.0001f ? rb.linearVelocity.normalized : Vector2.zero,
                     kind = "bullet"
                 };
                 damageable.TakeDamage(info);
