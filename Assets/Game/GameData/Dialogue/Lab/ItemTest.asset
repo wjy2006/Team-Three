@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdf6184cac687f24c97ddb55fc97b76a, type: 3}
+  m_Name: ItemTest
+  m_EditorClassIdentifier: Assembly-CSharp::GraphDialogueAsset
+  startNodeId: start
+  nodes:
+  - id: start
+    type: 6
+    lines: []
+    nextId: 
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: 1336b23204492904b9398c4c019650d6, type: 2}
+    successNextId: 2
+    failNextId: 
+  - id: 2
+    type: 6
+    lines: []
+    nextId: 
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: b3387b417fcf8d94c9f1036366426ea4, type: 2}
+    successNextId: 3
+    failNextId: 
+  - id: 3
+    type: 6
+    lines: []
+    nextId: 
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: 1d7aba94f8b9ae74b8d9392b717d0511, type: 2}
+    successNextId: 4
+    failNextId: 
+  - id: 4
+    type: 6
+    lines: []
+    nextId: 
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: d030ccfcca6703d449ede59dea304013, type: 2}
+    successNextId: 5
+    failNextId: 

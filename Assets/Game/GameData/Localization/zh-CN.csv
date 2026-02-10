@@ -19,6 +19,9 @@ dlg.all.StG44_dropped.001,你丢掉了突击步枪。可能是因为它太重了
 dlg.all.admin's_pistol_checked.001,一把让人费解的小手枪。之前属于管理员。
 dlg.all.admin's_pistol_dropped.001,因为某些原因，你丢掉了管理员的手枪。
 
+dlg.all.missile_launcher_checked.001,导弹的发射器。简单且强大。
+dlg.all.missile_launcher_dropped.001,你丢掉了简单且强大的导弹发射器。
+
 dlg.all.maze_medal_checked.001,一枚奖章。绶带上写着：“可以征服混沌的人”。
 dlg.all.maze_medal_checked.002,如果你乐意的话，它可以在商店换取50G。
 dlg.all.maze_medal_dropped.001,你丢掉了迷宫支配者奖章。
@@ -27,10 +30,14 @@ dlg.all.maze_medal_dropped.002,看起来你并不是很热衷于荣誉。
 dlg.all.health_potion_checked.001,平平无奇的治疗药水。一次回复20HP。
 dlg.all.health_potion_dropped.001,你丢掉了治疗药水。
 
+dlg.all.key_checked.001,一把钥匙，用于打开对应的门。
+dlg.all.key_dropped.001,某种力量阻止着你丢掉这把钥匙。
+
 
 npc.lab.system.name,※※※
 npc.lab.unknown.name,？？？
 npc.lab.admin.name,管理员
+npc.lab.guide.name,向导
 
 dlg.lab.button.001,这里有一个按钮。
 dlg.lab.button.002,你按下了它。
@@ -55,8 +62,8 @@ dlg.lab.chest2.003,这个箱子里已经没有东西了。
 
 dlg.lab.admin.001,你好，玩家。
 dlg.lab.admin.002,这个地方是我搭建的，你可以叫我管理员。
-dlg.lab.admin.003,你有玩过传说之下吗？我的游戏可能和它有点像。
-dlg.lab.admin.004,不过其实我还没做完。说实话，我遇到了一些困难。
+dlg.lab.admin.003,我为你准备了一段探险旅程。
+dlg.lab.admin.004,不过其实我还没做完。我遇到了一些困难。
 dlg.lab.admin.005,如果你要出发，向右边走就可以了。
 
 dlg.lab.admin.006,不过你刚刚去了哪里吗？我等了你非常久。。。
@@ -69,11 +76,25 @@ dlg.lab.admin.010,我还以为没人能找得到的，那你很厉害了。
 
 dlg.lab.admin.011,你好，玩家。
 dlg.lab.admin.012,这个地方是我搭建的，你可以叫我管理员。
-dlg.lab.admin.013,你有玩过传说之下吗？我的游戏可能和它有点像。
-dlg.lab.admin.014,不过其实我还没做完。说实话，我遇到了一些困难。
+dlg.lab.admin.013,我为你准备了一段探险旅程。
+dlg.lab.admin.014,不过其实我还没做完。我遇到了一些困难。
 dlg.lab.admin.015,如果你要出发，向右边走就可以了。
 dlg.lab.admin.016,话说，你现在拿的是迷宫支配者勋章吗？
 dlg.lab.admin.017,我还以为没人能找得到的，那你很有实力了。
 
+dlg.lab.admin.018,你好。
+dlg.lab.admin.019,你为什么回来了？
 
-dlg.lab.locked_door.001,这扇门锁住了，你打不开。
+
+dlg.lab.locked_door.001,这扇门没有锁，但是被某种力量封印了，你打不开。
+dlg.lab.locked_door.002,这扇门被锁住了，你需要持有对应的钥匙才能打开。
+
+
+dlg.lab.guide.001,嗨！你是玩家，对吧。
+dlg.lab.guide.002,我是这里的向导，我来介绍一下这边的项目。
+dlg.lab.guide.003,。 。 。 。 。 。 。 。 。 。 。 。 。 。 。 。 。 。 。 。
+dlg.lab.guide.004,好吧实际上我是第一天来上班，我也不知道这边有什么。
+dlg.lab.guide.005,不过反正你是玩家，应该可以随便存读档，自己慢慢摸索也可以。 。 。 。
+dlg.lab.guide.006,然后管理员让我把这个钥匙给你，应该能用来开右下方的门。
+
+

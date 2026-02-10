@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdf6184cac687f24c97ddb55fc97b76a, type: 3}
+  m_Name: LabGuide
+  m_EditorClassIdentifier: Assembly-CSharp::GraphDialogueAsset
+  startNodeId: start
+  nodes:
+  - id: start
+    type: 0
+    lines:
+    - speakerKey: npc.lab.unknown.name
+      textKey: dlg.lab.guide.001
+    - speakerKey: npc.lab.guide.name
+      textKey: dlg.lab.guide.002
+    - speakerKey: npc.lab.guide.name
+      textKey: dlg.lab.guide.003
+    - speakerKey: npc.lab.guide.name
+      textKey: dlg.lab.guide.004
+    - speakerKey: npc.lab.guide.name
+      textKey: dlg.lab.guide.005
+    - speakerKey: npc.lab.guide.name
+      textKey: dlg.lab.guide.006
+    nextId: give item
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: give item
+    type: 6
+    lines:
+    - speakerKey: npc.lab.unknown.name
+      textKey: dlg.lab.guide.001
+    - speakerKey: npc.lab.guide.name
+      textKey: dlg.lab.guide.002
+    - speakerKey: npc.lab.guide.name
+      textKey: dlg.lab.guide.003
+    - speakerKey: npc.lab.guide.name
+      textKey: dlg.lab.guide.004
+    - speakerKey: npc.lab.guide.name
+      textKey: dlg.lab.guide.005
+    - speakerKey: npc.lab.guide.name
+      textKey: dlg.lab.guide.006
+    nextId: giveItem
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: 7d2df312a28cb334194f795dae791362, type: 2}
+    successNextId: 
+    failNextId: 

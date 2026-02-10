@@ -1,5 +1,5 @@
 %YAML 1.1
-%TAG !u! tag:yousandi.cn,2023:
+%TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "Admin\u2018sPistol"
   m_EditorClassIdentifier: 
   itemId: 2131
-  displayName: "\u7BA1\u7406\u5458\u5C0F\u624B\u67AA"
+  displayName: "\u7BA1\u7406\u5458\u7684\u624B\u67AA"
   infoDialogue: {fileID: 11400000, guid: b45995e533725bb419fc01560d311233, type: 2}
   dropDialogue: {fileID: 11400000, guid: 1ee051f8a1bf5a2488fbe14233c9e9df, type: 2}
   visual:

@@ -4542,7 +4542,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 3
+  m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -4793,8 +4793,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1586730333
-  m_SortingLayer: 0
+  m_SortingLayerID: 2091098509
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: aca078a0c6a6a2145b5e9037ca891d05, type: 3}
@@ -5161,8 +5161,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1586730333
-  m_SortingLayer: 0
+  m_SortingLayerID: 2091098509
+  m_SortingLayer: 3
   m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: b038bdc93ff87d04ba3b3db4479835c2, type: 3}
@@ -5244,7 +5244,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 12
+  acceleration: 80
+  deceleration: 50
   canMove: 1
+  maxTotalSpeed: 20
 --- !u!1 &4455213691704363990
 GameObject:
   m_ObjectHideFlags: 0
@@ -5270,6 +5273,7 @@ GameObject:
   - component: {fileID: 8435163443797893742}
   - component: {fileID: 8435163443797893744}
   - component: {fileID: 8435163443797893743}
+  - component: {fileID: 8435163443797893745}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -5360,8 +5364,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1586730333
-  m_SortingLayer: 0
+  m_SortingLayerID: 2091098509
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 6522fba4131154c4c8b069fcff8e5439, type: 3}
@@ -5931,8 +5935,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a484574f22ba3f64eb2bcc2b3406d62f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 20
-  hp: 20
+  maxHp: 20000
+  hp: 20000
   money: 0
 --- !u!114 &8435163443797893740
 MonoBehaviour:
@@ -6015,6 +6019,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 10
   hp: 10
+--- !u!114 &8435163443797893745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4455213691704363990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3ad4bfd1fe9fd74cae33248a1a28e5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Gameplay.Combat.KnockbackReceiver
+  rb: {fileID: 1863127080685435098}
+  massScale: 1
 --- !u!1 &8435290066099516638
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,6 +17,7 @@ namespace Game.Systems.Items
         public int pellets = 1;              // 霰弹枪：>1
         public float recoil = 0f;            // 后坐力（先占位）
 
+
         public WeaponFireMode fireMode = WeaponFireMode.Auto;
         [Header("Bullet Params")]
         public float damage = 1f;

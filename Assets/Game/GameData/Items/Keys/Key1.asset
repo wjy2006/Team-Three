@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d12c48b1e997b49ba903c282467dbc, type: 3}
+  m_Name: Key1
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.Items.ItemDefinition
+  itemId: lab.key.bottomright
+  displayName: "\u94A5\u5319"
+  infoDialogue: {fileID: 11400000, guid: 1110cce94599d6e49a51287c8370f315, type: 2}
+  dropDialogue: {fileID: 11400000, guid: f98e4fdfaca3ba94bb83c7d30ce06e19, type: 2}
+  visual:
+    worldSprite: {fileID: 0}
+    rotationMode: 1
+    defaultAngleOffset: 0
+    holdDistance: 0
+    z: 0
+  type: 2
+  buyPrice: 0
+  sellPrice: 0
+  effect: {fileID: 11400000, guid: 214413aa910766d41a26a43862744aff, type: 2}

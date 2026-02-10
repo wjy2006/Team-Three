@@ -210,14 +210,14 @@ namespace Game.UI.Menu
 
                         if (item != null)
                         {
-                            // ✅ 先从背包移除
-                            inventory.RemoveAt(selectedIndex);
-
                             // ✅ 丢弃提示：优先 dropDialogue，否则默认句
                             if (item.dropDialogue != null)
                                 OpenDialogueAsset(item.dropDialogue);
                             else
                                 OpenOneLine("npc.all.unknown.name", "dlg.all.default_dropped");
+
+                            if (inventory.GetAt(selectedIndex).Type==ItemType.Key) return;
+                            inventory.RemoveAt(selectedIndex);
                         }
                         else
                             OpenDialogueAsset(EmptyDropped);

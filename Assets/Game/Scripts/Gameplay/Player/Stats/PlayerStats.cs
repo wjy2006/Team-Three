@@ -43,6 +43,11 @@ namespace Game.Gameplay.Player
 
             hp -= amount;
             hp = Mathf.Clamp(hp, 0, maxHp);
+            var knock = GetComponent<KnockbackReceiver>();
+            if (knock != null)
+            {
+                knock.ApplyKnockback(info.direction, info.knockbackForce);
+            }
 
             OnDamaged?.Invoke(info);     // ⭐ 把完整 info 传出去
             OnStatsChanged?.Invoke();

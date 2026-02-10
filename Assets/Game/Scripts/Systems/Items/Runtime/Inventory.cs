@@ -77,6 +77,31 @@ namespace Game.Systems.Items
             OnChanged?.Invoke();
             return true;
         }
+        public bool Contains(ItemDefinition item)
+        {
+            if (item == null) return false;
+            for (int i = 0; i < Capacity; i++)
+            {
+                if (GetAt(i) == item) return true;
+            }
+            return false;
+        }
+
+        public bool RemoveOne(ItemDefinition item)
+        {
+            if (item == null) return false;
+            for (int i = 0; i < Capacity; i++)
+            {
+                if (GetAt(i) == item)
+                {
+                    RemoveAt(i);
+                    OnChanged?.Invoke();
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         private bool IsValidIndex(int index) => index >= 0 && index < slots.Length;
     }

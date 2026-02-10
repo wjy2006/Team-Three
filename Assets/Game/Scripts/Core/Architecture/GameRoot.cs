@@ -24,7 +24,7 @@ public class GameRoot : MonoBehaviour
     [SerializeField] private TriggerManager triggerManager;
     [Header("Runtime (auto found)")]
     [SerializeField] private GameObject player;
-    
+
     public TriggerManager Triggers => triggerManager;
 
 
@@ -41,6 +41,7 @@ public class GameRoot : MonoBehaviour
     public bool InputLocked { get; private set; }
     public bool IsTransitioning { get; private set; }
 
+
     private void Awake()
     {
         if (I != null && I != this)
@@ -49,12 +50,6 @@ public class GameRoot : MonoBehaviour
             return;
         }
         I = this;
-        Debug.Log($"[GameRoot] Awake id={gameObject.GetInstanceID()} scene={gameObject.scene.name}");
-
-        if (transform.parent == null && gameObject.scene.name != "DontDestroyOnLoad")
-        {
-            DontDestroyOnLoad(gameObject);
-        }
 
         // ✅ Boot 内系统：优先用 Inspector 绑定；没绑就从子物体里找
         if (localization == null) localization = GetComponentInChildren<LocalizationService>(true);
@@ -62,7 +57,7 @@ public class GameRoot : MonoBehaviour
         if (pause == null) pause = GetComponentInChildren<PauseManager>(true);
         if (storyManager == null) storyManager = GetComponentInChildren<StoryManager>(true);
         if (triggerManager == null) triggerManager = GetComponentInChildren<TriggerManager>(true);
-
+        DontDestroyOnLoad(gameObject);
         // 玩家/相机等运行时对象：第一次抓取
         RefreshRuntimeRefs();
 

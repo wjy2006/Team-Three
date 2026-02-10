@@ -21,6 +21,22 @@ namespace Game.Gameplay.Combat
         public float explodeVfxLife = 1.0f; // 自动销毁特效
         private Vector2 savedVelocity;
         private bool frozen;
+        [Header("Explosion Damage")]
+        public bool explodeOnHit = false;          // 普通子弹可以关，导弹打开
+        public float explosionRadius = 2.0f;
+        public float explosionDamage = 6f;
+        public bool explosionIgnoresTriggers = true;
+        [Header("Knockback")]
+        public float hitKnockbackForce = 4f;         // A：直击击退
+        public float explosionKnockbackForce = 8f;    // B：爆炸击退
+        [Header("Anti-Clip")]
+        public bool explodeIfStuckInside = true;
+
+
+
+        // 复用 Overlap 数组，避免GC
+        private readonly Collider2D[] overlap = new Collider2D[32];
+
 
 
 
@@ -49,9 +65,10 @@ namespace Game.Gameplay.Combat
             rb.interpolation = RigidbodyInterpolation2D.Interpolate;
 
             // ✅ 优化 1: 使用 LayerMask，不再检测 Everything
-            // 如果你在 Inspector 没设置 LayerMask (值为0)，为了防止无效，默认还是 Everything，但建议你去设置！
-            filter = new ContactFilter2D();
-            filter.useTriggers = true;
+            filter = new ContactFilter2D
+            {
+                useTriggers = true
+            };
             if (hitLayer.value != 0)
             {
                 filter.useLayerMask = true;
@@ -112,6 +129,12 @@ namespace Game.Gameplay.Combat
         private void FixedUpdate()
         {
             if (!useTriggerMode) return;
+            if (explodeIfStuckInside)
+            {
+                if (CheckStuckAndExplode())
+                    return;
+            }
+
 
             Vector2 currentPos = rb.position;
             Vector2 delta = currentPos - lastPos;
@@ -192,20 +215,22 @@ namespace Game.Gameplay.Combat
             if (other.TryGetComponent<IDamageable>(out var damageable))
             {
                 Vector2 hitPoint = collision.GetContact(0).point;
+                Vector2 dir = rb != null && rb.linearVelocity.sqrMagnitude > 0.0001f ? rb.linearVelocity.normalized : Vector2.zero;
 
-                var info = new DamageInfo
-                {
-                    amount = damage,
-                    source = owner,
-                    hitPoint = hitPoint,
-                    direction = rb != null && rb.linearVelocity.sqrMagnitude > 0.0001f ? rb.linearVelocity.normalized : Vector2.zero,
-                    kind = "bullet"
-                };
+                var info = MakeDamageInfo(
+                    amount: damage,
+                    hitPoint: hitPoint,
+                    direction: dir,
+                    kind: "bullet",
+                    knockbackForce: hitKnockbackForce,
+                    kbKind: KnockbackKind.Hit
+                );
 
                 damageable.TakeDamage(info);
                 SpawnExplosionVfx(hitPoint);
                 Destroy(gameObject);
                 return;
+
             }
 
             // 撞到触发器：一般不处理（不过 collision 里通常不会是 trigger）
@@ -219,17 +244,22 @@ namespace Game.Gameplay.Combat
             if (other.TryGetComponent<IDamageable>(out var damageable))
             {
 
-                var info = new DamageInfo
-                {
-                    amount = damage,
-                    source = owner,
-                    hitPoint = hitPoint,
-                    direction = rb != null && rb.linearVelocity.sqrMagnitude > 0.0001f ? rb.linearVelocity.normalized : Vector2.zero,
-                    kind = "bullet"
-                };
+                Vector2 dir = rb != null && rb.linearVelocity.sqrMagnitude > 0.0001f ? rb.linearVelocity.normalized : Vector2.zero;
+
+                var info = MakeDamageInfo(
+                    amount: damage,
+                    hitPoint: hitPoint,
+                    direction: dir,
+                    kind: "bullet",
+                    knockbackForce: hitKnockbackForce,
+                    kbKind: KnockbackKind.Hit
+                );
+
                 damageable.TakeDamage(info);
+                Explode(hitPoint);
                 Destroy(gameObject);
                 return;
+
             }
 
             // ✅ 关键 Debug: 如果是 Trigger，我们忽略它（比如空气墙、敌人的检测范围）
@@ -238,7 +268,7 @@ namespace Game.Gameplay.Combat
                 // 如果你想要子弹穿过触发器，这里直接 return，不要销毁
                 return;
             }
-            SpawnExplosionVfx(hitPoint);
+            Explode(hitPoint);
             Destroy(gameObject);
         }
         private void SpawnExplosionVfx(Vector2 hitPoint)
@@ -250,6 +280,117 @@ namespace Game.Gameplay.Combat
             if (explodeVfxLife > 0f)
                 Destroy(vfx, explodeVfxLife);
         }
+        private void Explode(Vector2 center)
+        {
+            // 1) VFX
+            SpawnExplosionVfx(center);
+
+            // 2) AOE 伤害（可选开关）
+            if (!explodeOnHit) return;
+
+            // Physics2D.OverlapCircle + ContactFilter2D（沿用你已有 filter/hitLayer）
+            int count = Physics2D.OverlapCircle(center, explosionRadius, filter, overlap);
+
+            for (int i = 0; i < count; i++)
+            {
+                var c = overlap[i];
+                if (c == null) continue;
+
+                if (explosionIgnoresTriggers && c.isTrigger) continue;
+
+                // ✅ 自伤/友伤：不做任何阵营过滤
+                if (c.TryGetComponent<IDamageable>(out var dmg))
+                {
+                    Vector2 toTarget = (Vector2)c.transform.position - center;
+                    float dist = toTarget.magnitude;
+
+                    // 方向
+                    Vector2 dir = dist < 0.0001f ? Vector2.up : (toTarget / dist);
+
+                    // 距离衰减（线性）：0 距离=1，边缘=0.5
+                    float t = Mathf.Clamp01(dist / explosionRadius);
+                    float falloff = 1f - 0.5f*t;
+
+
+                    // 最终击退力度
+                    float kb = explosionKnockbackForce * falloff;
+
+                    var info = MakeDamageInfo(
+                        amount: explosionDamage,
+                        hitPoint: center,
+                        direction: dir,
+                        kind: "explosion",
+                        knockbackForce: kb,
+                        kbKind: KnockbackKind.Explosion
+                    );
+
+                    dmg.TakeDamage(info);
+
+
+                }
+            }
+        }
+        private DamageInfo MakeDamageInfo(float amount, Vector2 hitPoint, Vector2 direction, string kind, float knockbackForce, KnockbackKind kbKind)
+        {
+            return new DamageInfo
+            {
+                amount = amount,
+                source = owner,
+                hitPoint = hitPoint,
+                direction = direction,
+                knockbackForce = knockbackForce,
+                knockbackKind = kbKind,
+                kind = kind
+            };
+        }
+        private bool CheckStuckAndExplode()
+        {
+            // 只在 Trigger 子弹里用（你这套逻辑就是给 Trigger 防穿模的）
+            if (!useTriggerMode) return false;
+
+            // 出生保护：避免枪口在自己 collider 里导致立刻爆
+            if (Time.time < armUntil) return false;
+
+            // 用当前 collider 检测重叠
+            int count = col.Overlap(filter, overlap);
+            if (count <= 0) return false;
+
+            // 选一个“最合理”的重叠对象作为爆炸参考点
+            Collider2D best = null;
+
+            for (int i = 0; i < count; i++)
+            {
+                var c = overlap[i];
+                if (c == null) continue;
+
+                // 你仍然允许自伤，但这里是“出生保护后”
+                // 若你真的希望“卡在自己身上也爆”，可以删掉这个判断
+                if (owner != null && c.transform.root == owner.transform.root)
+                    continue;
+
+                // 如果你希望忽略 trigger（比如检测范围），保留这行
+                if (c.isTrigger) continue;
+
+                best = c;
+                break;
+            }
+
+            if (best == null) return false;
+
+            // 把子弹“拉回”一个更合理的爆炸点：重叠物体到子弹位置的最近点
+            Vector2 center = rb.position;
+            Vector2 snapPoint = best.ClosestPoint(center);
+
+            rb.position = snapPoint; // 让 VFX/爆炸中心更贴墙
+
+            if (enableDebugLog)
+                Debug.Log($"[Bullet2D] {name} stuck inside {best.name}, explode immediately.");
+
+            Explode(snapPoint);
+            Destroy(gameObject);
+            return true;
+        }
 
     }
+
 }

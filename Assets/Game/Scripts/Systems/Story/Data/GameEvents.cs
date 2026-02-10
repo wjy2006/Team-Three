@@ -55,4 +55,16 @@ public sealed class SceneEnteredEvent : GameEvent
 {
     // 空事件，仅表示：当前场景刚刚进入
 }
+public class EnterTriggerEvent : GameEvent
+{
+    public GameObject player;
+    public string triggerId;
+
+    public EnterTriggerEvent(GameObject player, string id)
+    {
+        this.player = player;
+        this.triggerId = id;
+    }
+}
+
 
