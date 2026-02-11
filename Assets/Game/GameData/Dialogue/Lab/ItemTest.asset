@@ -70,3 +70,17 @@ MonoBehaviour:
     itemToGive: {fileID: 11400000, guid: d030ccfcca6703d449ede59dea304013, type: 2}
     successNextId: 5
     failNextId: 
+  - id: 5
+    type: 6
+    lines: []
+    nextId: 
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: 9b5b1f080b8ea1849ae58fb8d2ca19df, type: 2}
+    successNextId: 
+    failNextId: 

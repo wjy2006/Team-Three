@@ -185,8 +185,8 @@ MonoBehaviour:
     m_Bits: 448
   rb: {fileID: 2424135867240638100}
   col: {fileID: 6944757721946120416}
-  explodeVfxPrefab: {fileID: 0}
-  explodeVfxLife: 0
+  explodeVfxPrefab: {fileID: 4654689835247661470, guid: 75e6aaf7b488f154b920f1389e84936f, type: 3}
+  explodeVfxLife: 2
   explodeOnHit: 0
   explosionRadius: 0
   explosionDamage: 0

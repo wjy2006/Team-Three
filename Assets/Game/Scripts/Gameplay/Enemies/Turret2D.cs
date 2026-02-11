@@ -27,6 +27,10 @@ namespace Game.Gameplay.Combat.Enemies
         public LayerMask lineOfSightMask;        // 视线遮挡（可不设，后面再做）
 
         private float nextFireTime;
+        [Header("GlobalState Control")]
+        [Tooltip("为空则不受GlobalState控制；否则只有当这个bool为true时才开火")]
+        public string disableStateKey;
+
 
         private void Awake()
         {
@@ -45,6 +49,14 @@ namespace Game.Gameplay.Combat.Enemies
         private void Update()
         {
             if (target == null) return;
+            if (!string.IsNullOrEmpty(disableStateKey))
+            {
+                if (GameRoot.I == null || GameRoot.I.Global == null)
+                    return;
+
+                if (GameRoot.I.Global.GetBool(disableStateKey))
+                    return; // 没开启，不开火
+            }
 
             Vector2 from = muzzle.position;
             Vector2 to = target.position;

@@ -200,6 +200,15 @@ public class GameRoot : MonoBehaviour
 
             ApplyLevelCameraSettings();
             if (cameraFollow != null) cameraFollow.SnapToTarget();
+            if (player != null)
+            {
+                var stats = player.GetComponent<PlayerStats>();
+                if (stats != null && stats.IsDead)
+                {
+                    stats.ReviveToFull();
+                }
+                I.Triggers.Raise(new DeathEvent());
+            }
 
             if (fade != null) yield return fade.FadeIn(fadeInTime);
         }

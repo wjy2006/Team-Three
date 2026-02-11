@@ -66,5 +66,9 @@ public class EnterTriggerEvent : GameEvent
         this.triggerId = id;
     }
 }
+public class DeathEvent : GameEvent
+{
+    
+}
 
 

@@ -2660,8 +2660,8 @@ MonoBehaviour:
   z: -5
   showTime: 5
   fadeDuration: 3
-  lagCatchupSpeed: 0.2
   lagDelay: 0.2
+  lagCatchupDuration: 0.6
 --- !u!114 &1849568100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2674,8 +2674,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4cbbc22253032845a87a0258bbad5a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 10
-  hp: 10
+  maxHp: 1e+9
+  hp: 1e+9
 --- !u!114 &1849568101
 MonoBehaviour:
   m_ObjectHideFlags: 0

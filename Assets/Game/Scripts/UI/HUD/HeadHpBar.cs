@@ -21,8 +21,11 @@ namespace Game.UI
         [SerializeField] private float fadeDuration = 3; // 淡出时长
 
         [Header("Lag (gray bar)")]
-        [SerializeField] private float lagCatchupSpeed = 0.2f;   // 白条追红条的速度（越大越快）
-        [SerializeField] private float lagDelay = 0.2f;         // 红条变化后，白条延迟多久才开始追
+        [Tooltip("白条开始追红条前的延迟")]
+        [SerializeField] private float lagDelay = 0.2f;
+
+        [Tooltip("白条追上红条需要的时间（秒）。掉的越多追得越快")]
+        [SerializeField] private float lagCatchupDuration = 0.6f;
 
         private IHealthView health;
         private float hideAt;
@@ -89,7 +92,7 @@ namespace Game.UI
             barRoot.gameObject.SetActive(false);
             SetAlpha(0f);
 
-            // 初始同步（避免第一次显示时白条不对）
+            // 初始同步
             float t01 = GetHp01();
             lagValue01 = t01;
             ApplyScale(fill, t01);
@@ -120,18 +123,24 @@ namespace Game.UI
             // 红条：立即跟随
             ApplyScale(fill, hp01);
 
-            // 白条：延迟后缓慢追随（通常只“向下追”，回血时可选择立刻跟上）
+            // 白条：延迟后按“固定时长”追随
             if (Time.time >= lagDelayUntil)
             {
-                // 常见规则：回血时白条直接跟上（看起来更干净）
+                // 回血：白条直接跟上（可改成也用时长追，但一般这样更干净）
                 if (hp01 > lagValue01)
                 {
                     lagValue01 = hp01;
                 }
                 else
                 {
-                    // 掉血时白条慢慢追红条
-                    lagValue01 = Mathf.MoveTowards(lagValue01, hp01, lagCatchupSpeed * Time.deltaTime);
+                    // 掉血：在 lagCatchupDuration 秒内追到 hp01
+                    float duration = Mathf.Max(0.0001f, lagCatchupDuration);
+                    float diff = Mathf.Abs(lagValue01 - hp01);
+
+                    // 关键：每秒速度 = diff / duration（差值越大，速度越快）
+                    float step = (diff / duration) * Time.deltaTime;
+
+                    lagValue01 = Mathf.MoveTowards(lagValue01, hp01, step);
                 }
             }
 
@@ -170,10 +179,10 @@ namespace Game.UI
             alpha = 1f;
             SetAlpha(1f);
 
-            // 关键：掉血时，让白条稍微延迟再开始追
+            // 掉血时，让白条延迟再追
             lagDelayUntil = Time.time + lagDelay;
 
-            // 如果是第一次显示或数值突变，先把白条至少不低于当前（避免白条小于红条）
+            // 防止白条小于红条（例如第一次显示或某些突变）
             float hp01 = GetHp01();
             if (lagValue01 < hp01) lagValue01 = hp01;
         }

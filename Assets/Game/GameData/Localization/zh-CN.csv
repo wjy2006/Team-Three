@@ -22,6 +22,9 @@ dlg.all.admin's_pistol_dropped.001,因为某些原因，你丢掉了管理员的
 dlg.all.missile_launcher_checked.001,导弹的发射器。简单且强大。
 dlg.all.missile_launcher_dropped.001,你丢掉了简单且强大的导弹发射器。
 
+dlg.all.slime_rifle_checked.001,一把绿色的步枪，可以让人飞得很远。
+dlg.all.slime_rifle_dropped.001,你丢掉了弹射步枪。
+
 dlg.all.maze_medal_checked.001,一枚奖章。绶带上写着：“可以征服混沌的人”。
 dlg.all.maze_medal_checked.002,如果你乐意的话，它可以在商店换取50G。
 dlg.all.maze_medal_dropped.001,你丢掉了迷宫支配者奖章。
@@ -63,8 +66,8 @@ dlg.lab.chest2.003,这个箱子里已经没有东西了。
 dlg.lab.admin.001,你好，玩家。
 dlg.lab.admin.002,这个地方是我搭建的，你可以叫我管理员。
 dlg.lab.admin.003,我为你准备了一段探险旅程。
-dlg.lab.admin.004,不过其实我还没做完。我遇到了一些困难。
-dlg.lab.admin.005,如果你要出发，向右边走就可以了。
+dlg.lab.admin.004,不过我还并没有做完。实际上，我遇到了一些非常棘手的困难。而且我目前还没有什么头绪来解决它们。
+dlg.lab.admin.005,但是总之，如果你要出发，向右边走就可以了。
 
 dlg.lab.admin.006,不过你刚刚去了哪里吗？我等了你非常久。。。
 
@@ -77,8 +80,8 @@ dlg.lab.admin.010,我还以为没人能找得到的，那你很厉害了。
 dlg.lab.admin.011,你好，玩家。
 dlg.lab.admin.012,这个地方是我搭建的，你可以叫我管理员。
 dlg.lab.admin.013,我为你准备了一段探险旅程。
-dlg.lab.admin.014,不过其实我还没做完。我遇到了一些困难。
-dlg.lab.admin.015,如果你要出发，向右边走就可以了。
+dlg.lab.admin.014,不过我还并没有做完。实际上，我遇到了一些非常棘手的困难。而且我目前还没有什么头绪来解决它们。
+dlg.lab.admin.015,但是总之，如果你要出发，向右边走就可以了。
 dlg.lab.admin.016,话说，你现在拿的是迷宫支配者勋章吗？
 dlg.lab.admin.017,我还以为没人能找得到的，那你很有实力了。
 
@@ -98,3 +101,17 @@ dlg.lab.guide.005,不过反正你是玩家，应该可以随便存读档，自�
 dlg.lab.guide.006,然后管理员让我把这个钥匙给你，应该能用来开右下方的门。
 
 
+dlg.lab.turret.001,你打开了会发射弹球的箱子。
+dlg.lab.turret.002,你获得了一把弹射步枪。
+dlg.lab.turret.003,会发射弹球的箱子不再会发射弹球了。
+dlg.lab.turret.004,一只不会发射弹球的箱子。
+
+dlg.lab.admin.101,你好。
+dlg.lab.admin.102,这里是你的重生点。
+dlg.lab.admin.103,现在你可以继续探险了。
+
+dlg.lab.admin.104,你好。
+dlg.lab.admin.105,你又重生了。
+dlg.lab.admin.106,现在你可以继续探险了。
+
+dlg.lab.admin.107,稍等，我还在看我的代码。。。

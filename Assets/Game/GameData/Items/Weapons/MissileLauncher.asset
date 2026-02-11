@@ -35,5 +35,5 @@ MonoBehaviour:
   damage: 10
   bulletLifeTime: 5
   bulletPrefab: {fileID: 8870123741071226297, guid: c3ef98b0f1e682a47a4aca85a61f2e2e, type: 3}
-  firePointLocal: {x: 1.2, y: 0}
+  firePointLocal: {x: 1.3, y: 0}
   fireAngleOffset: 0

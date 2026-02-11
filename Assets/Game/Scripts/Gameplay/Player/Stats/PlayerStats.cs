@@ -39,6 +39,7 @@ namespace Game.Gameplay.Player
             if (IsDead) return;
             if (info.amount <= 0f) return;
 
+
             int amount = Mathf.RoundToInt(info.amount);
 
             hp -= amount;
@@ -61,13 +62,28 @@ namespace Game.Gameplay.Player
 
         private void Die(DamageInfo info)
         {
-            Debug.Log($"Player died. killer={info.source.name}");
+            Debug.Log($"Player died. killer={info.source?.name}");
 
-            // 以后可以加：
-            // 禁用控制
-            // 播放死亡动画
-            // 切场景
+            if (GameRoot.I == null)
+            {
+                Debug.LogError("GameRoot not found. Cannot transition on death.");
+                return;
+            }
+
+            // 防止重复触发（比如多发子弹同时命中）
+            if (GameRoot.I.IsTransitioning) return;
+
+            // 关闭对话（如果有）
+            if (GameRoot.I.Dialogue != null && GameRoot.I.Dialogue.IsOpen)
+                GameRoot.I.Dialogue.Close();
+
+            // 切场景（例如回主城）
+            GameRoot.I.TransitionTo(
+                toScene: "Room_Lab_Reviving",     // 👈 你改成你的重生场景名
+                toSpawnId: "Left" // 👈 该场景里的 SpawnPoint ID
+            );
         }
+
 
         // ===============================
         // 治疗
@@ -82,6 +98,12 @@ namespace Game.Gameplay.Player
 
             OnStatsChanged?.Invoke();
         }
+        public void ReviveToFull()
+        {
+            hp = maxHp;
+            OnStatsChanged?.Invoke();
+        }
+
 
         public void FullHeal()
         {

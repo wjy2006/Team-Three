@@ -730,7 +730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcId: npc.lab.turret
-  dialogue: {fileID: 11400000, guid: 66f99bfd5188f0746ae281b0445a7302, type: 2}
+  dialogue: {fileID: 11400000, guid: ab793b3b417100a448cb9bdc8f0b564c, type: 2}
 --- !u!4 &4348067186395511891
 Transform:
   m_ObjectHideFlags: 0
@@ -4195,7 +4195,7 @@ MonoBehaviour:
   target: {fileID: 0}
   bulletPrefab: {fileID: 7497876276072225004, guid: 33560efa6a8c8564fa9bccb686b00a0d, type: 3}
   muzzle: {fileID: 1391935797}
-  fireInterval: 0.6
+  fireInterval: 0.4
   bulletSpeed: 25
   bulletDamage: 1
   bulletLifeTime: 3
@@ -4206,6 +4206,7 @@ MonoBehaviour:
   lineOfSightMask:
     serializedVersion: 2
     m_Bits: 0
+  disableStateKey: lab.gotSlime
 --- !u!156049354 &9027822415097249226
 Grid:
   m_ObjectHideFlags: 0
