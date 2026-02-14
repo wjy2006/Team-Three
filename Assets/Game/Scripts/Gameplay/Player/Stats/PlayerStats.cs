@@ -77,10 +77,9 @@ namespace Game.Gameplay.Player
             if (GameRoot.I.Dialogue != null && GameRoot.I.Dialogue.IsOpen)
                 GameRoot.I.Dialogue.Close();
 
-            // 切场景（例如回主城）
             GameRoot.I.TransitionTo(
-                toScene: "Room_Lab_Reviving",     // 👈 你改成你的重生场景名
-                toSpawnId: "Left" // 👈 该场景里的 SpawnPoint ID
+                toScene: "Room_Lab_Reviving",
+                toSpawnId: "Left" 
             );
         }
 
@@ -126,7 +125,7 @@ namespace Game.Gameplay.Player
 
         public bool TrySpendMoney(int amount)
         {
-            if (amount <= 0) return false;
+            if (amount < 0) return false;
             if (money < amount) return false;
 
             money -= amount;

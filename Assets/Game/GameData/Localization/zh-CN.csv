@@ -115,3 +115,20 @@ dlg.lab.admin.105,你又重生了。
 dlg.lab.admin.106,现在你可以继续探险了。
 
 dlg.lab.admin.107,稍等，我还在看我的代码。。。
+
+npc.shop.djgun.name,DJGun
+dlg.shop.djgun.001,"大家吼！
+今天来电大家想买的冻吸
+来来来来来..."
+dlg.shop.djgun.002,"你吼！
+欢迎光临...
+电警棍桑店！"
+dlg.shop.djgun.003,你米有足够哒钱钱，
+dlg.shop.djgun.004,蟹蟹惠顾！
+dlg.shop.djgun.005,你嘟背包满噜。
+no.item,no.item
+
+talkop.shop.djgun.001,打招呼
+talkop.shop.djgun.002,关于你是谁...
+talkop.shop.djgun.003,关于米米火箭...
+talkop.shop.djgun.004,关于商店...

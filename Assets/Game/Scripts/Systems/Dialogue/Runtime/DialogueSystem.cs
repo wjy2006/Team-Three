@@ -31,22 +31,120 @@ public class DialogueSystem : MonoBehaviour
         // 简单对话模式 (Repeat/Count)
         DialogueSession session = asset.BuildSession(npcId, DialogueState);
         if (session == null || session.lines == null || session.lines.Length == 0) return;
-        ui.Open(session.lines);
-        ui.OnNodeEnd -= Close; 
+        ui.OnNodeEnd -= Close;
         ui.OnNodeEnd += Close;
-        
+
         ui.Open(session.lines);
     }
 
     public void Close()
     {
-        // 无论 UI 状态如何，只要调用了 Close，就强制清理数据
+        // 1) 先把 UI 关掉（玩家看到的立刻关）
         if (ui != null && ui.IsOpen)
-        {
             ui.Close();
+
+        // 2) 关键：如果是 Graph 对话，先把 Say 后面的“纯逻辑节点”刷完
+        if (graph != null)
+        {
+            DrainGraphActionsUntilSayOrEnd();
         }
 
+        // 3) 最后再清理 runtime（以前你是先清理，导致后面跑不动）
         ClearGraphRuntime();
+    }
+
+    private void DrainGraphActionsUntilSayOrEnd()
+    {
+        // 防死循环保护（节点写错时避免卡死）
+        const int maxSteps = 256;
+        int steps = 0;
+
+        var global = GameRoot.I != null ? GameRoot.I.Global : null;
+        var inventory = GameRoot.I != null ? GameRoot.I.Inventory : null;
+
+        while (graph != null && !string.IsNullOrEmpty(nodeId) && steps++ < maxSteps)
+        {
+            var node = graph.Find(nodeId);
+            if (node == null)
+            {
+                Debug.LogError($"GraphDialogue: 找不到节点 id={nodeId}（Close flush 时）", graph);
+                break;
+            }
+
+            switch (node.type)
+            {
+                // ✅ 遇到 Say：停止刷，因为 Say 需要 UI/玩家推进
+                case GraphDialogueAsset.NodeType.Say:
+                    return;
+
+                case GraphDialogueAsset.NodeType.IfBool:
+                    {
+                        bool v = global != null && global.GetBool(node.boolKey);
+                        nodeId = v ? node.trueNextId : node.falseNextId;
+                        break;
+                    }
+
+                case GraphDialogueAsset.NodeType.IfCondition:
+                    {
+                        bool ok = node.condition != null && node.condition.Evaluate(null);
+                        nodeId = ok ? node.trueNextId : node.falseNextId;
+                        break;
+                    }
+
+                case GraphDialogueAsset.NodeType.SetBool:
+                    {
+                        if (global != null) global.SetBool(node.boolKey, node.boolValue);
+                        nodeId = node.nextId;
+                        break;
+                    }
+
+                case GraphDialogueAsset.NodeType.AddInt:
+                    {
+                        if (global != null) global.AddInt(node.intKey, node.intValue);
+                        nodeId = node.nextId;
+                        break;
+                    }
+
+                case GraphDialogueAsset.NodeType.SetInt:
+                    {
+                        if (global != null) global.SetInt(node.intKey, node.intValue);
+                        nodeId = node.nextId;
+                        break;
+                    }
+
+                case GraphDialogueAsset.NodeType.GiveItem:
+                    {
+                        if (inventory == null)
+                        {
+                            Debug.LogError("GiveItem 失败: GameRoot.I.Inventory 为空！（Close flush 时）");
+                            nodeId = node.successNextId;
+                            if (string.IsNullOrEmpty(nodeId)) return;
+                            break;
+                        }
+
+                        if (node.itemToGive == null)
+                        {
+                            Debug.LogWarning($"GiveItem 节点 {node.id} 未配置 itemToGive（Close flush 时）");
+                            nodeId = node.failNextId;
+                            break;
+                        }
+
+                        bool success = inventory.TryAdd(node.itemToGive);
+                        Debug.Log($"[Dialogue] GiveItem (Close flush): {node.itemToGive.name} | Result: {success}");
+
+                        nodeId = success ? node.successNextId : node.failNextId;
+                        break;
+                    }
+
+                case GraphDialogueAsset.NodeType.End:
+                default:
+                    // End 或未知：停止
+                    return;
+            }
+        }
+
+        if (steps >= maxSteps)
+            Debug.LogError("DrainGraphActionsUntilSayOrEnd: exceeded maxSteps, possible graph loop.");
     }
 
     private void ClearGraphRuntime()
@@ -55,8 +153,10 @@ public class DialogueSystem : MonoBehaviour
         nodeId = null;
         currentNpcId = null;
         waitingContinue = false;
-        if (ui != null) ui.OnClosed -= ContinueAfterSay;
+
+        if (ui != null) ui.OnNodeEnd -= ContinueAfterSay;
     }
+
 
     // ===== Graph 核心解释器 =====
     private void StepGraph()
@@ -87,7 +187,7 @@ public class DialogueSystem : MonoBehaviour
                     if (linesToPlay == null || linesToPlay.Length == 0)
                     {
                         nodeId = node.nextId;
-                        StepGraph(); 
+                        StepGraph();
                         return;
                     }
 
@@ -97,7 +197,7 @@ public class DialogueSystem : MonoBehaviour
                     // ✅ 无论有没有下一站，都要 Hook！
                     // 这样当这节话说完时，才会触发 ContinueAfterSay
                     HookContinueOnClose();
-                    
+
                     ui.Open(linesToPlay);
                     break;
                 }
@@ -207,7 +307,7 @@ public class DialogueSystem : MonoBehaviour
     {
         if (waitingContinue) return;
         waitingContinue = true;
-        
+
         // ✅ 关键：改监听 OnNodeEnd (代表文字播完了)
         ui.OnNodeEnd -= ContinueAfterSay;
         ui.OnNodeEnd += ContinueAfterSay;

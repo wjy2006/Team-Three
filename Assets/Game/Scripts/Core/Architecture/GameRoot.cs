@@ -217,7 +217,7 @@ public class GameRoot : MonoBehaviour
             SceneTransfer.NextSpawnId = null;
 
             SetInputLocked(false);
-            //SetMoveLocked(false);
+            SetMoveLocked(false);
             IsTransitioning = false;
             Triggers.Raise(new SceneEnteredEvent());
         }

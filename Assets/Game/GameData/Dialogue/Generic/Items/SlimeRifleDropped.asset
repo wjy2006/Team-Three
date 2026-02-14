@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lines:
   - speakerKey: npc.all.system.name
-    textKey: dlg.all.StG44_checked.002
+    textKey: dlg.all.slime_rifle_dropped.001

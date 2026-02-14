@@ -55,7 +55,7 @@ namespace Game.Gameplay.Combat.Enemies
                     return;
 
                 if (GameRoot.I.Global.GetBool(disableStateKey))
-                    return; // 没开启，不开火
+                    return; //被关掉，不开火
             }
 
             Vector2 from = muzzle.position;
