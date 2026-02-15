@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -17,11 +18,14 @@ namespace Game.UI.Shop
         [Tooltip("标点额外停顿（秒），0=不额外停顿")]
         public float punctuationPause = 0.03f;
 
+        // ✅ 表情系统用：开始说话/结束说话
+        public event Action OnTypingStart;
+        public event Action OnTypingEnd;
+
         private Coroutine typingCo;
 
-        /// <summary>
-        /// 用 key 显示（走 Localization），逐字输出 content。
-        /// </summary>
+        public bool IsTyping => typingCo != null;
+
         public void ShowKeys(string speakerKey, string contentKey)
         {
             var loc = GameRoot.I != null ? GameRoot.I.Localization : null;
@@ -32,9 +36,6 @@ namespace Game.UI.Shop
             ShowRaw(speaker, content);
         }
 
-        /// <summary>
-        /// 直接显示文本（不走 localization），逐字输出 content。
-        /// </summary>
         public void ShowRaw(string speaker, string content)
         {
             if (nameText != null) nameText.text = speaker ?? "";
@@ -51,14 +52,18 @@ namespace Game.UI.Shop
         private void StartTypewriter(string full)
         {
             StopTypewriterIfNeeded();
-
             if (contentText == null) return;
 
             contentText.text = "";
 
+            // ✅ 开始说话
+            OnTypingStart?.Invoke();
+
             if (charsPerSecond <= 0f)
             {
                 contentText.text = full;
+                // ✅ 立刻结束说话
+                OnTypingEnd?.Invoke();
                 return;
             }
 
@@ -87,6 +92,9 @@ namespace Game.UI.Shop
             }
 
             typingCo = null;
+
+            // ✅ 结束说话
+            OnTypingEnd?.Invoke();
         }
 
         private void StopTypewriterIfNeeded()
@@ -95,6 +103,9 @@ namespace Game.UI.Shop
             {
                 StopCoroutine(typingCo);
                 typingCo = null;
+
+                // 被打断也算结束（避免表情卡在张嘴）
+                OnTypingEnd?.Invoke();
             }
         }
 

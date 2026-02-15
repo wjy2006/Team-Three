@@ -11,7 +11,7 @@ namespace Game.UI.Shop
         {
             Root,
             Buy,
-            BuyConfirm,   // ✅ 新增：购买确认
+            BuyConfirm,   // ✅ 购买确认
             Sell,
             TalkSelect,
             TalkDialogue
@@ -27,10 +27,11 @@ namespace Game.UI.Shop
         [Header("Panels")]
         public GameObject leftPanel;     // Root 显示
         public GameObject rootPanel;     // Root / Talk 显示
-        public GameObject buyPanel;      // Buy 显示
-        public GameObject infoPanel;     // Buy 显示
+        public GameObject buyPanel;      // Buy/BuyConfirm 显示
+        public GameObject infoPanel;     // Buy/BuyConfirm 显示
+
         public GameObject hintPanel;     // Buy 显示
-        public GameObject confirmPanel;  // ✅ BuyConfirm 显示（放在 hintPanel 的位置）
+        public GameObject confirmPanel;  // BuyConfirm 显示（放在 hintPanel 的位置）
         public GameObject sellPanel;     // Sell 仅显示
         public GameObject talkPanel;     // TalkSelect 显示
         public GameObject dialoguePanel; // TalkDialogue 显示
@@ -50,7 +51,7 @@ namespace Game.UI.Shop
         public TMP_Text[] confirmOptionTexts = new TMP_Text[2];
 
         [Tooltip("提示文本格式：{0}=价格(含G), {1}=物品名")]
-        public string confirmPromptFormat = "{0}买下{1}？"; // 例： "10G买下药水？"
+        public string confirmPromptFormat = "{0}买下{1}？";
 
         [Tooltip("选项显示文字（不想硬编码就自己改）")]
         public string confirmYesText = "确定";
@@ -74,8 +75,11 @@ namespace Game.UI.Shop
         public string hintBagFullKey;
         public string hintNoItemKey;
 
-        [Tooltip("Buy界面：进入Buy时显示一次的提示 key")]
+        [Tooltip("Buy界面：进入Buy时显示一次的提示 key（只在从外部进入Buy时显示）")]
         public string buySelectHintKey;
+
+        [Tooltip("卖光提示：通用 key（当单个slot没填 soldOutHintKey 时用）")]
+        public string hintSoldOutKey;
 
         // ===== Root UI =====
         [Header("Root UI")]
@@ -87,7 +91,7 @@ namespace Game.UI.Shop
         [Header("Buy UI")]
         public TMP_Text[] buyNameTexts = new TMP_Text[4];
         public TMP_Text[] buyPriceTexts = new TMP_Text[4];
-        public ItemDefinition[] buyItems = new ItemDefinition[4];
+        public BuySlot[] buySlots = new BuySlot[4];
 
         [Header("Buy: Per-item Info Keys (4 items)")]
         public string[] itemInfoSpeakerKeys = new string[4];
@@ -97,6 +101,9 @@ namespace Game.UI.Shop
         [Header("Sell UI (8 slots: 0-6 inv, 7 held)")]
         public TMP_Text[] sellNameTexts = new TMP_Text[8];
         public TMP_Text[] sellPriceTexts = new TMP_Text[8];
+
+        [Header("Portrait")]
+        public ShopPortraitController portrait;
 
         // ===== Runtime refs =====
         private PlayerInputReader input;
@@ -112,10 +119,7 @@ namespace Game.UI.Shop
 
         // ===== Confirm runtime =====
         private int confirmIndex = 0;              // 0=确定，1=取消
-        private ItemDefinition pendingBuyItem;     // 这次确认要买的物品
-        private int pendingBuyPrice;
         private bool boughtLastFrame = false;
-
 
         private void Start()
         {
@@ -137,8 +141,14 @@ namespace Game.UI.Shop
                 talkDialogueUI.OnFinished += OnTalkFinished;
             }
 
+            // ✅ 关键修复：先 Hook，再播放欢迎词
+            HookTyping(leftDialogue);
+            HookTyping(infoDialogue);
+            HookTyping(hintDialogue);
+            if (talkDialogueUI != null) HookTyping(talkDialogueUI);
+
             SetState(State.Root);
-            ShowLeftWelcome();
+            ShowLeftWelcome(); // ✅ 现在会触发 OnTypingStart -> Talk，打完 OnTypingEnd -> Idle
             RefreshAll();
         }
 
@@ -149,6 +159,11 @@ namespace Game.UI.Shop
 
             if (talkDialogueUI != null)
                 talkDialogueUI.OnFinished -= OnTalkFinished;
+
+            UnhookTyping(leftDialogue);
+            UnhookTyping(infoDialogue);
+            UnhookTyping(hintDialogue);
+            if (talkDialogueUI != null) UnhookTyping(talkDialogueUI);
 
             if (GameRoot.I != null && GameRoot.I.Pause != null)
                 GameRoot.I.Pause.PopPause("Shop");
@@ -262,7 +277,6 @@ namespace Game.UI.Shop
             {
                 RefreshBuyList();
                 RefreshBuyItemInfo();
-                // 不再移动就ShowHint
             }
 
             if (input.ConsumeInteractDown())
@@ -276,51 +290,56 @@ namespace Game.UI.Shop
         {
             if (stats == null || inventory == null)
             {
-                ShowHint(hintNoItemKey);
+                ShowHintFail(hintNoItemKey);
                 return;
             }
 
-            var item = GetBuyItem(idx);
-            if (item == null)
+            BuySlot slot = GetBuySlot(idx);
+            if (slot == null || slot.item == null)
             {
-                ShowHint(hintNoItemKey);
+                ShowHintFail(hintNoItemKey);
                 return;
             }
 
-            int price = item.BuyPrice;
+            // ✅ 打开确认前先判卖光
+            if (IsSoldOut(slot))
+            {
+                string k = !string.IsNullOrEmpty(slot.soldOutHintKey) ? slot.soldOutHintKey
+                        : !string.IsNullOrEmpty(hintSoldOutKey) ? hintSoldOutKey
+                        : hintNoItemKey;
+                ShowHintFail(k);
+                return;
+            }
+
+            int price = slot.item.BuyPrice;
 
             if (stats.Money < price)
             {
-                ShowHint(hintNotEnoughMoneyKey);
+                ShowHintFail(hintNotEnoughMoneyKey);
                 return;
             }
 
-            // 能不能放下：背包有空 或 手持空
             if (!CanPlacePurchasedItem())
             {
-                ShowHint(hintBagFullKey);
+                ShowHintFail(hintBagFullKey);
                 return;
             }
 
-            OpenBuyConfirm(item, price);
+            OpenBuyConfirm(slot.item, price);
         }
 
         private bool CanPlacePurchasedItem()
         {
-            bool invHasSpace = (inventory != null && !inventory.IsFull());
-            bool heldEmpty = (heldItem != null && heldItem.held == null);
+            bool invHasSpace = inventory != null && !inventory.IsFull();
+            bool heldEmpty = heldItem != null && heldItem.held == null;
             return invHasSpace || heldEmpty;
         }
 
         private void OpenBuyConfirm(ItemDefinition item, int price)
         {
-            pendingBuyItem = item;
-            pendingBuyPrice = price;
-
             confirmIndex = 0; // 默认“确定”
             SetState(State.BuyConfirm);
 
-            // 组装提示：XXG买下XXXX？
             string priceStr = $"{price}G";
             string itemName = item != null ? item.DisplayName : "";
             if (confirmPromptText != null)
@@ -331,7 +350,6 @@ namespace Game.UI.Shop
 
         private void UpdateBuyConfirm()
         {
-            // 选项：上下/左右都支持（更顺手）
             bool moved = false;
 
             if (input.ConsumeUpDown() || input.ConsumeLeftDown())
@@ -351,73 +369,69 @@ namespace Game.UI.Shop
             {
                 if (confirmIndex == 0)
                 {
-                    // 确定：真正购买
-                    ExecutePendingBuy();
+                    ExecutePendingBuy(buyIndex);
                     CloseBuyConfirm(goBackToBuy: true);
                 }
                 else
                 {
-                    // 取消：不买
                     CloseBuyConfirm(goBackToBuy: true);
                 }
             }
         }
 
-        private void ExecutePendingBuy()
+        private void ExecutePendingBuy(int idx)
         {
-            if (pendingBuyItem == null || stats == null || inventory == null) return;
+            if (stats == null || inventory == null) { ShowHintFail(hintNoItemKey); return; }
 
-            // 再做一次保底校验（防止确认期间钱变化/物品变化）
-            if (stats.Money < pendingBuyPrice)
+            BuySlot slot = GetBuySlot(idx);
+            if (slot == null || slot.item == null) { ShowHintFail(hintNoItemKey); return; }
+
+            if (IsSoldOut(slot))
             {
-                ShowHint(hintNotEnoughMoneyKey);
+                string k = !string.IsNullOrEmpty(slot.soldOutHintKey) ? slot.soldOutHintKey
+                        : !string.IsNullOrEmpty(hintSoldOutKey) ? hintSoldOutKey
+                        : hintNoItemKey;
+                ShowHintFail(k);
                 return;
             }
 
-            if (!TryPlacePurchasedItem(pendingBuyItem))
-            {
-                ShowHint(hintBagFullKey);
-                return;
-            }
+            int price = slot.item.BuyPrice;
 
-            bool spent = stats.TrySpendMoney(pendingBuyPrice);
-            if (!spent)
-            {
-                ShowHint(hintNotEnoughMoneyKey);
-                return;
-            }
+            // ✅ 这里也改成 Fail（避免Confirm内再次检测时“不显示/不触发失败表情”）
+            if (stats.Money < price) { ShowHintFail(hintNotEnoughMoneyKey); return; }
+
+            bool placed = TryPlacePurchasedItem(slot.item);
+            if (!placed) { ShowHintFail(hintBagFullKey); return; }
+
+            bool spent = stats.TrySpendMoney(price);
+            if (!spent) { ShowHintFail(hintNotEnoughMoneyKey); return; }
+
+            AddBoughtCount(slot, 1);
+
             boughtLastFrame = true;
-            ShowHint(hintThanksKey);
+            ShowHintSuccess(hintThanksKey);
 
             RefreshRootStats();
             RefreshBuyList();
-
         }
 
         private void CloseBuyConfirm(bool goBackToBuy)
         {
-            pendingBuyItem = null;
-            pendingBuyPrice = 0;
+            if (!goBackToBuy) return;
 
-            // 关 confirmPanel 的显示由状态驱动
-            if (goBackToBuy)
-            {
-                SetState(State.Buy);
-                // 回到 Buy 时不要重复显示 buySelectHintKey（只在进入Buy显示一次）
-                RefreshBuyList();
-                RefreshBuyItemInfo();
-            }
+            SetState(State.Buy);
+
+            RefreshBuyList();
+            RefreshBuyItemInfo();
         }
 
         private bool TryPlacePurchasedItem(ItemDefinition item)
         {
             if (item == null) return false;
 
-            // 1) 先背包
             if (inventory != null && inventory.TryAdd(item))
                 return true;
 
-            // 2) 背包满：放手持
             if (heldItem != null && heldItem.held == null)
             {
                 heldItem.held = item;
@@ -427,10 +441,36 @@ namespace Game.UI.Shop
             return false;
         }
 
-        private ItemDefinition GetBuyItem(int idx)
+        private BuySlot GetBuySlot(int idx)
         {
-            if (buyItems == null || idx < 0 || idx >= buyItems.Length) return null;
-            return buyItems[idx];
+            if (buySlots == null || idx < 0 || idx >= buySlots.Length) return null;
+            return buySlots[idx];
+        }
+
+        // ===== Limited / SoldOut =====
+        private int GetBoughtCount(BuySlot slot)
+        {
+            if (slot == null) return 0;
+            if (!slot.limited) return 0;
+            if (GameRoot.I == null || GameRoot.I.Global == null) return 0;
+            if (string.IsNullOrEmpty(slot.boughtCountGlobalKey)) return 0;
+            return GameRoot.I.Global.GetInt(slot.boughtCountGlobalKey);
+        }
+
+        private bool IsSoldOut(BuySlot slot)
+        {
+            if (slot == null || slot.item == null) return true;
+            if (!slot.limited) return false;
+            return GetBoughtCount(slot) >= slot.maxCount;
+        }
+
+        private void AddBoughtCount(BuySlot slot, int delta)
+        {
+            if (slot == null || !slot.limited) return;
+            if (GameRoot.I == null || GameRoot.I.Global == null) return;
+            if (string.IsNullOrEmpty(slot.boughtCountGlobalKey)) return;
+
+            GameRoot.I.Global.AddInt(slot.boughtCountGlobalKey, delta);
         }
 
         // =========================
@@ -440,7 +480,6 @@ namespace Game.UI.Shop
         {
             bool moved = false;
 
-            // 左右：±4（0..3 <-> 4..7）
             if (input.ConsumeRightDown())
             {
                 if (sellIndex <= 3) { sellIndex += 4; moved = true; }
@@ -450,7 +489,6 @@ namespace Game.UI.Shop
                 if (sellIndex >= 4) { sellIndex -= 4; moved = true; }
             }
 
-            // 上下：只在同一列移动
             if (input.ConsumeUpDown())
             {
                 if (sellIndex % 4 != 0) { sellIndex -= 1; moved = true; }
@@ -486,7 +524,6 @@ namespace Game.UI.Shop
             RefreshSellList();
         }
 
-        // idx: 0..6=inv；7=held
         private ItemDefinition GetSellItem(int idx)
         {
             if (idx < 0 || idx > 7) return null;
@@ -552,29 +589,33 @@ namespace Game.UI.Shop
         // =========================
         private void SetState(State s)
         {
-            // 记录是否“第一次进入Buy”（用于buySelectHint只显示一次）
-            _ = state != State.Buy && s == State.Buy;
+            bool enteringBuyFromOutside = (s == State.Buy) && (state != State.Buy) && (state != State.BuyConfirm);
 
             state = s;
+
+            if (portrait != null)
+            {
+                if (state == State.BuyConfirm)
+                    portrait.SetBasePose(ShopPortraitController.Pose.Confirm);
+                else
+                    portrait.SetBasePose(ShopPortraitController.Pose.Idle);
+            }
+
             ApplyPanelsForState();
 
-            // 进入 Buy：显示一次选中提示
             if (state == State.Buy)
             {
                 if (boughtLastFrame)
                 {
-                    // 买完回到Buy时优先显示Thank
                     ShowHint(hintThanksKey);
                     boughtLastFrame = false;
                 }
-                else if (!string.IsNullOrEmpty(buySelectHintKey))
+                else if (enteringBuyFromOutside && !string.IsNullOrEmpty(buySelectHintKey))
                 {
                     ShowHint(buySelectHintKey);
                 }
             }
 
-
-            // 离开 Buy：清理 buy 专属文本（避免残留）
             if (state != State.Buy && state != State.BuyConfirm)
             {
                 if (infoDialogue != null) infoDialogue.Clear();
@@ -584,13 +625,6 @@ namespace Game.UI.Shop
 
         private void ApplyPanelsForState()
         {
-            // Root: LeftPanel + RootPanel
-            // Buy:  BuyPanel + HintPanel + InfoPanel
-            // BuyConfirm: BuyPanel + ConfirmPanel + InfoPanel（HintPanel隐藏）
-            // Sell: only SellPanel
-            // TalkSelect: TalkPanel + RootPanel
-            // TalkDialogue: DialoguePanel + RootPanel
-
             bool isRoot = state == State.Root;
             bool isBuy = state == State.Buy;
             bool isBuyConfirm = state == State.BuyConfirm;
@@ -604,7 +638,6 @@ namespace Game.UI.Shop
             if (buyPanel != null) buyPanel.SetActive(isBuy || isBuyConfirm);
             if (infoPanel != null) infoPanel.SetActive(isBuy || isBuyConfirm);
 
-            // ✅ Buy: hintPanel；BuyConfirm: confirmPanel
             if (hintPanel != null) hintPanel.SetActive(isBuy);
             if (confirmPanel != null) confirmPanel.SetActive(isBuyConfirm);
 
@@ -613,7 +646,6 @@ namespace Game.UI.Shop
             if (talkPanel != null) talkPanel.SetActive(isTalkSelect);
             if (dialoguePanel != null) dialoguePanel.SetActive(isTalkDialogue);
 
-            // Sell：只显示 sellPanel
             if (isSell)
             {
                 if (leftPanel != null) leftPanel.SetActive(false);
@@ -659,7 +691,6 @@ namespace Game.UI.Shop
             if (moneyText != null && stats != null)
                 moneyText.text = $"{stats.Money}G";
 
-            // 槽位：X/(Capacity+1) —— 背包 + 手持
             if (slotsText != null && inventory != null)
             {
                 int usedInv = CountUsedSlots(inventory);
@@ -685,15 +716,43 @@ namespace Game.UI.Shop
         {
             if (state != State.Buy && state != State.BuyConfirm) return;
 
+            var loc = GameRoot.I != null ? GameRoot.I.Localization : null;
+
             for (int i = 0; i < 4; i++)
             {
                 var nameTmp = (buyNameTexts != null && i < buyNameTexts.Length) ? buyNameTexts[i] : null;
                 var priceTmp = (buyPriceTexts != null && i < buyPriceTexts.Length) ? buyPriceTexts[i] : null;
 
-                var item = GetBuyItem(i);
+                BuySlot slot = (buySlots != null && i < buySlots.Length) ? buySlots[i] : null;
+                bool soldOut = IsSoldOut(slot);
 
-                if (nameTmp != null) nameTmp.text = item != null ? item.DisplayName : "  ——";
-                if (priceTmp != null) priceTmp.text = item != null ? $"{item.BuyPrice}G" : "";
+                if (nameTmp != null)
+                {
+                    if (slot == null || slot.item == null)
+                    {
+                        nameTmp.text = "  ——";
+                    }
+                    else if (soldOut && !string.IsNullOrEmpty(slot.soldOutNameKey))
+                    {
+                        nameTmp.text = loc != null ? loc.Get(slot.soldOutNameKey) : slot.soldOutNameKey;
+                    }
+                    else if (soldOut)
+                    {
+                        nameTmp.text = "  ——";
+                    }
+                    else
+                    {
+                        nameTmp.text = slot.item.DisplayName;
+                    }
+                }
+
+                if (priceTmp != null)
+                {
+                    if (slot == null || slot.item == null || soldOut)
+                        priceTmp.text = "";
+                    else
+                        priceTmp.text = $"{slot.item.BuyPrice}G";
+                }
 
                 bool selected = (i == buyIndex);
                 if (nameTmp != null) nameTmp.color = selected ? Color.yellow : Color.white;
@@ -780,7 +839,6 @@ namespace Game.UI.Shop
             bool active = (state == State.BuyConfirm);
             if (!active)
             {
-                // 不在确认状态就都白（不强制）
                 if (confirmOptionTexts[0] != null) confirmOptionTexts[0].color = Color.white;
                 if (confirmOptionTexts[1] != null) confirmOptionTexts[1].color = Color.white;
                 return;
@@ -802,6 +860,17 @@ namespace Game.UI.Shop
         private void ShowHint(string contentKey)
         {
             if (hintDialogue == null) return;
+
+            if (string.IsNullOrEmpty(contentKey))
+            {
+                Debug.LogError("[Shop] ShowHint called with EMPTY contentKey. Check inspector keys!");
+                return;
+            }
+
+            // BuyConfirm 时 hintPanel 可能 inactive
+            if (hintPanel != null && !hintPanel.activeInHierarchy)
+                hintPanel.SetActive(true);
+
             hintDialogue.ShowKeys(hintSpeakerKey, contentKey);
         }
 
@@ -815,6 +884,54 @@ namespace Game.UI.Shop
         {
             if (GameRoot.I == null) return;
             GameRoot.I.TransitionTo(leaveSceneName, leaveSpawnId);
+        }
+
+        // ===== Typing Hook =====
+        private void HookTyping(ShopDialogueUI ui)
+        {
+            if (ui == null || portrait == null) return;
+            ui.OnTypingStart -= portrait.OnTypingStart;
+            ui.OnTypingEnd -= portrait.OnTypingEnd;
+            ui.OnTypingStart += portrait.OnTypingStart;
+            ui.OnTypingEnd += portrait.OnTypingEnd;
+        }
+
+        private void HookTyping(ShopTalkDialogueUI ui)
+        {
+            if (ui == null || portrait == null) return;
+            ui.OnTypingStart -= portrait.OnTypingStart;
+            ui.OnTypingEnd -= portrait.OnTypingEnd;
+            ui.OnTypingStart += portrait.OnTypingStart;
+            ui.OnTypingEnd += portrait.OnTypingEnd;
+        }
+
+        private void UnhookTyping(ShopDialogueUI ui)
+        {
+            if (ui == null || portrait == null) return;
+            ui.OnTypingStart -= portrait.OnTypingStart;
+            ui.OnTypingEnd -= portrait.OnTypingEnd;
+        }
+
+        private void UnhookTyping(ShopTalkDialogueUI ui)
+        {
+            if (ui == null || portrait == null) return;
+            ui.OnTypingStart -= portrait.OnTypingStart;
+            ui.OnTypingEnd -= portrait.OnTypingEnd;
+        }
+
+        // ===== Hint + Portrait =====
+        private void ShowHintSuccess(string contentKey)
+        {
+            if (portrait != null)
+                portrait.OverridePose(ShopPortraitController.Pose.BuySuccess, 2f);
+            ShowHint(contentKey);
+        }
+
+        private void ShowHintFail(string contentKey)
+        {
+            if (portrait != null)
+                portrait.OverridePose(ShopPortraitController.Pose.BuyFail, 2f);
+            ShowHint(contentKey);
         }
     }
 }

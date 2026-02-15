@@ -15,7 +15,8 @@ public class LogFilter : MonoBehaviour
     void HandleLog(string logString, string stackTrace, LogType type)
     {
         if (logString.Contains("m_GameObjects.find") ||
-            logString.Contains("m_Hierarchies.find"))
+            logString.Contains("m_Hierarchies.find")||
+            logString.Contains("Assertion"))
         {
             return;
         }

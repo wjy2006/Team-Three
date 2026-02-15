@@ -19,6 +19,10 @@ namespace Game.UI.Shop
 
         public event Action OnFinished;
 
+        // ✅ 表情系统用
+        public event Action OnTypingStart;
+        public event Action OnTypingEnd;
+
         private PlayerInputReader input;
 
         private DialogueLine[] lines;
@@ -37,20 +41,17 @@ namespace Game.UI.Shop
         private void Update()
         {
             if (!IsOpen) return;
-            if (Time.frameCount == openFrame) return; // 打开当帧保护
+            if (Time.frameCount == openFrame) return;
             if (input == null) return;
 
-            // Continue：不在打字时推进；打字时不推进（Undertale风格）
             if (input.ConsumeContinueDown())
             {
-                input.ConsumeInteractDown(); // 同帧吞掉交互
-
+                input.ConsumeInteractDown();
                 if (isTyping) return;
                 Next();
                 return;
             }
 
-            // Cancel：打字时跳过
             if (input.ConsumeCancelDown())
             {
                 input.ConsumeInteractDown();
@@ -67,7 +68,6 @@ namespace Game.UI.Shop
                 return;
             }
 
-            // 复用全局 DialogueState（支持 count/repeat 之类）
             var state = GameRoot.I != null && GameRoot.I.Dialogue != null
                 ? GameRoot.I.Dialogue.DialogueState
                 : new DialogueState();
@@ -117,18 +117,21 @@ namespace Game.UI.Shop
             string content = string.IsNullOrEmpty(contentKey) ? "" : (loc != null ? loc.Get(contentKey) : contentKey);
 
             if (nameText != null) nameText.text = speaker;
-
-            if (contentText == null)
-                return;
+            if (contentText == null) return;
 
             contentText.text = "";
             isTyping = true;
             skipRequested = false;
 
+            // ✅ 开始说话
+            OnTypingStart?.Invoke();
+
             if (charsPerSecond <= 0f)
             {
                 contentText.text = content;
                 isTyping = false;
+                // ✅ 立刻结束说话
+                OnTypingEnd?.Invoke();
                 return;
             }
 
@@ -163,6 +166,9 @@ namespace Game.UI.Shop
             isTyping = false;
             typingCo = null;
             skipRequested = false;
+
+            // ✅ 结束说话
+            OnTypingEnd?.Invoke();
         }
 
         private void RequestSkip()
@@ -177,6 +183,10 @@ namespace Game.UI.Shop
                 StopCoroutine(typingCo);
                 typingCo = null;
             }
+
+            // 如果正在打字被打断，也算结束说话
+            if (isTyping) OnTypingEnd?.Invoke();
+
             isTyping = false;
             skipRequested = false;
         }
