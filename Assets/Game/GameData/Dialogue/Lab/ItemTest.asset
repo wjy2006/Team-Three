@@ -81,6 +81,20 @@ MonoBehaviour:
     condition: {fileID: 0}
     intKey: 
     intValue: 0
-    itemToGive: {fileID: 11400000, guid: 9b5b1f080b8ea1849ae58fb8d2ca19df, type: 2}
+    itemToGive: {fileID: 11400000, guid: 710fefd2a15d90f4fab1dba40f112c29, type: 2}
+    successNextId: 6
+    failNextId: 
+  - id: 6
+    type: 6
+    lines: []
+    nextId: 
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: b6225b04322240f4aa322f7a303507e7, type: 2}
     successNextId: 
     failNextId: 

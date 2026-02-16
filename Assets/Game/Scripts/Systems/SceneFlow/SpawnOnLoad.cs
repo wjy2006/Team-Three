@@ -18,9 +18,8 @@ public class SpawnOnLoad : MonoBehaviour
     {
         if (string.IsNullOrEmpty(spawnId)) yield break;
         if (col != null) col.enabled = false;
-        var points = FindObjectsByType<SpawnPoint>(
-            FindObjectsSortMode.None
-        );
+
+        var points = FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None);
         SpawnPoint target = null;
         foreach (var p in points)
             if (p.spawnId == spawnId) { target = p; break; }
@@ -33,12 +32,16 @@ public class SpawnOnLoad : MonoBehaviour
 
         var wp = target.transform.position;
         wp.z = transform.position.z;
-        
 
         rb.position = (Vector2)wp;
         rb.linearVelocity = Vector2.zero;
         Physics2D.SyncTransforms();
         if (col != null) col.enabled = true;
+
         yield return null;
+
+        // ✅ 新增：spawn 完成后通知（不需要引用任何脚本，最稳）
+        SendMessage("OnPostSpawn", SendMessageOptions.DontRequireReceiver);
     }
+
 }

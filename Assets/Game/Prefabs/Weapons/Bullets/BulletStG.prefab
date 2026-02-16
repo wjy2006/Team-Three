@@ -182,7 +182,7 @@ MonoBehaviour:
   enableDebugLog: 1
   hitLayer:
     serializedVersion: 2
-    m_Bits: 448
+    m_Bits: 4544
   rb: {fileID: 2424135867240638100}
   col: {fileID: 6944757721946120416}
   explodeVfxPrefab: {fileID: 6894253983147173734, guid: 35516ebf5370cd84da64c40ebc4b4769, type: 3}
@@ -193,3 +193,4 @@ MonoBehaviour:
   explosionIgnoresTriggers: 1
   hitKnockbackForce: 0
   explosionKnockbackForce: 0
+  explodeIfStuckInside: 1

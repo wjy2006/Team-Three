@@ -20,6 +20,13 @@ namespace Game.Gameplay.Combat
 
         public void TakeDamage(DamageInfo info)
         {
+            var preprocessors = GetComponents<IDamagePreprocessor>();
+            for (int i = 0; i < preprocessors.Length; i++)
+            {
+                if (!preprocessors[i].PreprocessDamage(ref info))
+                    return;
+            }
+
             if (info.amount <= 0) return;
             hp = Mathf.Clamp(hp - info.amount, 0, maxHp);
             var knock = GetComponent<KnockbackReceiver>();

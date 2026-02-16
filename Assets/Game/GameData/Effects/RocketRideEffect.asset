@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb272ea547c3ecd46a2c51f260436731, type: 3}
+  m_Name: RocketRideEffect
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.Items.RocketRideEffect
+  rocketPrefab: {fileID: 868760361142184867, guid: 337b340b1c182dc4187bc0c86df020de, type: 3}
+  rocketHp: 200
+  accel: 100
+  maxSpeed: 30
+  maxTurnDegPerSec: 360
+  explodeSpeedThreshold: 5
+  explosionRadius: 3
+  damageToOthers: 50
+  damageToPlayer: 19
+  explosionLayer:
+    serializedVersion: 2
+    m_Bits: 384
+  explosionVfxPrefab: {fileID: 8884154451707300971, guid: 409e34ab359c0274cb7986d197e25372, type: 3}
+  explosionVfxLife: 1.3
