@@ -39,6 +39,10 @@ dlg.all.key_dropped.001,某种力量阻止着你丢掉这把钥匙。
 dlg.all.daoli_checked.001,形状很奇怪的膨化脆片，回复3HP。
 dlg.all.daoli_dropped.001,你丢掉了道理脆片。
 
+dlg.all.rocket_checked.001,从米米世界来的火箭。为你提供超强的护甲。
+dlg.all.rocket_checked.002,和超高的伤害。。？
+dlg.all.rocket_dropped.001,你抛弃了这个不安全的火箭。
+
 
 npc.lab.system.name,※※※
 npc.lab.unknown.name,？？？
@@ -95,6 +99,8 @@ dlg.lab.admin.019,你为什么回来了？
 dlg.lab.locked_door.001,这扇门没有锁，但是被某种力量封印了，你打不开。
 dlg.lab.locked_door.002,这扇门被锁住了，你需要持有对应的钥匙才能打开。
 
+dlg.lab.chest3.001,你拿到了一把钥匙。
+
 
 dlg.lab.guide.001,嗨！你是玩家，对吧。
 dlg.lab.guide.002,我是这里的向导，我来介绍一下这边的项目。
@@ -102,6 +108,9 @@ dlg.lab.guide.003,。 。 。 。 。 。 。 。 。 。 。 。 。 。 。 �
 dlg.lab.guide.004,好吧实际上我是第一天来上班，我也不知道这边有什么。
 dlg.lab.guide.005,不过反正你是玩家，应该可以随便存读档，自己慢慢摸索也可以。 。 。 。
 dlg.lab.guide.006,然后管理员让我把这个钥匙给你，应该能用来开右下方的门。
+
+dlg.lab.guide.007,限时活动结束了，所以你得不到任何东西。。。
+
 
 
 dlg.lab.turret.001,你打开了会发射弹球的箱子。

@@ -3,20 +3,25 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Game.Systems.Items;
 using Game.Gameplay.Player;
+using Game.Systems.Items.Runtime;
 
 [RequireComponent(typeof(HeldItem))]
 [RequireComponent(typeof(TopDownMove2D))]
+[RequireComponent(typeof(RuntimeItemStateStore))]
+[RequireComponent(typeof(PlayerStats))]
 public class RocketRideController : MonoBehaviour
 {
     private HeldItem held;
     private TopDownMove2D move;
     private PlayerInputReader input;
     private PlayerStats stats;
+    private RuntimeItemStateStore stateStore;
 
     private RocketMountEntity rocket;
     private RocketRideEffect cfg;
-    private ItemDefinition rocketItem;
 
+    private string ridingInstanceId;     // 当前骑乘绑定的实例ID
+    private ItemDefinition ridingItemDef; // 当前骑乘的物品定义（方便比对/回调）
     private SpriteRenderer[] cachedRenderers;
 
     private void Awake()
@@ -24,6 +29,9 @@ public class RocketRideController : MonoBehaviour
         held = GetComponent<HeldItem>();
         move = GetComponent<TopDownMove2D>();
         stats = GetComponent<PlayerStats>();
+
+        stateStore = GetComponent<RuntimeItemStateStore>();
+        if (stateStore == null) stateStore = gameObject.AddComponent<RuntimeItemStateStore>();
     }
 
     private void OnEnable()
@@ -44,13 +52,16 @@ public class RocketRideController : MonoBehaviour
 
     private IEnumerator SnapRocketNextFrame()
     {
-        // ✅ 让 SpawnOnLoad / 场景出生点逻辑先把玩家放到最终位置
-        yield return null;
-
+        yield return null; // 让 SpawnOnLoad 先把玩家放到最终位置
         if (rocket == null) yield break;
-
-        // ✅ 特判：场景切换后火箭要跟到玩家（并清速度，避免瞬移/漂移）
         rocket.SnapToPlayer();
+    }
+
+    // SpawnOnLoad 里 SendMessage("OnPostSpawn") 会自动调用这个（同一GO上）
+    private void OnPostSpawn()
+    {
+        if (rocket != null)
+            rocket.SnapToPlayer();
     }
 
     private void Update()
@@ -61,31 +72,49 @@ public class RocketRideController : MonoBehaviour
             if (input == null) return;
         }
 
-        var item = held != null ? held.held : null;
-        var effect = (item != null) ? item.Effect as RocketRideEffect : null;
+        // ✅ 一律以 heldInstance 为准（有实例就用实例；没有就退化成 definition 模式）
+        ItemInstance inst = held != null ? held.heldInstance : null;
+        ItemDefinition itemDef = inst != null ? inst.Definition : (held != null ? held.held : null);
+        RocketRideEffect effect = itemDef != null ? itemDef.Effect as RocketRideEffect : null;
 
-        // 1) 不再手持火箭：火箭必须消失
+        // 1) 不再手持火箭：如果正在骑乘，收起并写回 hp
         if (effect == null)
         {
             if (rocket != null)
             {
-                Destroy(rocket.gameObject); // OnDestroy 会通知恢复移动/显示
+                // ✅ 收起写回 HP（只有有实例ID才写回）
+                if (!string.IsNullOrEmpty(ridingInstanceId))
+                    stateStore.SetInt(ridingInstanceId, rocket.GetCurrentHp());
+
+                Destroy(rocket.gameObject); // RocketMountEntity.OnDestroy 会恢复锁定/显示（双保险）
                 rocket = null;
             }
 
-            // 双保险恢复
-            if (GameRoot.I != null) GameRoot.I.SetMoveLocked(false);
-            if (move != null) move.canMove = true;
-            ShowPlayer(true);
-
+            RestorePlayer();
             return;
         }
 
         // 2) 手持火箭：没有火箭就生成（✅ 不需要点击）
         if (rocket == null)
         {
-            StartRide(item, effect);
+            StartRide(inst, itemDef, effect);
             if (rocket == null) return;
+        }
+        else
+        {
+            // ✅ 如果手持换成“另一份火箭实例”，就先收起旧的再生成新的
+            string curId = inst != null ? inst.InstanceId : null;
+            if (!string.Equals(curId, ridingInstanceId))
+            {
+                if (!string.IsNullOrEmpty(ridingInstanceId))
+                    stateStore.SetInt(ridingInstanceId, rocket.GetCurrentHp());
+
+                Destroy(rocket.gameObject);
+                rocket = null;
+
+                StartRide(inst, itemDef, effect);
+                if (rocket == null) return;
+            }
         }
 
         // 3) 输入喂给火箭：按住左键才加速
@@ -94,14 +123,15 @@ public class RocketRideController : MonoBehaviour
         rocket.SetInput(aimDir, accelHeld);
     }
 
-    private void StartRide(ItemDefinition item, RocketRideEffect effect)
+    private void StartRide(ItemInstance inst, ItemDefinition itemDef, RocketRideEffect effect)
     {
-        rocketItem = item;
         cfg = effect;
+        ridingItemDef = itemDef;
+        ridingInstanceId = inst != null ? inst.InstanceId : null;
 
-        if (cfg.rocketPrefab == null)
+        if (cfg == null || cfg.rocketPrefab == null)
         {
-            Debug.LogError("[RocketRide] RocketRideEffect.rocketPrefab 为空");
+            Debug.LogError("[RocketRide] RocketRideEffect 或 rocketPrefab 为空");
             return;
         }
 
@@ -114,12 +144,19 @@ public class RocketRideController : MonoBehaviour
             return;
         }
 
+        // ✅ 从 stateStore 读“这份实例”的剩余 hp（没有记录则用满血）
+        int startHp = cfg.rocketHp;
+        if (!string.IsNullOrEmpty(ridingInstanceId))
+            startHp = stateStore.GetInt(ridingInstanceId, cfg.rocketHp);
+
         rocket.Attach(
             playerGO: gameObject,
             playerStats: stats,
             controller: this,
             effect: cfg,
-            sourceItem: rocketItem
+            sourceItem: itemDef,
+            instanceId: ridingInstanceId,
+            startHp: startHp
         );
 
         // ✅ ban 方向键移动
@@ -130,20 +167,46 @@ public class RocketRideController : MonoBehaviour
         ShowPlayer(false);
     }
 
-    public void OnRocketFinished(ItemDefinition sourceItem, bool consumeHeldItem)
+    /// <summary>
+    /// RocketMountEntity 在爆炸/销毁时调用
+    /// </summary>
+    public void OnRocketFinished(ItemDefinition sourceItem, string instanceId, bool consumeHeldItem)
     {
-        // 先恢复移动和显示
+        // ✅ 先处理状态（这时 rocket/cfg 可能还有效）
+        if (!string.IsNullOrEmpty(instanceId))
+        {
+            if (consumeHeldItem)
+            {
+                stateStore.Remove(instanceId);
+            }
+            else
+            {
+                // 正常结束（比如外部 Destroy），尽量写回当前 hp
+                if (rocket != null)
+                    stateStore.SetInt(instanceId, rocket.GetCurrentHp());
+            }
+        }
+
+        // ✅ 清引用（在处理状态之后）
+        rocket = null;
+        cfg = null;
+        ridingItemDef = null;
+        ridingInstanceId = null;
+
+        RestorePlayer();
+
+        // ✅ 爆炸消耗：从手里彻底消失（同时清实例）
+        if (consumeHeldItem && held != null)
+        {
+            held.SetHeld(null);
+        }
+    }
+
+    private void RestorePlayer()
+    {
         if (GameRoot.I != null) GameRoot.I.SetMoveLocked(false);
         if (move != null) move.canMove = true;
         ShowPlayer(true);
-
-        rocket = null;
-        cfg = null;
-        rocketItem = null;
-
-        // ✅ 爆炸后从手上消失（真正清空 HeldItem）
-        if (consumeHeldItem && held != null && held.held == sourceItem)
-            held.held = null;
     }
 
     private void ShowPlayer(bool show)
@@ -169,10 +232,4 @@ public class RocketRideController : MonoBehaviour
         if (dir.sqrMagnitude < 0.0001f) return Vector2.right;
         return dir.normalized;
     }
-    private void OnPostSpawn()
-    {
-        if (rocket != null)
-            rocket.SnapToPlayer();
-    }
-
 }

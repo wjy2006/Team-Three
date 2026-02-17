@@ -157,6 +157,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5827515143ebd8e408e88ff290cf98da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RocketMountEntity
+  minImpact: 1000
+  damagePerImpact: 6
+  maxCollisionDamage: 200
   rb: {fileID: 5131847947904125746}
 --- !u!212 &3439150113062404114
 SpriteRenderer:

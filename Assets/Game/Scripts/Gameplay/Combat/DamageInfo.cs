@@ -17,7 +17,8 @@ namespace Game.Gameplay.Combat
     public enum KnockbackKind
     {
         Hit,        // 受击击退（子弹直击）
-        Explosion   // 爆炸击退（AOE径向）
+        Explosion,   // 爆炸击退（AOE径向）
+        None
     }
 
     public interface IDamageable

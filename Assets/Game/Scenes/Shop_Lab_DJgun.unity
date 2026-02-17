@@ -317,8 +317,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.UI.Shop.ShopController
   state: 0
-  leaveSceneName: World_Town
-  leaveSpawnId: FromShop
+  leaveSceneName: Room_Lab_Core
+  leaveSpawnId: TopLeft
   leftPanel: {fileID: 1275035240}
   rootPanel: {fileID: 2025005585}
   buyPanel: {fileID: 675190491}
@@ -399,7 +399,7 @@ MonoBehaviour:
     boughtCountGlobalKey: 
     soldOutNameKey: 
     soldOutHintKey: 
-  - item: {fileID: 11400000, guid: b3387b417fcf8d94c9f1036366426ea4, type: 2}
+  - item: {fileID: 11400000, guid: b6225b04322240f4aa322f7a303507e7, type: 2}
     limited: 0
     maxCount: 1
     boughtCountGlobalKey: 
@@ -7132,7 +7132,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -150}
+  m_AnchoredPosition: {x: 9, y: -87}
   m_SizeDelta: {x: 340, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1320622179
@@ -7155,7 +7155,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '10000G
+  m_text: '100G
 
 '
   m_isRightToLeft: 0
@@ -8308,7 +8308,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10, y: -90}
+  m_AnchoredPosition: {x: 24, y: -148}
   m_SizeDelta: {x: 300, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1557745642

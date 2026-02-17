@@ -17,7 +17,6 @@ MonoBehaviour:
   accel: 100
   maxSpeed: 30
   maxTurnDegPerSec: 360
-  explodeSpeedThreshold: 5
   explosionRadius: 3
   damageToOthers: 50
   damageToPlayer: 19
@@ -26,3 +25,6 @@ MonoBehaviour:
     m_Bits: 384
   explosionVfxPrefab: {fileID: 8884154451707300971, guid: 409e34ab359c0274cb7986d197e25372, type: 3}
   explosionVfxLife: 1.3
+  dvThreshold: 15
+  damagePerDv: 10
+  maxImpactDamage: 200

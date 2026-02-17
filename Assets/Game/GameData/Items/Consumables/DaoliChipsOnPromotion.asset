@@ -23,6 +23,6 @@ MonoBehaviour:
     holdDistance: 0
     z: 0
   type: 0
-  buyPrice: 0
+  buyPrice: 1
   sellPrice: 3
   effect: {fileID: 11400000, guid: d44b1f8d7408b1b4dbfbf488a797a7f6, type: 2}

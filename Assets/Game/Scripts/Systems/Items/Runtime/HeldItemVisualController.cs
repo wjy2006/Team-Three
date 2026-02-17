@@ -53,13 +53,20 @@ namespace Game.Gameplay.Player
                 if (GameRoot.I != null) input = GameRoot.I.playerInput;
                 if (input == null) return;
             }
+            var item = heldItem.held;
+            if (item == null)
+            {
+                spriteRenderer.enabled = false;
+                lastItem = null;              // 可选：防止下次切换判断异常
+                return;
+            }
             // ✅ 世界暂停：武器视觉也冻结（不跟鼠标，不转）
             if (GameRoot.I != null && GameRoot.I.Pause != null && GameRoot.I.Pause.IsPaused)
                 return;
             if (spriteRenderer == null) return;
             if (heldItem == null) return;
 
-            var item = heldItem.held;
+
 
             // 没手持：隐藏
             if (item != null)

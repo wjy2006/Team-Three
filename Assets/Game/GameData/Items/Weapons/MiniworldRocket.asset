@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.Items.ItemDefinition
   itemId: MiniworldRocket
   displayName: "\u7C73\u7C73\u4E16\u754C\u706B\u7BAD"
-  infoDialogue: {fileID: 0}
-  dropDialogue: {fileID: 0}
+  infoDialogue: {fileID: 11400000, guid: 699f00f9238ad7541bb2e128fc9bbd28, type: 2}
+  dropDialogue: {fileID: 11400000, guid: 44b8f036b3b78534bbea42172b3c67ea, type: 2}
   visual:
     worldSprite: {fileID: 0}
     rotationMode: 0
@@ -23,6 +23,6 @@ MonoBehaviour:
     holdDistance: 0
     z: 0
   type: 1
-  buyPrice: 20
-  sellPrice: 20
+  buyPrice: 50
+  sellPrice: 5
   effect: {fileID: 11400000, guid: 34f3f33c862affe4d85102ecb8dc5e85, type: 2}

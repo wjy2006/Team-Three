@@ -42,22 +42,32 @@ public class KeyDoor2D : MonoBehaviour
 
         // ✅ 一一对应：必须拥有这把钥匙
         var inv = GameRoot.I != null ? GameRoot.I.Inventory : null;
-        return inv != null && inv.Contains(requiredKey);
+        // ✅ 一一对应：必须拥有这把钥匙（背包 或 手持）
+        return HasKey(requiredKey);
+
     }
+    private bool HasKey(ItemDefinition key)
+    {
+        if (key == null) return true;
+
+        // 1) 背包
+        var inv = GameRoot.I != null ? GameRoot.I.Inventory : null;
+        if (inv != null && inv.Contains(key))
+            return true;
+
+        // 2) 手持
+        var held = GameRoot.I != null ? GameRoot.I.playerHeldItem : null;
+        return held != null && held.held == key;
+    }
+
 
     public bool TryOpen()
     {
         if (!CanOpen()) return false;
 
-        // ✅ 消耗钥匙：从背包移除一份（可选）
         if (consumeKey && requiredKey != null)
-        {
-            var inv = GameRoot.I != null ? GameRoot.I.Inventory : null;
-            if (inv == null) return false;
+            if (!TryConsumeKey(requiredKey)) return false;
 
-            if (!inv.RemoveOne(requiredKey))
-                return false; // 理论上不会发生（因为 CanOpen 已检查）
-        }
 
         Open();
         return true;
@@ -78,6 +88,23 @@ public class KeyDoor2D : MonoBehaviour
         if (blockingCollider != null)
             blockingCollider.enabled = !isOpen; // 开门=关 collider
     }
+    private bool TryConsumeKey(ItemDefinition key)
+    {
+        // 优先消耗手持
+        var held = GameRoot.I != null ? GameRoot.I.playerHeldItem : null;
+        if (held != null && held.held == key)
+        {
+            held.SetHeld(null);
+            held.held = null; // 兼容旧代码：确保立刻清空
+            return true;
+        }
+
+        // 否则消耗背包
+        var inv = GameRoot.I != null ? GameRoot.I.Inventory : null;
+        if (inv == null) return false;
+        return inv.RemoveOne(key);
+    }
+
 
     public bool IsOpen => isOpen;
 }

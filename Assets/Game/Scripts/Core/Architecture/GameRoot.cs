@@ -168,7 +168,6 @@ public class GameRoot : MonoBehaviour
 
         // 过场期间：锁输入/锁移动
         SetInputLocked(true);
-        //SetMoveLocked(true);
 
         try
         {
@@ -195,8 +194,12 @@ public class GameRoot : MonoBehaviour
             if (playerSpawn != null && !string.IsNullOrEmpty(SceneTransfer.NextSpawnId))
                 yield return playerSpawn.SpawnTo(SceneTransfer.NextSpawnId);
 
-            // 等物理稳定
-            yield return new WaitForFixedUpdate();
+            // 等物理稳定：如果被暂停（timeScale=0），FixedUpdate 不会触发，会导致协程卡死
+            if (Time.timeScale > 0f)
+                yield return new WaitForFixedUpdate();
+            else
+                yield return new WaitForSecondsRealtime(Time.fixedDeltaTime); // 或 0.02f
+
 
             ApplyLevelCameraSettings();
             if (cameraFollow != null) cameraFollow.SnapToTarget();

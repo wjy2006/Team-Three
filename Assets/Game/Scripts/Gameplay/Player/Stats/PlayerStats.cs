@@ -25,6 +25,8 @@ namespace Game.Gameplay.Player
 
         public event Action OnStatsChanged;
         public event Action<DamageInfo> OnDamaged;
+        public System.Action OnHpChanged;
+
 
         private void Awake()
         {
@@ -52,6 +54,7 @@ namespace Game.Gameplay.Player
 
             OnDamaged?.Invoke(info);     // ⭐ 把完整 info 传出去
             OnStatsChanged?.Invoke();
+            OnHpChanged?.Invoke();
             GameRoot.I.Triggers.Raise(new DamagedEvent(gameObject, info));
 
             if (hp <= 0)
@@ -96,6 +99,7 @@ namespace Game.Gameplay.Player
             hp = Mathf.Clamp(hp, 0, maxHp);
 
             OnStatsChanged?.Invoke();
+            OnHpChanged?.Invoke();
         }
         public void ReviveToFull()
         {
@@ -110,6 +114,7 @@ namespace Game.Gameplay.Player
 
             hp = maxHp;
             OnStatsChanged?.Invoke();
+            OnHpChanged?.Invoke();
         }
 
         // ===============================

@@ -44,31 +44,34 @@ public class FadeController : MonoBehaviour
     }
 
     private IEnumerator FadeRoutine(float targetAlpha, float duration)
-{
-    float startAlpha = fadeImage.color.a;
-
-    if (duration <= 0f)
     {
+        float startAlpha = fadeImage.color.a;
+
+        if (duration <= 0f)
+        {
+            SetAlpha(targetAlpha);
+            yield break;
+        }
+
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+
+            float t = Mathf.Clamp01(elapsed / duration);
+
+            // 更丝滑
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            float a = Mathf.Lerp(startAlpha, targetAlpha, t);
+            SetAlpha(a);
+
+            yield return null;
+        }
+
         SetAlpha(targetAlpha);
-        yield break;
     }
 
-    float startTime = Time.unscaledTime;
-    float endTime = startTime + duration;
-
-    while (Time.unscaledTime < endTime)
-    {
-        float t = Mathf.InverseLerp(startTime, endTime, Time.unscaledTime);
-
-        // 可选：更丝滑的缓动（比线性更好看）
-        t = Mathf.SmoothStep(0f, 1f, t);
-
-        float a = Mathf.Lerp(startAlpha, targetAlpha, t);
-        SetAlpha(a);
-        yield return null;
-    }
-
-    SetAlpha(targetAlpha);
-}
 
 }

@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using Game.Gameplay.Player;
 using Game.Systems.Items;
+using Game.Systems.Items.Runtime;
 
 namespace Game.UI.Menu
 {
@@ -31,16 +32,15 @@ namespace Game.UI.Menu
         public PlayerStats stats;
         public HeldItem heldItem;
         public Inventory inventory;
+
         [Header("Empty Slot Dialogues")]
         public DialogueAsset EmptyDropped;
         public DialogueAsset EmptyChecked;
-
 
         private PlayerInputReader input;
 
         private bool isOpen;
         private int selectedIndex;
-
 
         // 子菜单：Info / Hold / Drop
         private enum MenuState { Inventory, ItemAction }
@@ -109,7 +109,7 @@ namespace Game.UI.Menu
                     RefreshAll();
                 }
 
-                // ✅ Interact：无论空不空，都进入三选一（你要“空也能选”）
+                // ✅ Interact：无论空不空，都进入三选一
                 if (input.ConsumeInteractDown())
                 {
                     state = MenuState.ItemAction;
@@ -151,7 +151,7 @@ namespace Game.UI.Menu
             if (GameRoot.I != null && GameRoot.I.Pause != null)
                 GameRoot.I.Pause.PushPause("Menu");
 
-            // 菜单锁移动（即使暂停了也建议做，防止你未来改为局部暂停）
+            // 菜单锁移动
             if (input != null) input.SetMoveEnabled(false);
 
             RefreshAll();
@@ -172,10 +172,10 @@ namespace Game.UI.Menu
             if (input != null) input.SetMoveEnabled(true);
         }
 
-
         void ExecuteAction()
         {
-            var item = inventory != null ? inventory.GetAt(selectedIndex) : null;
+            ItemInstance inst = inventory != null ? inventory.GetAt(selectedIndex) : null;
+            ItemDefinition item = inst != null ? inst.Definition : null;
 
             switch (actionIndex)
             {
@@ -191,8 +191,9 @@ namespace Game.UI.Menu
                                 OpenOneLine("npc.all.unknown.name", "dlg.all.default_checked");
                         }
                         else
+                        {
                             OpenDialogueAsset(EmptyChecked);
-
+                        }
                         return;
                     }
 
@@ -216,46 +217,52 @@ namespace Game.UI.Menu
                             else
                                 OpenOneLine("npc.all.unknown.name", "dlg.all.default_dropped");
 
-                            if (inventory.GetAt(selectedIndex).Type==ItemType.Key) return;
+                            // Key 不允许丢
+                            if (item.Type == ItemType.Key) return;
+
                             inventory.RemoveAt(selectedIndex);
                         }
                         else
+                        {
                             OpenDialogueAsset(EmptyDropped);
+                        }
 
                         return;
                     }
             }
         }
 
-
         void HoldOrSwapSelected()
         {
             if (heldItem == null || inventory == null) return;
 
-            var before = heldItem.held;
+            var beforeDef = heldItem.held; // 用于触发 HeldItemChangedEvent（旧事件按 definition 判）
 
-            var slotItem = inventory.GetAt(selectedIndex);
-            var handItem = heldItem.held;
+            ItemInstance slotInst = inventory.GetAt(selectedIndex);
+            ItemInstance handInst = heldItem.heldInstance;
 
-            if (slotItem == null && handItem == null) return;
+            if (slotInst == null && handInst == null) return;
 
-            if (slotItem != null && handItem == null)
+            // 格子有，手空：拿起
+            if (slotInst != null && handInst == null)
             {
-                heldItem.held = slotItem;
-                inventory.RemoveAt(selectedIndex);
+                heldItem.SetHeld(slotInst);
+                inventory.SetAt(selectedIndex, (ItemInstance)null);
             }
-            else if (slotItem == null && handItem != null)
+            // 格子空，手有：放回
+            else if (slotInst == null && handInst != null)
             {
-                inventory.SetAt(selectedIndex, handItem);
-                heldItem.held = null;
+                inventory.SetAt(selectedIndex, handInst);
+                heldItem.SetHeld(null);
             }
-            else if (slotItem != null && handItem != null)
+            // 都有：交换
+            else if (slotInst != null && handInst != null)
             {
-                heldItem.held = slotItem;
-                inventory.SetAt(selectedIndex, handItem);
+                inventory.SetAt(selectedIndex, handInst);
+                heldItem.SetHeld(slotInst);
             }
 
-            if (before != heldItem.held)
+            if (beforeDef != heldItem.held)
             {
                 if (GameRoot.I != null && GameRoot.I.Triggers != null)
                 {
@@ -263,10 +270,6 @@ namespace Game.UI.Menu
                 }
             }
         }
-
-
-
-
 
         void RefreshAll()
         {
@@ -279,8 +282,8 @@ namespace Game.UI.Menu
             // heldText 只显示手持物
             if (heldText != null)
             {
-                var held = heldItem != null ? heldItem.held : null;
-                heldText.text = held != null ? held.DisplayName : "  ——";
+                var heldDef = heldItem != null ? heldItem.held : null;
+                heldText.text = heldDef != null ? heldDef.DisplayName : "  ——";
             }
 
             // slots
@@ -288,11 +291,12 @@ namespace Game.UI.Menu
             {
                 if (slotTexts == null || i >= slotTexts.Length || slotTexts[i] == null) continue;
 
-                var item = inventory != null ? inventory.GetAt(i) : null;
-                slotTexts[i].text = item != null ? item.DisplayName : "  ——";
+                ItemInstance inst = inventory != null ? inventory.GetAt(i) : null;
+                ItemDefinition def = inst != null ? inst.Definition : null;
 
-                slotTexts[i].color =
-                    (i == selectedIndex) ? Color.yellow : Color.white;
+                slotTexts[i].text = def != null ? def.DisplayName : "  ——";
+
+                slotTexts[i].color = (i == selectedIndex) ? Color.yellow : Color.white;
             }
 
             // action texts：只有 ItemAction 状态下才高亮选项（否则全部白色）
@@ -305,6 +309,7 @@ namespace Game.UI.Menu
             if (dropText != null)
                 dropText.color = (state == MenuState.ItemAction && actionIndex == 2) ? Color.yellow : Color.white;
         }
+
         void OpenDialogueAsset(DialogueAsset asset)
         {
             if (asset == null) return;
@@ -323,6 +328,5 @@ namespace Game.UI.Menu
                 new DialogueLine { speakerKey = name, textKey = content }
             });
         }
-
     }
 }

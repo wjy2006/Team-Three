@@ -39,6 +39,20 @@ namespace Game.UI
         // 事件源（兼容两种）
         private PlayerStats playerStats;
         private Health2D health2D;
+        private float lastHp01 = -1f;
+
+        private void OnHpChanged()
+        {
+            // 只在回血时弹出（避免掉血时重复弹一次；掉血仍由 OnDamaged 管理 lagDelay）
+            float hp01 = GetHp01();
+            if (lastHp01 < 0f) lastHp01 = hp01;
+
+            bool healed = hp01 > lastHp01 + 0.0001f;
+            lastHp01 = hp01;
+
+            if (healed)
+                ShowNow(useLagDelay: false);
+        }
 
         private void Awake()
         {
@@ -95,18 +109,21 @@ namespace Game.UI
             // 初始同步
             float t01 = GetHp01();
             lagValue01 = t01;
+            lastHp01 = t01;
             ApplyScale(fill, t01);
             ApplyScale(lag, t01);
         }
 
         private void OnEnable()
         {
+            if (playerStats != null) playerStats.OnHpChanged += OnHpChanged;
             if (playerStats != null) playerStats.OnDamaged += OnDamaged;
             if (health2D != null) health2D.OnDamaged += OnDamaged;
         }
 
         private void OnDisable()
         {
+            if (playerStats != null) playerStats.OnHpChanged -= OnHpChanged;
             if (playerStats != null) playerStats.OnDamaged -= OnDamaged;
             if (health2D != null) health2D.OnDamaged -= OnDamaged;
         }
@@ -167,25 +184,30 @@ namespace Game.UI
                 }
             }
         }
-
-        private void OnDamaged(DamageInfo info)
+        private void ShowNow(bool useLagDelay)
         {
-            // 显示并重置计时
             barRoot.gameObject.SetActive(true);
             hideAt = Time.time + showTime;
 
-            // 立刻不透明
             fading = false;
             alpha = 1f;
             SetAlpha(1f);
 
-            // 掉血时，让白条延迟再追
-            lagDelayUntil = Time.time + lagDelay;
+            if (useLagDelay)
+                lagDelayUntil = Time.time + lagDelay;
+            else
+                lagDelayUntil = Time.time; // 回血立即允许白条同步
 
-            // 防止白条小于红条（例如第一次显示或某些突变）
+            // 保底同步一下白条
             float hp01 = GetHp01();
             if (lagValue01 < hp01) lagValue01 = hp01;
         }
+
+        private void OnDamaged(DamageInfo info)
+        {
+            ShowNow(useLagDelay: true);
+        }
+
 
         private float GetHp01()
         {

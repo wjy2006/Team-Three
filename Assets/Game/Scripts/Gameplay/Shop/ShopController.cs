@@ -513,6 +513,10 @@ namespace Game.UI.Shop
             ItemDefinition item = GetSellItem(idx);
             if (item == null) return;
 
+            // ✅ 不可卖：直接返回
+            if (!IsSellable(item))
+                return;
+
             int price = Mathf.Max(0, item.SellPrice);
 
             bool removed = RemoveSellItem(idx);
@@ -524,11 +528,19 @@ namespace Game.UI.Shop
             RefreshSellList();
         }
 
+
         private ItemDefinition GetSellItem(int idx)
         {
             if (idx < 0 || idx > 7) return null;
-            if (idx <= 6) return inventory != null ? inventory.GetAt(idx) : null;
-            return heldItem != null ? heldItem.held : null;
+
+            if (idx <= 6)
+            {
+                if (inventory == null) return null;
+                var inst = inventory.GetAt(idx);
+                return inst != null ? inst.Definition : null;
+            }
+
+            return (heldItem != null) ? heldItem.held : null;
         }
 
         private bool RemoveSellItem(int idx)
@@ -542,6 +554,21 @@ namespace Game.UI.Shop
             heldItem.held = null;
             return true;
         }
+        // =========================
+        // Sell Rules
+        // =========================
+        private static bool IsSellable(ItemDefinition item)
+        {
+            if (item == null) return false;
+
+            // ✅ 关键物品不允许出售
+            if (item.Type == ItemType.Key) return false;
+            if (item.Type == ItemType.Quest) return false;
+
+            // ✅ 没有售价的一律视为不可卖（避免玩家误删重要物品）
+            return item.SellPrice > 0;
+        }
+
 
         // =========================
         // Talk
@@ -699,7 +726,7 @@ namespace Game.UI.Shop
                 int used = usedInv + usedHeld;
                 int total = inventory.Capacity + 1;
 
-                slotsText.text = $"{used}/{total}";
+                slotsText.text = $"{used} / {total}";
             }
         }
 
@@ -794,19 +821,36 @@ namespace Game.UI.Shop
                 ItemDefinition item = GetSellItemForDisplay(i);
 
                 if (nameTmp != null) nameTmp.text = item != null ? item.DisplayName : "  ——";
-                if (priceTmp != null) priceTmp.text = item != null ? $"{item.SellPrice}G" : "";
+                if (priceTmp != null)
+                {
+                    if (item == null) priceTmp.text = "";
+                    else if (!IsSellable(item)) priceTmp.text = "NO!!";
+                    else priceTmp.text = $"{item.SellPrice}G";
+                }
 
                 bool selected = (i == sellIndex);
-                if (nameTmp != null) nameTmp.color = selected ? Color.yellow : Color.white;
-                if (priceTmp != null) priceTmp.color = selected ? Color.yellow : Color.white;
+                bool sellable = IsSellable(item);
+
+                if (nameTmp != null)
+                    nameTmp.color = selected ? Color.yellow : (item == null ? Color.white : (sellable ? Color.white : Color.gray));
+                if (priceTmp != null)
+                    priceTmp.color = selected ? Color.yellow : (item == null ? Color.white : (sellable ? Color.white : Color.gray));
+
             }
         }
 
         private ItemDefinition GetSellItemForDisplay(int idx)
         {
             if (idx < 0 || idx > 7) return null;
-            if (idx <= 6) return inventory != null ? inventory.GetAt(idx) : null;
-            return heldItem != null ? heldItem.held : null;
+
+            if (idx <= 6)
+            {
+                if (inventory == null) return null;
+                var inst = inventory.GetAt(idx);
+                return inst != null ? inst.Definition : null;
+            }
+
+            return (heldItem != null) ? heldItem.held : null;
         }
 
         private void RefreshTalkOptions()
