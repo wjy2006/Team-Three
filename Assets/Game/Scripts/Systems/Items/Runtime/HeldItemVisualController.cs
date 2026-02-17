@@ -129,6 +129,22 @@ namespace Game.Gameplay.Player
                 return;
             }
         }
+        public void RefreshNow()
+        {
+            if (spriteRenderer == null || heldItem == null) return;
+
+            var item = heldItem.held;
+            if (item == null)
+            {
+                spriteRenderer.enabled = false;
+                spriteRenderer.sprite = null; // ✅ 顺手清掉，避免残影
+                return;
+            }
+
+            spriteRenderer.enabled = true;
+            spriteRenderer.sprite = item.Visual.worldSprite;
+        }
+
         public Vector2 GetFirePointWorldPos()
         {
             if (firePoint != null) return firePoint.position;

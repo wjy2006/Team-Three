@@ -38,6 +38,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scenes/Room_Lab_Reviving.unity
     guid: b4fae51ef35e870418ac96de5e60fecf
+  - enabled: 1
+    path: Assets/Game/Scenes/Shop_Lab_DJGun.unity
+    guid: 586567ab995bfe64da24d1bf506293a3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

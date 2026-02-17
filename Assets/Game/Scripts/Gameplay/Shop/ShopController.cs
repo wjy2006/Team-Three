@@ -552,7 +552,13 @@ namespace Game.UI.Shop
 
             if (heldItem == null || heldItem.held == null) return false;
             heldItem.held = null;
+
+            // ✅ 强制刷新手持视觉（在暂停下也立刻生效）
+            var vis = FindFirstObjectByType<HeldItemVisualController>();
+            if (vis != null) vis.RefreshNow();
+
             return true;
+
         }
         // =========================
         // Sell Rules

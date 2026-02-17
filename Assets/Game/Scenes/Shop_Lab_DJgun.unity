@@ -6642,8 +6642,8 @@ MonoBehaviour:
   confirmGO: {fileID: 628750309}
   successGO: {fileID: 809088620}
   failGO: {fileID: 438265087}
-  blinkMinInterval: 5
-  blinkMaxInterval: 10
+  blinkMinInterval: 1
+  blinkMaxInterval: 9
   blinkDuration: 0.15
 --- !u!114 &1151358764
 MonoBehaviour:

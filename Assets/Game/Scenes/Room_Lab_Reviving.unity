@@ -358,7 +358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcId: npc.Lab.Admin
-  dialogue: {fileID: 11400000, guid: f6d18f2d37659af4283d86ed1b3412b6, type: 2}
+  dialogue: {fileID: 11400000, guid: 416db1858ec82124aa5b5d91bddbc333, type: 2}
 --- !u!61 &160528777
 BoxCollider2D:
   m_ObjectHideFlags: 0
