@@ -1,5 +1,5 @@
 %YAML 1.1
-%TAG !u! tag:yousandi.cn,2023:
+%TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22,7 +22,7 @@ MonoBehaviour:
     defaultAngleOffset: 0
     holdDistance: 1
     z: 0
-  type: 2
+  type: 3
   buyPrice: 0
   sellPrice: 0
   effect: {fileID: 11400000, guid: 81a9292ea58f90448b02500b13867f58, type: 2}

@@ -22,7 +22,7 @@ MonoBehaviour:
     defaultAngleOffset: 0
     holdDistance: 0
     z: 0
-  type: 2
+  type: 3
   buyPrice: 50
   sellPrice: 50
   effect: {fileID: 11400000, guid: 214413aa910766d41a26a43862744aff, type: 2}
