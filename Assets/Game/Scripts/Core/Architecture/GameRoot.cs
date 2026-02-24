@@ -16,6 +16,8 @@ public class GameRoot : MonoBehaviour
     public PlayerInputReader playerInput;
     public HeldItem playerHeldItem;
     public GlitchVolumeTransition glitchVolume; 
+    public AudioSystem Audio ;
+    [SerializeField] private AudioClip glitchTransitionSfx;
 
     [Header("Systems (Boot Scene children)")]
     [SerializeField] private StoryManager storyManager;
@@ -45,11 +47,13 @@ public class GameRoot : MonoBehaviour
         if (I != null && I != this) { Destroy(gameObject); return; }
         I = this;
 
+        // ✅ 初始化组件获取
         if (localization == null) localization = GetComponentInChildren<LocalizationService>(true);
         if (dialogue == null) dialogue = GetComponentInChildren<DialogueSystem>(true);
         if (pause == null) pause = GetComponentInChildren<PauseManager>(true);
         if (storyManager == null) storyManager = GetComponentInChildren<StoryManager>(true);
         if (triggerManager == null) triggerManager = GetComponentInChildren<TriggerManager>(true);
+        if (Audio == null) Audio = GetComponentInChildren<AudioSystem>(true);
         
         DontDestroyOnLoad(gameObject);
         RefreshRuntimeRefs();
@@ -129,9 +133,13 @@ public class GameRoot : MonoBehaviour
         {
             if (Dialogue != null && Dialogue.IsOpen) Dialogue.Close();
 
-            // ✅ 根据状态决定切场前的视觉表现
+            // ✅ 转场开始：视听同步
             if (IsGlitchWorld)
             {
+                // 播放刺耳的干扰声（如果有的话）
+                if (Audio != null && glitchTransitionSfx != null)
+                    Audio.sourceA.PlayOneShot(glitchTransitionSfx); // 或者专门写个 PlaySFX
+
                 if (glitchVolume != null) yield return glitchVolume.GlitchOut();
             }
             else
@@ -141,7 +149,6 @@ public class GameRoot : MonoBehaviour
 
             SceneTransfer.NextSpawnId = toSpawnId;
 
-            // 加载场景逻辑
             if (SceneManager.GetActiveScene().name != toScene)
             {
                 var op = SceneManager.LoadSceneAsync(toScene);
@@ -162,7 +169,6 @@ public class GameRoot : MonoBehaviour
             ApplyLevelCameraSettings();
             if (cameraFollow != null) cameraFollow.SnapToTarget();
 
-            // 复活逻辑
             if (player != null)
             {
                 var stats = player.GetComponent<PlayerStats>();
@@ -170,7 +176,7 @@ public class GameRoot : MonoBehaviour
                 I.Triggers.Raise(new DeathEvent());
             }
 
-            // ✅ 根据状态决定切场后的视觉表现
+            // ✅ 转场结束
             if (IsGlitchWorld)
             {
                 if (glitchVolume != null) yield return glitchVolume.GlitchIn();

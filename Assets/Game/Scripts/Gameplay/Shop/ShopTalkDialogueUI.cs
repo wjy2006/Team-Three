@@ -18,6 +18,10 @@ namespace Game.UI.Shop
         public bool IsOpen { get; private set; }
 
         public event Action OnFinished;
+        public AudioSource voiceAudioSource;
+        public AudioClip voiceClip;
+        public float voiceInterval = 0.06f;
+        public float voicePitch = 1.0f;
 
         // ✅ 表情系统用
         public event Action OnTypingStart;
@@ -35,7 +39,10 @@ namespace Game.UI.Shop
 
         private void Start()
         {
+
             input = GameRoot.I != null ? GameRoot.I.playerInput : null;
+            // 关键：对话可能发生在暂停期间，不能让声音挂掉
+            voiceAudioSource.ignoreListenerPause = true;
         }
 
         private void Update()
@@ -142,6 +149,15 @@ namespace Game.UI.Shop
         {
             float secPerChar = 1f / Mathf.Max(1f, charsPerSecond);
 
+            // ✅ 开始打字：循环播放音效
+            if (voiceAudioSource != null && voiceClip != null)
+            {
+                voiceAudioSource.clip = voiceClip;
+                voiceAudioSource.pitch = voicePitch;
+                voiceAudioSource.loop = true;
+                voiceAudioSource.Play();
+            }
+
             for (int i = 0; i < text.Length; i++)
             {
                 if (skipRequested) break;
@@ -163,11 +179,14 @@ namespace Game.UI.Shop
             }
 
             contentText.text = text;
+
+            // ✅ 停止音效
+            if (voiceAudioSource != null) voiceAudioSource.Stop();
+
             isTyping = false;
             typingCo = null;
             skipRequested = false;
 
-            // ✅ 结束说话
             OnTypingEnd?.Invoke();
         }
 

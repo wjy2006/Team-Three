@@ -57,6 +57,11 @@ dlg.lab.button.004,“你好，欢迎你来玩我的游戏。你可以到右边�
 dlg.lab.button.005,你按下了这个按钮。
 dlg.lab.button.006,没有任何变化。
 
+dlg.lab.button2.001,你按下了这个按钮。
+dlg.lab.button2.002,管理员的声音传了出来。
+dlg.lab.button2.003,你好，下面的灰色方块其实用处不大。你要想办法利用右上的灰色方块，它们是一样的。
+dlg.lab.button2.004,什么都没有发生。
+
 dlg.lab.chest1.001,箱子是空的。
 dlg.lab.chest1.002,好吧，这种事有时就是会发生。
 dlg.lab.chest1.003,你再次检查了这个箱子。
@@ -95,7 +100,10 @@ dlg.lab.admin.017,我还以为没人能找得到的，那你很有实力了。
 dlg.lab.admin.018,你好。
 dlg.lab.admin.019,你为什么回来了？
 
-dlg.lab.admin.020,你知道吗，其实我测试的时候都是一命通关的。
+dlg.lab.admin.020,其实我测试的时候也重生过几次。不能一命通关是正常的。
+
+dlg.lab.admin.021,你好，我劝你最好不要攻击我。
+dlg.lab.admin.022,不过无所谓，因为我把自己的血量设为了无穷大。。。
 
 
 dlg.lab.locked_door.001,这扇门没有锁，但是被某种力量封印了，你打不开。

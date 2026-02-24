@@ -13,6 +13,18 @@ namespace Game.UI.Menu
         [Header("Root")]
         public GameObject menuPanel;
 
+        [Header("Audio SFX")]
+        [Tooltip("负责播放菜单音效的组件")]
+        public AudioSource uiAudioSource;
+        [Tooltip("游标移动音效")]
+        public AudioClip moveSfx;
+        [Tooltip("确定/进入子菜单音效")]
+        public AudioClip confirmSfx;
+        [Tooltip("返回/关闭菜单音效")]
+        public AudioClip cancelSfx;
+        [Tooltip("执行动作（如拿起、放下）的音效")]
+        public AudioClip executeSfx;
+
         [Header("Top Stats")]
         public TMP_Text hpText;
         public TMP_Text moneyText;
@@ -38,11 +50,10 @@ namespace Game.UI.Menu
         public DialogueAsset EmptyChecked;
 
         private PlayerInputReader input;
-
         private bool isOpen;
         private int selectedIndex;
 
-        // 子菜单：Info / Hold / Drop
+        // 子菜单：Inventory (选格子), ItemAction (选 检查/拿着/丢弃)
         private enum MenuState { Inventory, ItemAction }
         private MenuState state = MenuState.Inventory;
 
@@ -52,6 +63,14 @@ namespace Game.UI.Menu
         void Awake()
         {
             if (menuPanel != null) menuPanel.SetActive(false);
+
+            // ✅ 自动初始化 AudioSource 属性，确保在 TimeScale = 0 时能响
+            if (uiAudioSource != null)
+            {
+                uiAudioSource.spatialBlend = 0f; // 2D音效
+                uiAudioSource.playOnAwake = false;
+            }
+            uiAudioSource.ignoreListenerPause = true;
         }
 
         void Start()
@@ -60,29 +79,48 @@ namespace Game.UI.Menu
                 input = GameRoot.I.playerInput;
         }
 
+        // ✅ 音效播放辅助方法
+        private void PlaySFX(AudioClip clip)
+        {
+            if (uiAudioSource != null && clip != null)
+            {
+                uiAudioSource.PlayOneShot(clip);
+            }
+        }
+
         void Update()
         {
             if (input == null) return;
+
+            // 对话框开启时，禁用菜单输入
             if (GameRoot.I != null && GameRoot.I.Dialogue != null && GameRoot.I.Dialogue.IsOpen)
             {
-                // 把 Menu 输入吞掉，避免对话结束后一松手立刻开菜单
                 input.ConsumeMenuDown();
                 return;
             }
 
-            // C 打开/关闭菜单
+            // ✅ C 键：打开/关闭菜单
             if (input.ConsumeMenuDown())
             {
-                if (isOpen) Close();
-                else Open();
+                if (isOpen)
+                {
+                    PlaySFX(cancelSfx);
+                    Close();
+                }
+                else
+                {
+                    PlaySFX(confirmSfx);
+                    Open();
+                }
                 return;
             }
 
             if (!isOpen) return;
 
-            // Cancel：子菜单返回；否则关闭菜单
+            // ✅ Cancel 键：子菜单返回或关闭菜单
             if (input.ConsumeCancelDown())
             {
+                PlaySFX(cancelSfx);
                 if (state == MenuState.ItemAction)
                 {
                     state = MenuState.Inventory;
@@ -97,41 +135,52 @@ namespace Game.UI.Menu
 
             if (state == MenuState.Inventory)
             {
+                // ✅ 上下选择物品
                 if (input.ConsumeUpDown())
                 {
+                    int prev = selectedIndex;
                     selectedIndex = Mathf.Clamp(selectedIndex - 1, 0, SLOT_COUNT - 1);
+                    if (prev != selectedIndex) PlaySFX(moveSfx);
                     RefreshAll();
                 }
 
                 if (input.ConsumeDownDown())
                 {
+                    int prev = selectedIndex;
                     selectedIndex = Mathf.Clamp(selectedIndex + 1, 0, SLOT_COUNT - 1);
+                    if (prev != selectedIndex) PlaySFX(moveSfx);
                     RefreshAll();
                 }
 
-                // ✅ Interact：无论空不空，都进入三选一
+                // ✅ 确定进入三选一子菜单
                 if (input.ConsumeInteractDown())
                 {
+                    PlaySFX(confirmSfx);
                     state = MenuState.ItemAction;
-                    actionIndex = 1; // 默认 Hold
+                    actionIndex = 1; // 默认停在 Hold 上
                     RefreshAll();
                 }
             }
-            else // ItemAction
+            else // ItemAction 状态
             {
+                // ✅ 左右切换动作选项
                 if (input.ConsumeLeftDown())
                 {
+                    int prev = actionIndex;
                     actionIndex = Mathf.Max(actionIndex - 1, 0);
+                    if (prev != actionIndex) PlaySFX(moveSfx);
                     RefreshAll();
                 }
 
                 if (input.ConsumeRightDown())
                 {
+                    int prev = actionIndex;
                     actionIndex = Mathf.Min(actionIndex + 1, 2);
+                    if (prev != actionIndex) PlaySFX(moveSfx);
                     RefreshAll();
                 }
 
-                // ✅ Interact：确认执行
+                // ✅ 确定执行动作
                 if (input.ConsumeInteractDown())
                 {
                     ExecuteAction();
@@ -147,11 +196,11 @@ namespace Game.UI.Menu
 
             if (menuPanel != null) menuPanel.SetActive(true);
 
-            // ✅ 暂停世界
+            // 暂停世界逻辑
             if (GameRoot.I != null && GameRoot.I.Pause != null)
                 GameRoot.I.Pause.PushPause("Menu");
 
-            // 菜单锁移动
+            // 菜单开启时锁住玩家移动
             if (input != null) input.SetMoveEnabled(false);
 
             RefreshAll();
@@ -164,11 +213,9 @@ namespace Game.UI.Menu
 
             if (menuPanel != null) menuPanel.SetActive(false);
 
-            // ✅ 恢复暂停计数
             if (GameRoot.I != null && GameRoot.I.Pause != null)
                 GameRoot.I.Pause.PopPause("Menu");
 
-            // 恢复移动
             if (input != null) input.SetMoveEnabled(true);
         }
 
@@ -179,56 +226,41 @@ namespace Game.UI.Menu
 
             switch (actionIndex)
             {
-                case 0: // Info
+                case 0: // Info (检查)
+                    Close();
+                    if (item != null)
                     {
-                        Close();
-
-                        if (item != null)
-                        {
-                            if (item.infoDialogue != null)
-                                OpenDialogueAsset(item.infoDialogue);
-                            else
-                                OpenOneLine("npc.all.unknown.name", "dlg.all.default_checked");
-                        }
-                        else
-                        {
-                            OpenDialogueAsset(EmptyChecked);
-                        }
-                        return;
+                        if (item.infoDialogue != null) OpenDialogueAsset(item.infoDialogue);
+                        else OpenOneLine("npc.all.unknown.name", "dlg.all.default_checked");
                     }
-
-                case 1: // Hold
+                    else
                     {
-                        HoldOrSwapSelected();
-                        state = MenuState.Inventory;
-                        Close();
-                        return;
+                        OpenDialogueAsset(EmptyChecked);
                     }
+                    break;
 
-                case 2: // Drop
+                case 1: // Hold (拿起/放下)
+                    HoldOrSwapSelected();
+                    state = MenuState.Inventory;
+                    Close();
+                    break;
+
+                case 2: // Drop (丢弃)
+                    PlaySFX(confirmSfx);
+                    Close();
+                    if (item != null)
                     {
-                        Close();
+                        if (item.dropDialogue != null) OpenDialogueAsset(item.dropDialogue);
+                        else OpenOneLine("npc.all.unknown.name", "dlg.all.default_dropped");
 
-                        if (item != null)
-                        {
-                            // ✅ 丢弃提示：优先 dropDialogue，否则默认句
-                            if (item.dropDialogue != null)
-                                OpenDialogueAsset(item.dropDialogue);
-                            else
-                                OpenOneLine("npc.all.unknown.name", "dlg.all.default_dropped");
-
-                            // Key 不允许丢
-                            if (item.Type == ItemType.Key) return;
-
-                            inventory.RemoveAt(selectedIndex);
-                        }
-                        else
-                        {
-                            OpenDialogueAsset(EmptyDropped);
-                        }
-
-                        return;
+                        if (item.Type == ItemType.Key) return;
+                        inventory.RemoveAt(selectedIndex);
                     }
+                    else
+                    {
+                        OpenDialogueAsset(EmptyDropped);
+                    }
+                    break;
             }
         }
 
@@ -236,28 +268,34 @@ namespace Game.UI.Menu
         {
             if (heldItem == null || inventory == null) return;
 
-            var beforeDef = heldItem.held; // 用于触发 HeldItemChangedEvent（旧事件按 definition 判）
+            var beforeDef = heldItem.held;
 
             ItemInstance slotInst = inventory.GetAt(selectedIndex);
             ItemInstance handInst = heldItem.heldInstance;
 
-            if (slotInst == null && handInst == null) return;
+            // ✅ 核心修复：防止 Unity 序列化生成的“空壳”实例绕过 null 检查。必须同时确认 Definition 存在。
+            bool slotHasItem = slotInst != null && slotInst.Definition != null;
+            bool handHasItem = handInst != null && handInst.Definition != null;
+
+            if (!slotHasItem && !handHasItem) return; // 绝对的空，直接中止
 
             // 格子有，手空：拿起
-            if (slotInst != null && handInst == null)
+            if (slotHasItem && !handHasItem)
             {
+                PlaySFX(executeSfx);
                 heldItem.SetHeld(slotInst);
                 inventory.SetAt(selectedIndex, (ItemInstance)null);
             }
             // 格子空，手有：放回
-            else if (slotInst == null && handInst != null)
+            else if (!slotHasItem && handHasItem)
             {
                 inventory.SetAt(selectedIndex, handInst);
                 heldItem.SetHeld(null);
             }
             // 都有：交换
-            else if (slotInst != null && handInst != null)
+            else if (slotHasItem && handHasItem)
             {
+                PlaySFX(executeSfx);
                 inventory.SetAt(selectedIndex, handInst);
                 heldItem.SetHeld(slotInst);
             }
@@ -279,14 +317,12 @@ namespace Game.UI.Menu
                 if (moneyText != null) moneyText.text = $"G  {stats.Money,6}";
             }
 
-            // heldText 只显示手持物
             if (heldText != null)
             {
                 var heldDef = heldItem != null ? heldItem.held : null;
                 heldText.text = heldDef != null ? heldDef.DisplayName : "  ——";
             }
 
-            // slots
             for (int i = 0; i < SLOT_COUNT; i++)
             {
                 if (slotTexts == null || i >= slotTexts.Length || slotTexts[i] == null) continue;
@@ -295,11 +331,9 @@ namespace Game.UI.Menu
                 ItemDefinition def = inst != null ? inst.Definition : null;
 
                 slotTexts[i].text = def != null ? def.DisplayName : "  ——";
-
                 slotTexts[i].color = (i == selectedIndex) ? Color.yellow : Color.white;
             }
 
-            // action texts：只有 ItemAction 状态下才高亮选项（否则全部白色）
             if (infoText != null)
                 infoText.color = (state == MenuState.ItemAction && actionIndex == 0) ? Color.yellow : Color.white;
 
@@ -314,15 +348,12 @@ namespace Game.UI.Menu
         {
             if (asset == null) return;
             if (GameRoot.I == null || GameRoot.I.Dialogue == null) return;
-
-            // npcId 随便给个系统用的
             GameRoot.I.Dialogue.Open("_menu", asset);
         }
 
         void OpenOneLine(string name, string content)
         {
             if (GameRoot.I == null || GameRoot.I.Dialogue == null || GameRoot.I.Dialogue.ui == null) return;
-
             GameRoot.I.Dialogue.ui.Open(new[]
             {
                 new DialogueLine { speakerKey = name, textKey = content }

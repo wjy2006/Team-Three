@@ -7,15 +7,17 @@ namespace Game.Gameplay.Player
     public class HeldItem : MonoBehaviour
     {
         // 旧系统可能会直接改这个
-        public ItemDefinition held;
+        public ItemDefinition held = null;
 
         // 新系统：运行时实例
-        public ItemInstance heldInstance;
+        public ItemInstance heldInstance = null;
 
         public void SetHeld(ItemInstance inst)
         {
             heldInstance = inst;
-            held = inst != null ? inst.Definition : null;
+            held = inst?.Definition;
+            var vis = FindFirstObjectByType<HeldItemVisualController>();
+            if (vis) vis.RefreshNow();
         }
 
         /// <summary>

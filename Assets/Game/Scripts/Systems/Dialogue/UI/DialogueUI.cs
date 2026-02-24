@@ -2,6 +2,16 @@ using TMPro;
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+
+// ✅ 定义一个简单的结构，用来在面板里配置不同人的声音
+[Serializable]
+public struct SpeakerVoice
+{
+    public string speakerKey;
+    public AudioClip voiceClip;
+    [Range(0.5f, 2.0f)] public float pitch; // 通过音调区分不同角色非常有效
+}
 
 public class DialogueUI : MonoBehaviour
 {
@@ -19,6 +29,14 @@ public class DialogueUI : MonoBehaviour
     [Tooltip("标点额外停顿（秒），让节奏更像对话。可设 0 关闭。")]
     public float punctuationPause = 0.03f;
 
+    // ✅ 新增：音频配置
+    [Header("Voice Settings")]
+    public AudioSource voiceAudioSource;
+    public float voiceInterval = 0.06f; // Undertale通常是0.06~0.08秒播一次声音
+    public AudioClip defaultVoiceClip;
+    [Range(0.5f, 2.0f)] public float defaultPitch = 1.0f;
+    public List<SpeakerVoice> speakerVoices = new List<SpeakerVoice>();
+
     private PlayerInputReader input;
     private DialogueLine[] lines;
     private int index;
@@ -29,8 +47,12 @@ public class DialogueUI : MonoBehaviour
     private bool isTyping;            // 是否正在逐字输出
     private bool skipTypingRequested; // 是否请求“立刻显示完本句”
 
+    // ✅ 当前句子的音频缓存
+    private AudioClip currentVoiceClip;
+    private float currentVoicePitch;
+
     public event Action OnClosed;     // 整个对话UI彻底关闭时触发
-    public event Action OnNodeEnd;   // ✅ 新增：当前节点的所有句子播完时触发
+    public event Action OnNodeEnd;    // 当前节点的所有句子播完时触发
 
     public bool IsOpen { get; private set; }
 
@@ -38,6 +60,8 @@ public class DialogueUI : MonoBehaviour
     {
         if (dialogRoot == null) dialogRoot = gameObject;
         dialogRoot.SetActive(false);
+        // 关键：对话可能发生在暂停期间，不能让声音挂掉
+        voiceAudioSource.ignoreListenerPause = true;
     }
 
     void Start()
@@ -50,37 +74,23 @@ public class DialogueUI : MonoBehaviour
     {
         if (!IsOpen) return;
 
-        // ✅ 打开当帧保护
         if (Time.frameCount == openFrame) return;
         if (input == null) return;
 
-        // ✅ 对话期间：不允许菜单键穿透
         input.ConsumeMenuDown();
 
-        // ✅ Continue 键逻辑
         if (input.ConsumeContinueDown())
         {
-            input.ConsumeInteractDown(); // 同帧吞掉交互
-
-            if (isTyping)
-            {
-                // Undertale风格：没打完时按 Continue 不推进（如果你想按确认键也跳过文字，可以这里调 RequestSkip）
-                return;
-            }
-
+            input.ConsumeInteractDown();
+            if (isTyping) return;
             Next();
             return;
         }
 
-        // ✅ Cancel 键逻辑
         if (input.ConsumeCancelDown())
         {
-            input.ConsumeInteractDown(); // 同帧吞掉交互
-
-            if (isTyping)
-            {
-                RequestSkipTyping();
-            }
+            input.ConsumeInteractDown();
+            if (isTyping) RequestSkipTyping();
             return;
         }
     }
@@ -89,12 +99,11 @@ public class DialogueUI : MonoBehaviour
     {
         if (newLines == null || newLines.Length == 0) return;
 
-        // ✅ 只有从“完全关闭”状态进入时，才执行暂停和开启动画
         if (!IsOpen)
         {
             if (GameRoot.I != null && GameRoot.I.Pause != null)
                 GameRoot.I.Pause.PushPause("Dialogue");
-            
+
             dialogRoot.SetActive(true);
             IsOpen = true;
             openFrame = Time.frameCount;
@@ -110,8 +119,6 @@ public class DialogueUI : MonoBehaviour
         index++;
         if (index >= lines.Length)
         {
-            // ✅ 关键改动：一节话说完后，不直接 Close，而是通知 System
-            // System 会决定是给下一段对话（无缝切换）还是真的 Close
             OnNodeEnd?.Invoke();
             return;
         }
@@ -130,7 +137,20 @@ public class DialogueUI : MonoBehaviour
         nameText.text = loc != null ? loc.Get(speaker) : speaker;
         fullContent = loc != null ? loc.Get(contentKey) : contentKey;
 
-        // 开始逐字打字
+        // ✅ 匹配声音：从列表中找，找不到就用默认值
+        currentVoiceClip = defaultVoiceClip;
+        currentVoicePitch = defaultPitch;
+
+        foreach (var v in speakerVoices)
+        {
+            if (v.speakerKey == speaker)
+            {
+                currentVoiceClip = v.voiceClip;
+                currentVoicePitch = v.pitch;
+                break;
+            }
+        }
+
         contentText.text = "";
         isTyping = true;
         skipTypingRequested = false;
@@ -142,11 +162,22 @@ public class DialogueUI : MonoBehaviour
         if (charsPerSecond <= 0f) charsPerSecond = 9999f;
         float secPerChar = 1f / charsPerSecond;
 
+        float voiceTimer = 0f; // 音频冷却计时器
+
         for (int i = 0; i < text.Length; i++)
         {
             if (skipTypingRequested) break;
 
-            contentText.text += text[i];
+            char c = text[i];
+            contentText.text += c;
+
+            // ✅ 如果这不是空格，且冷却到了，就发声
+            if (!char.IsWhiteSpace(c) && voiceTimer <= 0f && currentVoiceClip != null)
+            {
+                voiceAudioSource.pitch = currentVoicePitch;
+                voiceAudioSource.PlayOneShot(currentVoiceClip);
+                voiceTimer = voiceInterval; // 重置冷却
+            }
 
             float extra = 0f;
             if (punctuationPause > 0f && IsPunctuation(text[i]))
@@ -154,15 +185,18 @@ public class DialogueUI : MonoBehaviour
 
             float wait = secPerChar + extra;
             float t = 0f;
+
             while (t < wait)
             {
                 if (skipTypingRequested) break;
-                t += Time.unscaledDeltaTime;
+                float dt = Time.unscaledDeltaTime;
+                t += dt;
+                voiceTimer -= dt; // 递减音频冷却
                 yield return null;
             }
         }
 
-        contentText.text = text; // 确保结束显示完整
+        contentText.text = text;
         isTyping = false;
         typingCo = null;
         skipTypingRequested = false;
@@ -190,7 +224,6 @@ public class DialogueUI : MonoBehaviour
                c == '、' || c == '：' || c == ';' || c == '；';
     }
 
-    // ✅ 这个方法现在由 System 真正决定何时调用
     public void Close()
     {
         if (!IsOpen) return;

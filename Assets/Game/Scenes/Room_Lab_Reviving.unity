@@ -473,6 +473,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 304511139}
+  - component: {fileID: 304511140}
   m_Layer: 0
   m_Name: _World
   m_TagString: Untagged
@@ -498,6 +499,19 @@ Transform:
   - {fileID: 1866465222}
   m_Father: {fileID: 1532438886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &304511140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304511138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28f3cdc73373b8b4dadada3eb346101e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneMusicSettings
+  sceneBGM: {fileID: 8300000, guid: 51be8005249972a45bfc9c00c93a8948, type: 3}
 --- !u!1 &313497756
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,6 +861,7 @@ GameObject:
   m_Component:
   - component: {fileID: 834454957}
   - component: {fileID: 834454958}
+  - component: {fileID: 834454959}
   m_Layer: 10
   m_Name: StoryTriggers
   m_TagString: Untagged
@@ -888,6 +903,25 @@ MonoBehaviour:
   conditions:
   - {fileID: 11400000, guid: c7f1434bdd482ec46a7576212076e598, type: 2}
   onceKey: story.once.Death
+--- !u!114 &834454959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834454956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a531d213682ba4cab4598bc9b5f1fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StoryTrigger
+  priority: 0
+  triggerOnce: 1
+  consumeEvent: 1
+  story: {fileID: 11400000, guid: 924cb064a65f4154394bc4b60199f4d5, type: 2}
+  conditions:
+  - {fileID: 11400000, guid: 295b478e2e6e8b046aa073893d10056d, type: 2}
+  onceKey: story.once.PlayerHitAdmin
 --- !u!1 &1116376149
 GameObject:
   m_ObjectHideFlags: 0

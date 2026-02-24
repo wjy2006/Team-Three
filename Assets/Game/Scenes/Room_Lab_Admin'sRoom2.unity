@@ -364,6 +364,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 606290584}
+  - component: {fileID: 606290585}
   m_Layer: 0
   m_Name: _World
   m_TagString: Untagged
@@ -389,6 +390,19 @@ Transform:
   - {fileID: 948173876}
   m_Father: {fileID: 1567092899}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &606290585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606290583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28f3cdc73373b8b4dadada3eb346101e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneMusicSettings
+  sceneBGM: {fileID: 8300000, guid: 51be8005249972a45bfc9c00c93a8948, type: 3}
 --- !u!1 &651905250
 GameObject:
   m_ObjectHideFlags: 0
@@ -2581,6 +2595,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1746421339}
+  - component: {fileID: 1746421340}
   m_Layer: 10
   m_Name: StoryTriggers
   m_TagString: Untagged
@@ -2603,6 +2618,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 207353254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1746421340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746421338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a531d213682ba4cab4598bc9b5f1fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StoryTrigger
+  priority: 0
+  triggerOnce: 1
+  consumeEvent: 1
+  story: {fileID: 11400000, guid: 924cb064a65f4154394bc4b60199f4d5, type: 2}
+  conditions:
+  - {fileID: 11400000, guid: 295b478e2e6e8b046aa073893d10056d, type: 2}
+  onceKey: story.once.PlayerHitAdmin
 --- !u!1 &1849568097
 GameObject:
   m_ObjectHideFlags: 0
@@ -2674,8 +2708,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4cbbc22253032845a87a0258bbad5a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 1e+9
-  hp: 1e+9
+  maxHp: 1e+35
+  hp: 1e+35
 --- !u!114 &1849568101
 MonoBehaviour:
   m_ObjectHideFlags: 0

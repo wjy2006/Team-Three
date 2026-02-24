@@ -17,6 +17,10 @@ namespace Game.UI.Shop
 
         [Tooltip("标点额外停顿（秒），0=不额外停顿")]
         public float punctuationPause = 0.03f;
+        public AudioSource voiceAudioSource;
+        public AudioClip voiceClip;
+        public float voiceInterval = 0.06f;
+        public float voicePitch = 1.0f;
 
         // ✅ 表情系统用：开始说话/结束说话
         public event Action OnTypingStart;
@@ -25,7 +29,11 @@ namespace Game.UI.Shop
         private Coroutine typingCo;
 
         public bool IsTyping => typingCo != null;
-
+        private void Start()
+        {
+            // 关键：对话可能发生在暂停期间，不能让声音挂掉
+            voiceAudioSource.ignoreListenerPause = true;
+        }
         public void ShowKeys(string speakerKey, string contentKey)
         {
             var loc = GameRoot.I != null ? GameRoot.I.Localization : null;
@@ -73,20 +81,32 @@ namespace Game.UI.Shop
         private IEnumerator TypeLine(string text)
         {
             float secPerChar = 1f / Mathf.Max(1f, charsPerSecond);
+            float voiceTimer = 0f; // 音频播放冷却计时器
 
             for (int i = 0; i < text.Length; i++)
             {
-                contentText.text += text[i];
+                char c = text[i];
+                contentText.text += c;
+
+                // ✅ 发声逻辑：非空格 + 冷却完毕 + 资源存在
+                if (!char.IsWhiteSpace(c) && voiceTimer <= 0f && voiceAudioSource != null && voiceClip != null)
+                {
+                    voiceAudioSource.pitch = voicePitch;
+                    voiceAudioSource.PlayOneShot(voiceClip);
+                    voiceTimer = voiceInterval; // 重置冷却时间（通常设为 0.06s 左右）
+                }
 
                 float extra = 0f;
-                if (punctuationPause > 0f && IsPunctuation(text[i]))
+                if (punctuationPause > 0f && IsPunctuation(c))
                     extra = punctuationPause;
 
                 float wait = secPerChar + extra;
                 float t = 0f;
                 while (t < wait)
                 {
-                    t += Time.unscaledDeltaTime;
+                    float dt = Time.unscaledDeltaTime;
+                    t += dt;
+                    voiceTimer -= dt; // 在等待字符显示的每一帧里减少冷却时间
                     yield return null;
                 }
             }

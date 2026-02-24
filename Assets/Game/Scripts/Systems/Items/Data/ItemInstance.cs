@@ -7,7 +7,7 @@ namespace Game.Systems.Items.Runtime
     public class ItemInstance
     {
         [SerializeField] private string instanceId;
-        [SerializeField] private ItemDefinition definition;
+        [SerializeField] private ItemDefinition definition = null;
 
         public string InstanceId => instanceId;
         public ItemDefinition Definition => definition;

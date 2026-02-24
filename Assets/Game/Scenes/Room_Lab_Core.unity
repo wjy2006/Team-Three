@@ -3572,6 +3572,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7076630131469262698}
+  - component: {fileID: 7549643373971196246}
   m_Layer: 0
   m_Name: _World
   m_TagString: Untagged
@@ -3579,6 +3580,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &7549643373971196246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7549643373971196245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28f3cdc73373b8b4dadada3eb346101e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneMusicSettings
+  sceneBGM: {fileID: 8300000, guid: a92b45f8401e74c4b8e4d24d82649c91, type: 3}
+  fadeTime: 1
 --- !u!4 &7996174693261903416
 Transform:
   m_ObjectHideFlags: 0
