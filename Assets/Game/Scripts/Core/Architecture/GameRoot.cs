@@ -15,8 +15,10 @@ public class GameRoot : MonoBehaviour
     public FadeController fade;
     public PlayerInputReader playerInput;
     public HeldItem playerHeldItem;
+    public HeldItemVisualController vis;
     public GlitchVolumeTransition glitchVolume; 
     public AudioSystem Audio ;
+    public AudioSource globalSfxSource;
     [SerializeField] private AudioClip glitchTransitionSfx;
 
     [Header("Systems (Boot Scene children)")]
@@ -54,6 +56,8 @@ public class GameRoot : MonoBehaviour
         if (storyManager == null) storyManager = GetComponentInChildren<StoryManager>(true);
         if (triggerManager == null) triggerManager = GetComponentInChildren<TriggerManager>(true);
         if (Audio == null) Audio = GetComponentInChildren<AudioSystem>(true);
+        if (vis == null) vis=GetComponentInChildren<HeldItemVisualController>(true);
+        if (globalSfxSource == null) Debug.LogWarning("[GameRoot] No globalSfxSource Found");
         
         DontDestroyOnLoad(gameObject);
         RefreshRuntimeRefs();

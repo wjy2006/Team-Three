@@ -832,7 +832,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneMusicSettings
   sceneBGM: {fileID: 8300000, guid: a92b45f8401e74c4b8e4d24d82649c91, type: 3}
-  fadeTime: 1
 --- !u!4 &5386619239352335902
 Transform:
   m_ObjectHideFlags: 0
@@ -4211,7 +4210,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 7497876276072225004, guid: 33560efa6a8c8564fa9bccb686b00a0d, type: 3}
   muzzle: {fileID: 1391935797}
   fireInterval: 0.8
-  bulletSpeed: 25
+  bulletSpeed: 19
   bulletDamage: 1
   bulletLifeTime: 3
   rotateToAim: 1

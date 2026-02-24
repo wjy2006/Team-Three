@@ -22,12 +22,13 @@ MonoBehaviour:
     defaultAngleOffset: 0
     holdDistance: 0
     z: 0
+  useSfx: {fileID: 8300000, guid: c3a273200c562714c8e9352b6ff00519, type: 3}
   type: 1
   buyPrice: 20
   sellPrice: 15
   effect: {fileID: 11400000, guid: 023c83b22fd9caa4db4f33168e4c33f7, type: 2}
   fireRate: 1.25
-  bulletSpeed: 25
+  bulletSpeed: 19
   spreadDegrees: 2
   pellets: 1
   recoil: 0

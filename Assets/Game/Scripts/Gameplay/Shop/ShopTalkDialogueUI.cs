@@ -199,7 +199,7 @@ namespace Game.UI.Shop
         {
             if (typingCo != null)
             {
-                StopCoroutine(typingCo);
+                //StopCoroutine(typingCo);
                 typingCo = null;
             }
 

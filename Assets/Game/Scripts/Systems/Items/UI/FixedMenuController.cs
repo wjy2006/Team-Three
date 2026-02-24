@@ -59,9 +59,11 @@ namespace Game.UI.Menu
 
         // 0 Info, 1 Hold, 2 Drop
         private int actionIndex = 1;
+        public static FixedMenuController Instance;
 
         void Awake()
         {
+            Instance = this;
             if (menuPanel != null) menuPanel.SetActive(false);
 
             // ✅ 自动初始化 AudioSource 属性，确保在 TimeScale = 0 时能响

@@ -211,7 +211,7 @@ public class DialogueUI : MonoBehaviour
     {
         if (typingCo != null)
         {
-            StopCoroutine(typingCo);
+            //StopCoroutine(typingCo);
             typingCo = null;
         }
         isTyping = false;

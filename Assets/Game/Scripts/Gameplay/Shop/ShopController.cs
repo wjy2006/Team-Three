@@ -614,7 +614,7 @@ namespace Game.UI.Shop
         private bool TryPlacePurchasedItem(ItemDefinition item)
         {
             if (inventory != null && inventory.TryAdd(item)) return true;
-            if (heldItem != null && heldItem.held == null) { heldItem.held = item; var vis = FindFirstObjectByType<HeldItemVisualController>(); if (vis) vis.RefreshNow(); return true; }
+            if (heldItem != null && heldItem.held == null) { heldItem.held = item; var vis = GameRoot.I.vis; if (vis) vis.RefreshNow(); return true; }
             return false;
         }
 
@@ -623,7 +623,7 @@ namespace Game.UI.Shop
         private bool RemoveSellItem(int idx)
         {
             if (idx <= 6) return inventory != null && inventory.RemoveAt(idx);
-            if (heldItem != null && heldItem.held != null) { heldItem.held = null; var vis = FindFirstObjectByType<HeldItemVisualController>(); if (vis) vis.RefreshNow(); return true; }
+            if (heldItem != null && heldItem.held != null) { heldItem.held = null; var vis = GameRoot.I.vis; if (vis) vis.RefreshNow(); return true; }
             return false;
         }
 

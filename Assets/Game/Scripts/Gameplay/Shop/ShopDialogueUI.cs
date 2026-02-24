@@ -121,7 +121,7 @@ namespace Game.UI.Shop
         {
             if (typingCo != null)
             {
-                StopCoroutine(typingCo);
+                //StopCoroutine(typingCo);
                 typingCo = null;
 
                 // 被打断也算结束（避免表情卡在张嘴）

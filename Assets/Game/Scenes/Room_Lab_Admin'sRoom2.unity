@@ -2875,7 +2875,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eea72654e872a574689749c66465f8cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toScene: Room_Lab_Core
+  toScene: Room_Lab_Corridor
   toSpawnId: Left
 --- !u!61 &1856436939
 BoxCollider2D:

@@ -1350,7 +1350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcId: npc.lab.guide
-  dialogue: {fileID: 11400000, guid: ddd81aecf85a4ad44b79fbc1a0b22c6f, type: 2}
+  dialogue: {fileID: 11400000, guid: 675679924148b3b4293d46609822678d, type: 2}
 --- !u!1 &1500959239694085175
 GameObject:
   m_ObjectHideFlags: 0
@@ -3561,7 +3561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eea72654e872a574689749c66465f8cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toScene: Room_Lab_Admin'sRoom2
+  toScene: Room_Lab_Corridor
   toSpawnId: Right
 --- !u!1 &7549643373971196245
 GameObject:
@@ -3593,7 +3593,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneMusicSettings
   sceneBGM: {fileID: 8300000, guid: a92b45f8401e74c4b8e4d24d82649c91, type: 3}
-  fadeTime: 1
 --- !u!4 &7996174693261903416
 Transform:
   m_ObjectHideFlags: 0

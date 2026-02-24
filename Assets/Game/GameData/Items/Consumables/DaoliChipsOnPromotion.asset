@@ -22,6 +22,7 @@ MonoBehaviour:
     defaultAngleOffset: 0
     holdDistance: 0
     z: 0
+  useSfx: {fileID: 8300000, guid: 03b8a40f475655f48aeecda93e6c69d8, type: 3}
   type: 0
   buyPrice: 1
   sellPrice: 3

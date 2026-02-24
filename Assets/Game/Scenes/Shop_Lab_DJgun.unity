@@ -318,8 +318,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game.UI.Shop.ShopController
   state: 0
   uiAudioSource: {fileID: 942255487}
-  moveSfx: {fileID: 8300000, guid: d990c5834e2859941b32ad64d14bd0a4, type: 3}
-  confirmSfx: {fileID: 8300000, guid: 0be2c6abcc933824fa7d4d255728578c, type: 3}
+  moveSfx: {fileID: 8300000, guid: adf0df502a8324240b71266027308ac7, type: 3}
+  confirmSfx: {fileID: 8300000, guid: adf0df502a8324240b71266027308ac7, type: 3}
   cancelSfx: {fileID: 0}
   executeSfx: {fileID: 8300000, guid: 7c3ff50203729b14d8b1ce8d12deefe2, type: 3}
   leaveSceneName: Room_Lab_Core

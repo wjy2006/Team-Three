@@ -16,29 +16,34 @@ namespace Game.Gameplay.Combat
         [Header("Runtime Ref")]
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private Collider2D col;
+
         [Header("Explosion VFX")]
         public GameObject explodeVfxPrefab;
         public float explodeVfxLife = 1.0f; // 自动销毁特效
-        private Vector2 savedVelocity;
-        private bool frozen;
+
+        // ===== Audio SFX =====
+        [Header("Audio SFX")]
+        public AudioClip explodeSfx; // 爆炸/击中音效
+
         [Header("Explosion Damage")]
         public bool explodeOnHit = false;          // 普通子弹可以关，导弹打开
         public float explosionRadius = 2.0f;
         public float explosionDamage = 6f;
         public bool explosionIgnoresTriggers = true;
+
         [Header("Knockback")]
         public float hitKnockbackForce = 4f;         // A：直击击退
         public float explosionKnockbackForce = 8f;    // B：爆炸击退
+
         [Header("Anti-Clip")]
         public bool explodeIfStuckInside = true;
 
-
+        [Header("Raycast Gate")]
+        [Tooltip("Trigger 模式下，速度大于该阈值才使用 Cast 预判；否则完全靠触发来爆")]
+        public float raycastSpeedThreshold = 20f;
 
         // 复用 Overlap 数组，避免GC
         private readonly Collider2D[] overlap = new Collider2D[32];
-
-
-
 
         private GameObject owner;
         private float damage;
@@ -49,7 +54,10 @@ namespace Game.Gameplay.Combat
         private bool useTriggerMode;
         private float armUntil;
 
-        // 复用数组
+        private Vector2 savedVelocity;
+        private bool frozen;
+
+        // Cast 复用数组
         private readonly RaycastHit2D[] hits = new RaycastHit2D[8];
         private ContactFilter2D filter;
 
@@ -64,11 +72,7 @@ namespace Game.Gameplay.Combat
             rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
             rb.interpolation = RigidbodyInterpolation2D.Interpolate;
 
-            // ✅ 优化 1: 使用 LayerMask，不再检测 Everything
-            filter = new ContactFilter2D
-            {
-                useTriggers = true
-            };
+            filter = new ContactFilter2D { useTriggers = true };
             if (hitLayer.value != 0)
             {
                 filter.useLayerMask = true;
@@ -76,8 +80,8 @@ namespace Game.Gameplay.Combat
             }
             else
             {
-                filter.useLayerMask = false; // 没设置层级时的回退方案
-                if (enableDebugLog) Debug.LogWarning($"[Bullet2D] {name} 未设置 Hit Layer，正在检测所有层级，容易误爆！");
+                filter.useLayerMask = false;
+                if (enableDebugLog) Debug.LogWarning($"[Bullet2D] {name} 未设置 Hit Layer，容易误爆！");
             }
         }
 
@@ -101,21 +105,19 @@ namespace Game.Gameplay.Combat
 
         private void Update()
         {
-            // ✅ 暂停：冻结子弹速度（防止任何脚本/物理残留导致“还在动”）
             if (GameRoot.I != null && GameRoot.I.Pause != null && GameRoot.I.Pause.IsPaused)
             {
                 if (!frozen && rb != null)
                 {
                     savedVelocity = rb.linearVelocity;
                     rb.linearVelocity = Vector2.zero;
-                    rb.simulated = false; // 彻底停物理
+                    rb.simulated = false;
                     frozen = true;
                 }
                 return;
             }
             else if (frozen && rb != null)
             {
-                // 恢复
                 rb.simulated = true;
                 rb.linearVelocity = savedVelocity;
                 frozen = false;
@@ -125,22 +127,28 @@ namespace Game.Gameplay.Combat
                 Destroy(gameObject);
         }
 
-
         private void FixedUpdate()
         {
             if (!useTriggerMode) return;
-            if (explodeIfStuckInside)
+
+            // ✅ 严格按你原来的版本：先检查 stuck，stuck 就立刻爆并 Destroy
+            if (explodeIfStuckInside && CheckStuckAndExplode()) return;
+
+            // ✅ 速度阈值：只有高速才用 Cast 预判；低速完全靠 OnTriggerEnter2D
+            float vSqr = rb != null ? rb.linearVelocity.sqrMagnitude : 0f;
+            float thresholdSqr = raycastSpeedThreshold * raycastSpeedThreshold;
+
+            if (vSqr <= thresholdSqr)
             {
-                if (CheckStuckAndExplode())
-                    return;
+                lastPos = rb.position;
+                return;
             }
 
-
+            // ===== 高速 Cast 预判（保留你原逻辑结构）=====
             Vector2 currentPos = rb.position;
             Vector2 delta = currentPos - lastPos;
             float dist = delta.magnitude;
 
-            // 即使距离很短，也进行检测，防止贴脸穿模
             if (dist > 0.00001f)
             {
                 Vector2 dir = delta / dist;
@@ -155,13 +163,8 @@ namespace Game.Gameplay.Combat
                     {
                         var h = hits[i];
                         if (h.collider == null) continue;
-
-                        if (Time.time < armUntil && owner != null && h.collider.transform.root == owner.transform.root)
-                            continue;
-
-                        // 额外的 LayerMask 双重检查 (Cast 有时会漏)
-                        if (hitLayer.value != 0 && ((1 << h.collider.gameObject.layer) & hitLayer.value) == 0)
-                            continue;
+                        if (Time.time < armUntil && owner != null && h.collider.transform.root == owner.transform.root) continue;
+                        if (hitLayer.value != 0 && ((1 << h.collider.gameObject.layer) & hitLayer.value) == 0) continue;
 
                         if (h.distance < bestDist)
                         {
@@ -179,157 +182,116 @@ namespace Game.Gameplay.Combat
                     }
                 }
             }
+
             lastPos = currentPos;
         }
 
-        // Trigger 作为一个保底
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!useTriggerMode) return;
-
             if (Time.time < armUntil && owner != null && other.transform.root == owner.transform.root) return;
-
-
-            // 必须在检测层级内
             if (hitLayer.value != 0 && ((1 << other.gameObject.layer) & hitLayer.value) == 0) return;
 
-            HandleHit(other, transform.position);
+            // ✅ 低速：碰到就爆（不预判/不回退）；落点用“当前最近点”
+            Vector2 p = rb != null ? rb.position : (Vector2)transform.position;
+            Vector2 hitPoint = other.ClosestPoint(p);
+
+            HandleHit(other, hitPoint);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (useTriggerMode) return; // 只有非trigger子弹走这里（管理员的手枪）
+            if (useTriggerMode) return;
 
             var other = collision.collider;
             if (other == null) return;
+            if (Time.time < armUntil && owner != null && other.transform.root == owner.transform.root) return;
+            if (hitLayer.value != 0 && ((1 << other.gameObject.layer) & hitLayer.value) == 0) return;
 
-            // ✅ 出生保护：在很短时间内忽略“命中自己”，防止枪口在自己碰撞体内导致出生即自爆
-            if (Time.time < armUntil && owner != null && other.transform.root == owner.transform.root)
-                return;
-
-            // LayerMask 检查（如果你设置了 hitLayer）
-            if (hitLayer.value != 0 && ((1 << other.gameObject.layer) & hitLayer.value) == 0)
-                return;
-
-            // 命中可受伤对象：扣血 + 销毁（包括 player / 自己，只要过了 arm）
+            // ✅ Collision 模式：只有 damageable 才爆炸！！！
             if (other.TryGetComponent<IDamageable>(out var damageable))
             {
-                Vector2 hitPoint = collision.GetContact(0).point;
-                Vector2 dir = rb != null && rb.linearVelocity.sqrMagnitude > 0.0001f ? rb.linearVelocity.normalized : Vector2.zero;
-
-                var info = MakeDamageInfo(
-                    amount: damage,
-                    hitPoint: hitPoint,
-                    direction: dir,
-                    kind: "bullet",
-                    knockbackForce: hitKnockbackForce,
-                    kbKind: KnockbackKind.Hit
-                );
-
-                damageable.TakeDamage(info);
-                SpawnExplosionVfx(hitPoint);
-                Destroy(gameObject);
-                return;
-
-            }
-
-            // 撞到触发器：一般不处理（不过 collision 里通常不会是 trigger）
-            if (other.isTrigger) return;
-        }
-
-
-        private void HandleHit(Collider2D other, Vector2 hitPoint)
-        {
-            // 命中可受伤目标
-            if (other.TryGetComponent<IDamageable>(out var damageable))
-            {
+                Vector2 hitPoint = collision.contactCount > 0
+                    ? collision.GetContact(0).point
+                    : other.ClosestPoint(rb != null ? rb.position : (Vector2)transform.position);
 
                 Vector2 dir = rb != null && rb.linearVelocity.sqrMagnitude > 0.0001f ? rb.linearVelocity.normalized : Vector2.zero;
-
-                var info = MakeDamageInfo(
-                    amount: damage,
-                    hitPoint: hitPoint,
-                    direction: dir,
-                    kind: "bullet",
-                    knockbackForce: hitKnockbackForce,
-                    kbKind: KnockbackKind.Hit
-                );
+                var info = MakeDamageInfo(damage, hitPoint, dir, "bullet", hitKnockbackForce, KnockbackKind.Hit);
 
                 damageable.TakeDamage(info);
                 Explode(hitPoint);
                 Destroy(gameObject);
                 return;
-
             }
 
-            // ✅ 关键 Debug: 如果是 Trigger，我们忽略它（比如空气墙、敌人的检测范围）
-            if (other.isTrigger)
+            // 非 damageable：不爆炸、不销毁
+        }
+
+        private void HandleHit(Collider2D other, Vector2 hitPoint)
+        {
+            if (other.TryGetComponent<IDamageable>(out var damageable))
             {
-                // 如果你想要子弹穿过触发器，这里直接 return，不要销毁
+                Vector2 dir = rb != null && rb.linearVelocity.sqrMagnitude > 0.0001f ? rb.linearVelocity.normalized : Vector2.zero;
+                var info = MakeDamageInfo(damage, hitPoint, dir, "bullet", hitKnockbackForce, KnockbackKind.Hit);
+
+                damageable.TakeDamage(info);
+                Explode(hitPoint);
+                Destroy(gameObject);
                 return;
             }
+
+            if (other.isTrigger) return;
+
             Explode(hitPoint);
             Destroy(gameObject);
         }
+
         private void SpawnExplosionVfx(Vector2 hitPoint)
         {
+            // ✅ 播放音效
+            if (GameRoot.I != null && GameRoot.I.globalSfxSource != null && explodeSfx != null)
+            {
+                GameRoot.I.globalSfxSource.PlayOneShot(explodeSfx);
+            }
+
             if (explodeVfxPrefab == null) return;
 
             var vfx = Instantiate(explodeVfxPrefab, hitPoint, Quaternion.identity);
-
             if (explodeVfxLife > 0f)
                 Destroy(vfx, explodeVfxLife);
         }
+
         private void Explode(Vector2 center)
         {
-            // 1) VFX
+            // 1) VFX + 音效
             SpawnExplosionVfx(center);
 
-            // 2) AOE 伤害（可选开关）
+            // 2) AOE 伤害
             if (!explodeOnHit) return;
 
-            // Physics2D.OverlapCircle + ContactFilter2D（沿用你已有 filter/hitLayer）
             int count = Physics2D.OverlapCircle(center, explosionRadius, filter, overlap);
 
             for (int i = 0; i < count; i++)
             {
                 var c = overlap[i];
                 if (c == null) continue;
-
                 if (explosionIgnoresTriggers && c.isTrigger) continue;
 
-                // ✅ 自伤/友伤：不做任何阵营过滤
                 if (c.TryGetComponent<IDamageable>(out var dmg))
                 {
                     Vector2 toTarget = (Vector2)c.transform.position - center;
                     float dist = toTarget.magnitude;
-
-                    // 方向
                     Vector2 dir = dist < 0.0001f ? Vector2.up : (toTarget / dist);
-
-                    // 距离衰减（线性）：0 距离=1，边缘=0.5
                     float t = Mathf.Clamp01(dist / explosionRadius);
-                    float falloff = 1f - 0.5f*t;
-
-
-                    // 最终击退力度
+                    float falloff = 1f - 0.5f * t;
                     float kb = explosionKnockbackForce * falloff;
 
-                    var info = MakeDamageInfo(
-                        amount: explosionDamage,
-                        hitPoint: center,
-                        direction: dir,
-                        kind: "explosion",
-                        knockbackForce: kb,
-                        kbKind: KnockbackKind.Explosion
-                    );
-
+                    var info = MakeDamageInfo(explosionDamage, center, dir, "explosion", kb, KnockbackKind.Explosion);
                     dmg.TakeDamage(info);
-
-
                 }
             }
         }
+
         private DamageInfo MakeDamageInfo(float amount, Vector2 hitPoint, Vector2 direction, string kind, float knockbackForce, KnockbackKind kbKind)
         {
             return new DamageInfo
@@ -343,45 +305,31 @@ namespace Game.Gameplay.Combat
                 kind = kind
             };
         }
+
         private bool CheckStuckAndExplode()
         {
-            // 只在 Trigger 子弹里用（你这套逻辑就是给 Trigger 防穿模的）
             if (!useTriggerMode) return false;
-
-            // 出生保护：避免枪口在自己 collider 里导致立刻爆
             if (Time.time < armUntil) return false;
 
-            // 用当前 collider 检测重叠
             int count = col.Overlap(filter, overlap);
             if (count <= 0) return false;
 
-            // 选一个“最合理”的重叠对象作为爆炸参考点
             Collider2D best = null;
-
             for (int i = 0; i < count; i++)
             {
                 var c = overlap[i];
                 if (c == null) continue;
-
-                // 你仍然允许自伤，但这里是“出生保护后”
-                // 若你真的希望“卡在自己身上也爆”，可以删掉这个判断
-                if (owner != null && c.transform.root == owner.transform.root)
-                    continue;
-
-                // 如果你希望忽略 trigger（比如检测范围），保留这行
+                if (owner != null && c.transform.root == owner.transform.root) continue;
                 if (c.isTrigger) continue;
-
                 best = c;
                 break;
             }
 
             if (best == null) return false;
 
-            // 把子弹“拉回”一个更合理的爆炸点：重叠物体到子弹位置的最近点
             Vector2 center = rb.position;
             Vector2 snapPoint = best.ClosestPoint(center);
-
-            rb.position = snapPoint; // 让 VFX/爆炸中心更贴墙
+            rb.position = snapPoint;
 
             if (enableDebugLog)
                 Debug.Log($"[Bullet2D] {name} stuck inside {best.name}, explode immediately.");
@@ -390,7 +338,5 @@ namespace Game.Gameplay.Combat
             Destroy(gameObject);
             return true;
         }
-
     }
-
 }
