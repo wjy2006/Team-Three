@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: Revives
   m_EditorClassIdentifier: Assembly-CSharp::StoryAsset
   steps:
-  - {fileID: 11400000, guid: e222bd100f6aca74e9ec5a36a50768e8, type: 2}
+  - rid: 7921011008507740232
   lockPlayerInput: 1
   pauseWorld: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 7921011008507740232
+      type: {class: DialogueStep, ns: , asm: Assembly-CSharp}
+      data:
+        dialogue: {fileID: 11400000, guid: f6d18f2d37659af4283d86ed1b3412b6, type: 2}

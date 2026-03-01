@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7497876276072225004}
   m_Layer: 9
   m_Name: SlimeBall
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -188,6 +188,7 @@ MonoBehaviour:
   explodeVfxPrefab: {fileID: 4654689835247661470, guid: 75e6aaf7b488f154b920f1389e84936f, type: 3}
   explodeVfxLife: 2
   explodeSfx: {fileID: 8300000, guid: 04b82deefda579649887d1bf5c2010bd, type: 3}
+  bounceSfx: {fileID: 0}
   explodeOnHit: 0
   explosionRadius: 0
   explosionDamage: 0

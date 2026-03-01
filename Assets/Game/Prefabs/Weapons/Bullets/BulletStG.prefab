@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7497876276072225004}
   m_Layer: 9
   m_Name: BulletStG
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -188,6 +188,7 @@ MonoBehaviour:
   explodeVfxPrefab: {fileID: 6894253983147173734, guid: 35516ebf5370cd84da64c40ebc4b4769, type: 3}
   explodeVfxLife: 1
   explodeSfx: {fileID: 8300000, guid: 7417bed5d9b5fe54a918b6e040f502ab, type: 3}
+  bounceSfx: {fileID: 0}
   explodeOnHit: 0
   explosionRadius: 0
   explosionDamage: 0

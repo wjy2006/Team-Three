@@ -31,7 +31,9 @@ MonoBehaviour:
   bulletSpeed: 25
   spreadDegrees: 3
   pellets: 1
-  recoil: 0
+  visualRecoilStrength: 0.5
+  visualRecoilReturnSpeed: 5
+  physicalRecoilForce: 2
   fireMode: 1
   damage: 5
   bulletLifeTime: 2

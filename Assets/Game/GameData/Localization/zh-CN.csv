@@ -48,6 +48,7 @@ npc.lab.system.name,※※※
 npc.lab.unknown.name,？？？
 npc.lab.admin.name,管理员
 npc.lab.guide.name,向导
+npc.core.unknown.name,？？？
 
 dlg.lab.button.001,这里有一个按钮。
 dlg.lab.button.002,你按下了它。
@@ -112,14 +113,14 @@ dlg.lab.locked_door.002,这扇门被锁住了，你需要持有对应的钥匙�
 dlg.lab.chest3.001,你拿到了一把钥匙。
 
 
-dlg.lab.guide.001,嗨！你是玩家，对吧。
-dlg.lab.guide.002,我是这里的向导，我来介绍一下这边的项目。
-dlg.lab.guide.003,。 。 。 。 。 。 。 。 。 。 。 。 。 。 。 。 。 。 。 。
-dlg.lab.guide.004,好吧实际上我是第一天来上班，我也不知道这边有什么。
-dlg.lab.guide.005,不过反正你是玩家，应该可以随便存读档，自己慢慢摸索也可以。 。 。 。
-dlg.lab.guide.006,然后管理员让我把这个钥匙给你，应该能用来开右下方的门。
-
+dlg.lab.guide.001,玩家你好。我是管理员刚刚雇来的向导。
+dlg.lab.guide.002,按道理来说，我应该向你详细地介绍这里的规则。
+dlg.lab.guide.003,但由于管理员给我开的工资是每小时 0 元，所以我将付出百分之 0 的精力来工作。
+dlg.lab.guide.004,不过这地方挺大，我四处转转也不错。
+dlg.lab.guide.005,然后我这儿有把钥匙，给你了。
+dlg.lab.guide.006,我忘了它的作用了。
 dlg.lab.guide.007,限时活动结束了，所以你得不到任何东西。。。
+dlg.lab.guide.008,怎么，你不知道我会瞬移吗？
 
 
 

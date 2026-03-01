@@ -19,28 +19,24 @@ namespace Game.Gameplay.Combat
 
         [Header("Explosion VFX")]
         public GameObject explodeVfxPrefab;
-        public float explodeVfxLife = 1.0f; // 自动销毁特效
+        public float explodeVfxLife = 1.0f;
 
-        // ===== Audio SFX =====
         [Header("Audio SFX")]
-        public AudioClip explodeSfx; // 爆炸/击中音效
+        public AudioClip explodeSfx;
+        public AudioClip bounceSfx; // 弹墙音效，打到 Damageable 不播
 
         [Header("Explosion Damage")]
-        public bool explodeOnHit = false;          // 普通子弹可以关，导弹打开
+        public bool explodeOnHit = false;
         public float explosionRadius = 2.0f;
         public float explosionDamage = 6f;
         public bool explosionIgnoresTriggers = true;
 
         [Header("Knockback")]
-        public float hitKnockbackForce = 4f;         // A：直击击退
-        public float explosionKnockbackForce = 8f;    // B：爆炸击退
+        public float hitKnockbackForce = 4f;
+        public float explosionKnockbackForce = 8f;
 
         [Header("Anti-Clip")]
         public bool explodeIfStuckInside = true;
-
-        [Header("Raycast Gate")]
-        [Tooltip("Trigger 模式下，速度大于该阈值才使用 Cast 预判；否则完全靠触发来爆")]
-        public float raycastSpeedThreshold = 20f;
 
         // 复用 Overlap 数组，避免GC
         private readonly Collider2D[] overlap = new Collider2D[32];
@@ -57,7 +53,7 @@ namespace Game.Gameplay.Combat
         private Vector2 savedVelocity;
         private bool frozen;
 
-        // Cast 复用数组
+        // 复用数组
         private readonly RaycastHit2D[] hits = new RaycastHit2D[8];
         private ContactFilter2D filter;
 
@@ -130,21 +126,8 @@ namespace Game.Gameplay.Combat
         private void FixedUpdate()
         {
             if (!useTriggerMode) return;
-
-            // ✅ 严格按你原来的版本：先检查 stuck，stuck 就立刻爆并 Destroy
             if (explodeIfStuckInside && CheckStuckAndExplode()) return;
 
-            // ✅ 速度阈值：只有高速才用 Cast 预判；低速完全靠 OnTriggerEnter2D
-            float vSqr = rb != null ? rb.linearVelocity.sqrMagnitude : 0f;
-            float thresholdSqr = raycastSpeedThreshold * raycastSpeedThreshold;
-
-            if (vSqr <= thresholdSqr)
-            {
-                lastPos = rb.position;
-                return;
-            }
-
-            // ===== 高速 Cast 预判（保留你原逻辑结构）=====
             Vector2 currentPos = rb.position;
             Vector2 delta = currentPos - lastPos;
             float dist = delta.magnitude;
@@ -176,13 +159,17 @@ namespace Game.Gameplay.Combat
                     if (best != -1)
                     {
                         var hit = hits[best];
-                        rb.position = hit.point;
+
+                        // ✅ 唯一修改：只有打到 Damageable 才 snap 位置
+                        // 打墙时不 snap，慢速子弹不会视觉上"沾"在墙面
+                        if (hit.collider.TryGetComponent<IDamageable>(out _))
+                            rb.position = hit.point;
+
                         HandleHit(hit.collider, hit.point);
                         return;
                     }
                 }
             }
-
             lastPos = currentPos;
         }
 
@@ -192,11 +179,7 @@ namespace Game.Gameplay.Combat
             if (Time.time < armUntil && owner != null && other.transform.root == owner.transform.root) return;
             if (hitLayer.value != 0 && ((1 << other.gameObject.layer) & hitLayer.value) == 0) return;
 
-            // ✅ 低速：碰到就爆（不预判/不回退）；落点用“当前最近点”
-            Vector2 p = rb != null ? rb.position : (Vector2)transform.position;
-            Vector2 hitPoint = other.ClosestPoint(p);
-
-            HandleHit(other, hitPoint);
+            HandleHit(other, transform.position);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -208,23 +191,21 @@ namespace Game.Gameplay.Combat
             if (Time.time < armUntil && owner != null && other.transform.root == owner.transform.root) return;
             if (hitLayer.value != 0 && ((1 << other.gameObject.layer) & hitLayer.value) == 0) return;
 
-            // ✅ Collision 模式：只有 damageable 才爆炸！！！
             if (other.TryGetComponent<IDamageable>(out var damageable))
             {
-                Vector2 hitPoint = collision.contactCount > 0
-                    ? collision.GetContact(0).point
-                    : other.ClosestPoint(rb != null ? rb.position : (Vector2)transform.position);
-
+                Vector2 hitPoint = collision.GetContact(0).point;
                 Vector2 dir = rb != null && rb.linearVelocity.sqrMagnitude > 0.0001f ? rb.linearVelocity.normalized : Vector2.zero;
-                var info = MakeDamageInfo(damage, hitPoint, dir, "bullet", hitKnockbackForce, KnockbackKind.Hit);
 
+                var info = MakeDamageInfo(damage, hitPoint, dir, "bullet", hitKnockbackForce, KnockbackKind.Hit);
                 damageable.TakeDamage(info);
                 Explode(hitPoint);
                 Destroy(gameObject);
                 return;
             }
 
-            // 非 damageable：不爆炸、不销毁
+            if (other.isTrigger) return;
+            if (GameRoot.I != null && GameRoot.I.globalSfxSource != null && bounceSfx != null)
+                GameRoot.I.globalSfxSource.PlayOneShot(bounceSfx);
         }
 
         private void HandleHit(Collider2D other, Vector2 hitPoint)
@@ -248,7 +229,6 @@ namespace Game.Gameplay.Combat
 
         private void SpawnExplosionVfx(Vector2 hitPoint)
         {
-            // ✅ 播放音效
             if (GameRoot.I != null && GameRoot.I.globalSfxSource != null && explodeSfx != null)
             {
                 GameRoot.I.globalSfxSource.PlayOneShot(explodeSfx);
@@ -263,10 +243,8 @@ namespace Game.Gameplay.Combat
 
         private void Explode(Vector2 center)
         {
-            // 1) VFX + 音效
             SpawnExplosionVfx(center);
 
-            // 2) AOE 伤害
             if (!explodeOnHit) return;
 
             int count = Physics2D.OverlapCircle(center, explosionRadius, filter, overlap);

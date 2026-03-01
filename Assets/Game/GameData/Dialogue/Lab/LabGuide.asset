@@ -17,7 +17,7 @@ MonoBehaviour:
   - id: start
     type: 0
     lines:
-    - speakerKey: npc.lab.unknown.name
+    - speakerKey: npc.core.unknown.name
       textKey: dlg.lab.guide.001
     - speakerKey: npc.lab.guide.name
       textKey: dlg.lab.guide.002

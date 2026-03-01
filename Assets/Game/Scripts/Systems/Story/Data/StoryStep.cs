@@ -1,7 +1,8 @@
 using System.Collections;
-using UnityEngine;
+using System;
 
-public abstract class StoryStep : ScriptableObject
+[Serializable]
+public abstract class StoryStep
 {
     public abstract IEnumerator Play(StoryContext ctx);
 }

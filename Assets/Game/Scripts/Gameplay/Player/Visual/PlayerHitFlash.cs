@@ -25,8 +25,8 @@ namespace Game.Gameplay.Player
 
         private void OnEnable()
         {
-            if (stats != null)
-                stats.OnDamaged += OnDamaged;
+            //if (stats != null)
+                //stats.OnDamaged += OnDamaged;
         }
 
         private void OnDisable()

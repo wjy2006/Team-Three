@@ -71,4 +71,14 @@ public class DeathEvent : GameEvent
     
 }
 
+public sealed class NpcDodgeEvent : GameEvent
+{
+    public readonly string npcId;
+    public readonly GameObject npcObject;
 
+    public NpcDodgeEvent(string npcId, GameObject npcObject)
+    {
+        this.npcId = npcId;
+        this.npcObject = npcObject;
+    }
+}

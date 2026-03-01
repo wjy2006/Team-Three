@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Story/Steps/Move Transform")]
+[Serializable]
 public class MoveTransformStep : StoryStep
 {
     public Transform target;

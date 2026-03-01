@@ -161,8 +161,12 @@ public class DialogueUI : MonoBehaviour
     {
         if (charsPerSecond <= 0f) charsPerSecond = 9999f;
         float secPerChar = 1f / charsPerSecond;
+        float voiceTimer = 0f;
 
-        float voiceTimer = 0f; // 音频冷却计时器
+        // ✅ 核心优化 1：移出循环
+        // 确保 pitch 不为 0（0会导致完全无声）
+        float safePitch = Mathf.Max(0.1f, currentVoicePitch);
+        voiceAudioSource.pitch = safePitch;
 
         for (int i = 0; i < text.Length; i++)
         {
@@ -171,14 +175,13 @@ public class DialogueUI : MonoBehaviour
             char c = text[i];
             contentText.text += c;
 
-            // ✅ 如果这不是空格，且冷却到了，就发声
             if (!char.IsWhiteSpace(c) && voiceTimer <= 0f && currentVoiceClip != null)
             {
-                voiceAudioSource.pitch = currentVoicePitch;
                 voiceAudioSource.PlayOneShot(currentVoiceClip);
-                voiceTimer = voiceInterval; // 重置冷却
+                voiceTimer = voiceInterval; 
             }
 
+            // --- 停顿逻辑 ---
             float extra = 0f;
             if (punctuationPause > 0f && IsPunctuation(text[i]))
                 extra = punctuationPause;
@@ -191,7 +194,7 @@ public class DialogueUI : MonoBehaviour
                 if (skipTypingRequested) break;
                 float dt = Time.unscaledDeltaTime;
                 t += dt;
-                voiceTimer -= dt; // 递减音频冷却
+                voiceTimer -= dt; 
                 yield return null;
             }
         }
@@ -199,7 +202,6 @@ public class DialogueUI : MonoBehaviour
         contentText.text = text;
         isTyping = false;
         typingCo = null;
-        skipTypingRequested = false;
     }
 
     public void RequestSkipTyping()

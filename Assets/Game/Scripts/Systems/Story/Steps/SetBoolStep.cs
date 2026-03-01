@@ -1,7 +1,8 @@
 using System.Collections;
+using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Story/Steps/Set Global Bool")]
+[Serializable]
 public class SetGlobalBoolStep : StoryStep
 {
     public string key;

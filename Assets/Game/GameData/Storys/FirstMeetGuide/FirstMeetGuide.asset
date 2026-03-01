@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: FirstMeetGuide
   m_EditorClassIdentifier: Assembly-CSharp::StoryAsset
   steps:
-  - {fileID: 11400000, guid: 65570e7f869b91f49b61759b841bff16, type: 2}
+  - rid: 7921011008507740230
   lockPlayerInput: 1
   pauseWorld: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 7921011008507740230
+      type: {class: DialogueStep, ns: , asm: Assembly-CSharp}
+      data:
+        dialogue: {fileID: 11400000, guid: 05e6c233b72abca44912926ef11ca44b, type: 2}

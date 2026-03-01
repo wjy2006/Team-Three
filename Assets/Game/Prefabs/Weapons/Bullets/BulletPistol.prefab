@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7497876276072225004}
   m_Layer: 9
   m_Name: BulletPistol
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -187,9 +187,12 @@ MonoBehaviour:
   col: {fileID: 6944757721946120416}
   explodeVfxPrefab: {fileID: 0}
   explodeVfxLife: 1
+  explodeSfx: {fileID: 0}
+  bounceSfx: {fileID: 8300000, guid: ea06de83e80d00546aae918eda126da8, type: 3}
   explodeOnHit: 0
   explosionRadius: 2
   explosionDamage: 6
   explosionIgnoresTriggers: 1
   hitKnockbackForce: 0
   explosionKnockbackForce: 0
+  explodeIfStuckInside: 1

@@ -9,14 +9,21 @@ public class HeldItemClickUse : MonoBehaviour
     [Header("Audio")]
     public AudioSource audioSource; // ✅ 拖入玩家身上的 AudioSource
 
-    private float nextFireTime; 
+    private float nextFireTime;
     private bool blockUntilClickReleased;
 
+    [Header("Recoil Refs")]
+    [SerializeField] private Game.Gameplay.Player.HeldItemVisualController visualCtrl;
+    [SerializeField] private Game.Gameplay.Combat.KnockbackReceiver kbReceiver;
+
+    // --- 2. 在 Awake 中添加自动获取 ---
     void Awake()
     {
         held = GetComponent<Game.Gameplay.Player.HeldItem>();
-        // ✅ 如果没手动拖，尝试自动获取
         if (audioSource == null) audioSource = GetComponent<AudioSource>();
+        // 自动寻找组件
+        if (visualCtrl == null) visualCtrl = GetComponent<Game.Gameplay.Player.HeldItemVisualController>();
+        if (kbReceiver == null) kbReceiver = GetComponent<Game.Gameplay.Combat.KnockbackReceiver>();
     }
 
     // ✅ 音效播放助手
@@ -77,9 +84,18 @@ public class HeldItemClickUse : MonoBehaviour
 
             if (weapon.Effect == null) return;
 
+            // --- ✨ 新增：触发后坐力效果 ---
+            // 视觉：枪往后缩
+            if (visualCtrl != null) visualCtrl.ApplyVisualRecoil(weapon.visualRecoilStrength);
+
+            // 物理：玩家往后退
+            if (kbReceiver != null && weapon.physicalRecoilForce > 0)
+            {
+                kbReceiver.ApplyKnockback(-aimDir, weapon.physicalRecoilForce);
+            }
+            // ----------------------------
+
             var ctx = new ItemUseContext { user = gameObject, item = weapon, aimWorldPos = aimWorldPos, aimDir = aimDir };
-            
-            // ✅ 播放音效 (无论是单发还是连发)
             PlayUseSfx(weapon.UseSfx);
             weapon.Effect.Apply(ctx);
 
@@ -89,7 +105,6 @@ public class HeldItemClickUse : MonoBehaviour
             }
             return;
         }
-
         // ====== 2) 非武器逻辑 ======
         if (!input.ConsumeClickDown(out _)) return;
 
@@ -107,9 +122,9 @@ public class HeldItemClickUse : MonoBehaviour
             {
                 GameRoot.I.Triggers.Raise(new HeldItemUsedEvent(item: item));
             }
-            
+
             // 如果是消耗品则清空
-            held.held = null; 
+            held.held = null;
             GameRoot.I.vis.RefreshNow();
         }
     }

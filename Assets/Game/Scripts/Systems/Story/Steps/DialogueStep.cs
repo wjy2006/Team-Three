@@ -1,7 +1,8 @@
 using System.Collections;
+using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Story/Steps/Dialogue")]
+[Serializable]
 public class DialogueStep : StoryStep
 {
     public DialogueAsset dialogue;
@@ -9,10 +10,9 @@ public class DialogueStep : StoryStep
     public override IEnumerator Play(StoryContext ctx)
     {
         if (dialogue == null) yield break;
-        if (ctx.Root == null || ctx.Root.Dialogue == null) yield break;
+        if (ctx?.Root == null || ctx.Root.Dialogue == null) yield break;
 
         bool done = false;
-
         void OnClosed() => done = true;
 
         ctx.Root.Dialogue.ui.OnClosed += OnClosed;

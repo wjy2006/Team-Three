@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7497876276072225004}
   m_Layer: 9
   m_Name: Missile
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -188,6 +188,7 @@ MonoBehaviour:
   explodeVfxPrefab: {fileID: 8884154451707300971, guid: b368897e2f65ff942ad57c6433204632, type: 3}
   explodeVfxLife: 1.3
   explodeSfx: {fileID: 8300000, guid: d529ef24aa2c26b4ba74cdbeb1bacf50, type: 3}
+  bounceSfx: {fileID: 0}
   explodeOnHit: 1
   explosionRadius: 2
   explosionDamage: 6

@@ -5269,7 +5269,7 @@ MonoBehaviour:
   fade: {fileID: 7020750976318942874}
   playerInput: {fileID: 5680874913707256839}
   playerHeldItem: {fileID: 8435163443797893737}
-  vis: {fileID: 0}
+  vis: {fileID: 8435163443797893741}
   glitchVolume: {fileID: 176757713}
   Audio: {fileID: 692701540}
   globalSfxSource: {fileID: 921218693}
@@ -5822,7 +5822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mover: {fileID: 4439582627093315456}
-  dialog: {fileID: 0}
+  dialog: {fileID: 8504859135682991106}
   input: {fileID: 5680874913707256839}
 --- !u!114 &3361643891556882707
 MonoBehaviour:
@@ -5962,7 +5962,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3881611369355023695}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a016b1ec1aba6c4fba5e97581297d8d, type: 3}
   m_Name: 
@@ -6860,6 +6860,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1094436762}
+  visualCtrl: {fileID: 0}
+  kbReceiver: {fileID: 0}
 --- !u!114 &8435163443797893741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7004,8 +7006,17 @@ MonoBehaviour:
   defaultVoiceClip: {fileID: 8300000, guid: 9cf5ce92d0e9f7642857c899cce78fc0, type: 3}
   defaultPitch: 1
   speakerVoices:
-  - speakerKey: npc.lab.system.name
+  - speakerKey: npc.lab.unknown.name
     voiceClip: {fileID: 8300000, guid: 9cf5ce92d0e9f7642857c899cce78fc0, type: 3}
+    pitch: 0.8
+  - speakerKey: npc.lab.admin.name
+    voiceClip: {fileID: 8300000, guid: 9cf5ce92d0e9f7642857c899cce78fc0, type: 3}
+    pitch: 0.8
+  - speakerKey: npc.core.unknown.name
+    voiceClip: {fileID: 8300000, guid: cea613b105545244b88fd93c062b3eb9, type: 3}
+    pitch: 1
+  - speakerKey: npc.lab.guide.name
+    voiceClip: {fileID: 8300000, guid: cea613b105545244b88fd93c062b3eb9, type: 3}
     pitch: 1
 --- !u!114 &8504859135682991106
 MonoBehaviour:

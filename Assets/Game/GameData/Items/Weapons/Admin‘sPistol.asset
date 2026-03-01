@@ -22,16 +22,18 @@ MonoBehaviour:
     defaultAngleOffset: 0
     holdDistance: 0
     z: 0
-  useSfx: {fileID: 8300000, guid: 943aa119a2931f845a73b0a50546f842, type: 3}
+  useSfx: {fileID: 8300000, guid: 165b0f549a60d7540aa035286a88551b, type: 3}
   type: 1
-  buyPrice: 0
-  sellPrice: 0
+  buyPrice: 999
+  sellPrice: 999
   effect: {fileID: 11400000, guid: 023c83b22fd9caa4db4f33168e4c33f7, type: 2}
   fireRate: 6
   bulletSpeed: 15
   spreadDegrees: 0
   pellets: 1
-  recoil: 0
+  visualRecoilStrength: 0
+  visualRecoilReturnSpeed: 0
+  physicalRecoilForce: 0
   fireMode: 0
   damage: 1
   bulletLifeTime: 2

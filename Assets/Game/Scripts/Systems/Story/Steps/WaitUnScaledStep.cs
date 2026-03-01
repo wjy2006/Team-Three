@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Story/Steps/Wait (Unscaled)")]
+[Serializable]
 public class WaitUnscaledStep : StoryStep
 {
     public float seconds = 0.25f;

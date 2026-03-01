@@ -15,14 +15,21 @@ namespace Game.Systems.Items
         public float bulletSpeed = 12f;
         public float spreadDegrees = 0f;     // 散射角（0表示无）
         public int pellets = 1;              // 霰弹枪：>1
-        public float recoil = 0f;            // 后坐力（先占位）
+                                             // WeaponDefinition.cs
+        [Header("Recoil Settings")]
+        [Tooltip("视觉后坐力距离：枪管向后缩进的最大距离")]
+        public float visualRecoilStrength = 0.15f;
+        [Tooltip("视觉恢复速度：数值越大回位越快")]
+        public float visualRecoilReturnSpeed = 20f;
+        [Tooltip("物理后坐力：开火时给玩家施加的反向冲力")]
+        public float physicalRecoilForce = 0f;
 
 
         public WeaponFireMode fireMode = WeaponFireMode.Auto;
         [Header("Bullet Params")]
         public float damage = 1f;
         public float bulletLifeTime = 2f;
-        
+
         [Header("Prefabs")]
         public GameObject bulletPrefab;
 

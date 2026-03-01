@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e222cd0b21f4eb349a771f25c0fd7687, type: 3}
-  m_Name: FirstMeetGuideDialogue
-  m_EditorClassIdentifier: Assembly-CSharp::DialogueStep
-  dialogue: {fileID: 11400000, guid: 05e6c233b72abca44912926ef11ca44b, type: 2}
+  m_Script: {fileID: 11500000, guid: 4a16e56ce361060409ab7eac4b387598, type: 3}
+  m_Name: HitGuide
+  m_EditorClassIdentifier: Assembly-CSharp::NpcDodgeCondition
+  targetNpcId: Guide
