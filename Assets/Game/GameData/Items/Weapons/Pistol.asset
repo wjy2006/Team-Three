@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69b42a63d3d2e52439b2a13d2e48a7f7, type: 3}
+  m_Name: Pistol
+  m_EditorClassIdentifier: 
+  itemId: glock17
+  displayName: "\u683C\u6D1B\u514B17"
+  infoDialogue: {fileID: 11400000, guid: 5171a51fe3c35a14e932f1ad48f9ff30, type: 2}
+  dropDialogue: {fileID: 11400000, guid: f93520ecea1425948aaf808f0977d043, type: 2}
+  visual:
+    worldSprite: {fileID: 21300000, guid: d80b2147848a74e4db0c33e1417c985e, type: 3}
+    rotationMode: 0
+    defaultAngleOffset: 0
+    holdDistance: 0
+    z: 0
+  useSfx: {fileID: 8300000, guid: 165b0f549a60d7540aa035286a88551b, type: 3}
+  type: 1
+  buyPrice: 16
+  sellPrice: 8
+  effect: {fileID: 11400000, guid: 023c83b22fd9caa4db4f33168e4c33f7, type: 2}
+  fireRate: 4
+  bulletSpeed: 15
+  spreadDegrees: 0.5
+  pellets: 1
+  visualRecoilStrength: 0
+  visualRecoilReturnSpeed: 0
+  physicalRecoilForce: 0
+  fireMode: 0
+  damage: 2
+  bulletLifeTime: 2
+  bulletPrefab: {fileID: 8870123741071226297, guid: c33f4a563b3c9c340817b6a15fb9ec29, type: 3}
+  firePointLocal: {x: 0.7, y: 0}
+  fireAngleOffset: 0

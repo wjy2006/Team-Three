@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GraphDialogueAsset
   startNodeId: start
   nodes:
-  - id: start
+  - id: startgive
     type: 6
     lines: []
     nextId: 
@@ -39,7 +39,7 @@ MonoBehaviour:
     condition: {fileID: 0}
     intKey: 
     intValue: 0
-    itemToGive: {fileID: 11400000, guid: b3387b417fcf8d94c9f1036366426ea4, type: 2}
+    itemToGive: {fileID: 11400000, guid: 6ff0eaea5eccd264aba81efa7efb9012, type: 2}
     successNextId: 3
     failNextId: 
   - id: 3
@@ -81,7 +81,7 @@ MonoBehaviour:
     condition: {fileID: 0}
     intKey: 
     intValue: 0
-    itemToGive: {fileID: 11400000, guid: 710fefd2a15d90f4fab1dba40f112c29, type: 2}
+    itemToGive: {fileID: 11400000, guid: 5bbf180b58a504647a4f989e49be0c8d, type: 2}
     successNextId: 6
     failNextId: 
   - id: 6
@@ -95,6 +95,22 @@ MonoBehaviour:
     condition: {fileID: 0}
     intKey: 
     intValue: 0
-    itemToGive: {fileID: 11400000, guid: b6225b04322240f4aa322f7a303507e7, type: 2}
+    itemToGive: {fileID: 11400000, guid: b3387b417fcf8d94c9f1036366426ea4, type: 2}
+    successNextId: 
+    failNextId: 
+  - id: start
+    type: 0
+    lines:
+    - speakerKey: npc.all.author.name
+      textKey: dlg.all.item_test
+    nextId: startgive
+    boolKey: 
+    trueNextId: 
+    falseNextId: 
+    boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: b3387b417fcf8d94c9f1036366426ea4, type: 2}
     successNextId: 
     failNextId: 

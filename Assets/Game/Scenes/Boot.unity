@@ -6957,6 +6957,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ccf876b294a574a9780b3fef431f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RocketRideController
+  delayBindSceneNames:
+  - Shop_Lab_DJGun
 --- !u!114 &8435163443797893747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7002,22 +7004,26 @@ MonoBehaviour:
   charsPerSecond: 40
   punctuationPause: 0.03
   voiceAudioSource: {fileID: 1804109601}
-  voiceInterval: 0.03
+  voiceInterval: 0.04
   defaultVoiceClip: {fileID: 8300000, guid: 9cf5ce92d0e9f7642857c899cce78fc0, type: 3}
   defaultPitch: 1
   speakerVoices:
   - speakerKey: npc.lab.unknown.name
     voiceClip: {fileID: 8300000, guid: 9cf5ce92d0e9f7642857c899cce78fc0, type: 3}
     pitch: 0.8
+    interval: 0.035
   - speakerKey: npc.lab.admin.name
     voiceClip: {fileID: 8300000, guid: 9cf5ce92d0e9f7642857c899cce78fc0, type: 3}
     pitch: 0.8
+    interval: 0.035
   - speakerKey: npc.core.unknown.name
     voiceClip: {fileID: 8300000, guid: cea613b105545244b88fd93c062b3eb9, type: 3}
     pitch: 1
+    interval: 0.065
   - speakerKey: npc.lab.guide.name
     voiceClip: {fileID: 8300000, guid: cea613b105545244b88fd93c062b3eb9, type: 3}
     pitch: 1
+    interval: 0.065
 --- !u!114 &8504859135682991106
 MonoBehaviour:
   m_ObjectHideFlags: 0

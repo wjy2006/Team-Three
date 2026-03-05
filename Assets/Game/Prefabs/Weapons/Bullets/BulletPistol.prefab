@@ -151,7 +151,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -185,10 +185,10 @@ MonoBehaviour:
     m_Bits: 448
   rb: {fileID: 2424135867240638100}
   col: {fileID: 6944757721946120416}
-  explodeVfxPrefab: {fileID: 0}
+  explodeVfxPrefab: {fileID: 6894253983147173734, guid: 2947178d50126654d9e2aed0e6f16e00, type: 3}
   explodeVfxLife: 1
-  explodeSfx: {fileID: 0}
-  bounceSfx: {fileID: 8300000, guid: ea06de83e80d00546aae918eda126da8, type: 3}
+  explodeSfx: {fileID: 8300000, guid: 7417bed5d9b5fe54a918b6e040f502ab, type: 3}
+  bounceSfx: {fileID: 0}
   explodeOnHit: 0
   explosionRadius: 2
   explosionDamage: 6

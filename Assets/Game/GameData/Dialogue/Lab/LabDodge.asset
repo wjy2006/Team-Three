@@ -13,4 +13,50 @@ MonoBehaviour:
   m_Name: LabDodge
   m_EditorClassIdentifier: Assembly-CSharp::GraphDialogueAsset
   startNodeId: start
-  nodes: []
+  nodes:
+  - id: start
+    type: 1
+    lines: []
+    nextId: 
+    boolKey: lab.guide.dodged
+    trueNextId: 
+    falseNextId: say
+    boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: say
+    type: 0
+    lines:
+    - speakerKey: npc.lab.guide.name
+      textKey: dlg.lab.guide.008
+    nextId: set
+    boolKey: lab.guide.dodged
+    trueNextId: 
+    falseNextId: say
+    boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 
+  - id: set
+    type: 3
+    lines:
+    - speakerKey: npc.lab.guide.name
+      textKey: dlg.lab.guide.008
+    nextId: 
+    boolKey: lab.guide.dodged
+    trueNextId: 
+    falseNextId: say
+    boolValue: 1
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 0}
+    successNextId: 
+    failNextId: 

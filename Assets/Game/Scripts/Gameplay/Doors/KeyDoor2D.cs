@@ -8,6 +8,10 @@ public class KeyDoor2D : MonoBehaviour
     [Tooltip("挡路的 Collider。为空就用本物体上的 Collider2D")]
     public Collider2D blockingCollider;
 
+    [Header("Visual (Renderers)")]
+    [Tooltip("要一起隐藏的渲染器。不填就自动抓取本物体及其子物体上的所有 Renderer")]
+    public Renderer[] renderersToHide;
+
     [Header("One Key One Door")]
     [Tooltip("唯一对应的钥匙（ItemDefinition）")]
     public ItemDefinition requiredKey;
@@ -26,6 +30,9 @@ public class KeyDoor2D : MonoBehaviour
         if (blockingCollider == null)
             blockingCollider = GetComponent<Collider2D>();
 
+        if (renderersToHide == null || renderersToHide.Length == 0)
+            renderersToHide = GetComponentsInChildren<Renderer>(true);
+
         // 从全局状态恢复
         if (!string.IsNullOrEmpty(openedGlobalKey) && GameRoot.I != null)
             isOpen = GameRoot.I.Global.GetBool(openedGlobalKey);
@@ -40,12 +47,10 @@ public class KeyDoor2D : MonoBehaviour
         // 没配钥匙 => 当作随便开（也可以改成 return false）
         if (requiredKey == null) return true;
 
-        // ✅ 一一对应：必须拥有这把钥匙
-        var inv = GameRoot.I != null ? GameRoot.I.Inventory : null;
         // ✅ 一一对应：必须拥有这把钥匙（背包 或 手持）
         return HasKey(requiredKey);
-
     }
+
     private bool HasKey(ItemDefinition key)
     {
         if (key == null) return true;
@@ -60,14 +65,12 @@ public class KeyDoor2D : MonoBehaviour
         return held != null && held.held == key;
     }
 
-
     public bool TryOpen()
     {
         if (!CanOpen()) return false;
 
         if (consumeKey && requiredKey != null)
             if (!TryConsumeKey(requiredKey)) return false;
-
 
         Open();
         return true;
@@ -85,9 +88,22 @@ public class KeyDoor2D : MonoBehaviour
 
     private void ApplyState()
     {
+        // 开门 = 关 collider
         if (blockingCollider != null)
-            blockingCollider.enabled = !isOpen; // 开门=关 collider
+            blockingCollider.enabled = !isOpen;
+
+        // 开门 = 关 renderer（隐藏门）
+        if (renderersToHide != null)
+        {
+            bool visible = !isOpen;
+            for (int i = 0; i < renderersToHide.Length; i++)
+            {
+                if (renderersToHide[i] != null)
+                    renderersToHide[i].enabled = visible;
+            }
+        }
     }
+
     private bool TryConsumeKey(ItemDefinition key)
     {
         // 优先消耗手持
@@ -104,7 +120,6 @@ public class KeyDoor2D : MonoBehaviour
         if (inv == null) return false;
         return inv.RemoveOne(key);
     }
-
 
     public bool IsOpen => isOpen;
 }

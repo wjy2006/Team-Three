@@ -521,7 +521,7 @@ namespace Game.UI.Shop
         private int CountUsedSlots(Inventory inv)
         {
             int used = 0;
-            for (int i = 0; i < inv.Capacity; i++) if (inv.GetAt(i) != null) used++;
+            for (int i = 0; i < inv.Capacity; i++) if (inv.GetAt(i).Definition != null) used++;
             return used;
         }
 
@@ -649,7 +649,7 @@ namespace Game.UI.Shop
 
         private void ShowHint(string key) { if (hintDialogue) { if (hintPanel) hintPanel.SetActive(true); hintDialogue.ShowKeys(hintSpeakerKey, key); } }
 
-        private void ShowHintSuccess(string key) { if (portrait) portrait.OverridePose(ShopPortraitController.Pose.BuySuccess, 2f); ShowHint(key); }
+        private void ShowHintSuccess(string key) { if (portrait) portrait.OverridePose(ShopPortraitController.Pose.BuySuccess, 2f); /*ShowHint(key);*/ }
 
         private void ShowHintFail(string key) { PlaySFX(cancelSfx); if (portrait) portrait.OverridePose(ShopPortraitController.Pose.BuyFail, 2f); ShowHint(key); }
 

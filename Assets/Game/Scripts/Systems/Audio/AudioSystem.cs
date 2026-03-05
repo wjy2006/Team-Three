@@ -31,32 +31,31 @@ public class AudioSystem : MonoBehaviour
             return;
         }
 
-        AudioSource targetSource = null;
-        AudioSource fadingSource = null;
-
+        AudioSource targetSource;
+        AudioSource fadingSource;
         // 1. 动态分配：谁有我们要的歌，谁就是 Target
-        if (sourceA.clip == clip) 
-        { 
-            targetSource = sourceA; 
-            fadingSource = sourceB; 
+        if (sourceA.clip == clip)
+        {
+            targetSource = sourceA;
+            fadingSource = sourceB;
         }
-        else if (sourceB.clip == clip) 
-        { 
-            targetSource = sourceB; 
-            fadingSource = sourceA; 
+        else if (sourceB.clip == clip)
+        {
+            targetSource = sourceB;
+            fadingSource = sourceA;
         }
-        else 
+        else
         {
             // 如果两个都没有这首歌，挑一个当前音量最小的（存在感最低的）来换碟片
-            if (sourceA.volume <= sourceB.volume) 
-            { 
-                targetSource = sourceA; 
-                fadingSource = sourceB; 
+            if (sourceA.volume <= sourceB.volume)
+            {
+                targetSource = sourceA;
+                fadingSource = sourceB;
             }
-            else 
-            { 
-                targetSource = sourceB; 
-                fadingSource = sourceA; 
+            else
+            {
+                targetSource = sourceB;
+                fadingSource = sourceA;
             }
 
             targetSource.clip = clip;

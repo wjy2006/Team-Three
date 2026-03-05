@@ -4,13 +4,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-// ✅ 定义一个简单的结构，用来在面板里配置不同人的声音
+// ✅ 更新：结构体里增加了 interval 字段
 [Serializable]
 public struct SpeakerVoice
 {
     public string speakerKey;
     public AudioClip voiceClip;
-    [Range(0.5f, 2.0f)] public float pitch; // 通过音调区分不同角色非常有效
+    [Range(0.5f, 2.0f)] public float pitch; 
+    public float interval; // ✅ 每个角色独立的频率
 }
 
 public class DialogueUI : MonoBehaviour
@@ -23,16 +24,12 @@ public class DialogueUI : MonoBehaviour
     public TMP_Text contentText;
 
     [Header("Typewriter")]
-    [Tooltip("每秒显示多少个字符。比如 40 = 大约每秒40字母/字符。")]
     public float charsPerSecond = 40f;
-
-    [Tooltip("标点额外停顿（秒），让节奏更像对话。可设 0 关闭。")]
     public float punctuationPause = 0.03f;
 
-    // ✅ 新增：音频配置
     [Header("Voice Settings")]
     public AudioSource voiceAudioSource;
-    public float voiceInterval = 0.06f; // Undertale通常是0.06~0.08秒播一次声音
+    public float voiceInterval = 0.06f; // 这里作为默认全局频率
     public AudioClip defaultVoiceClip;
     [Range(0.5f, 2.0f)] public float defaultPitch = 1.0f;
     public List<SpeakerVoice> speakerVoices = new List<SpeakerVoice>();
@@ -43,16 +40,17 @@ public class DialogueUI : MonoBehaviour
     private int openFrame;
 
     private Coroutine typingCo;
-    private string fullContent;       // 当前句的完整文本
-    private bool isTyping;            // 是否正在逐字输出
-    private bool skipTypingRequested; // 是否请求“立刻显示完本句”
+    private string fullContent;
+    private bool isTyping;
+    private bool skipTypingRequested;
 
-    // ✅ 当前句子的音频缓存
+    // ✅ 当前句子的音频属性缓存
     private AudioClip currentVoiceClip;
     private float currentVoicePitch;
+    private float currentVoiceInterval; // ✅ 新增：当前频率缓存
 
-    public event Action OnClosed;     // 整个对话UI彻底关闭时触发
-    public event Action OnNodeEnd;    // 当前节点的所有句子播完时触发
+    public event Action OnClosed;
+    public event Action OnNodeEnd;
 
     public bool IsOpen { get; private set; }
 
@@ -60,7 +58,6 @@ public class DialogueUI : MonoBehaviour
     {
         if (dialogRoot == null) dialogRoot = gameObject;
         dialogRoot.SetActive(false);
-        // 关键：对话可能发生在暂停期间，不能让声音挂掉
         voiceAudioSource.ignoreListenerPause = true;
     }
 
@@ -73,7 +70,6 @@ public class DialogueUI : MonoBehaviour
     void Update()
     {
         if (!IsOpen) return;
-
         if (Time.frameCount == openFrame) return;
         if (input == null) return;
 
@@ -137,9 +133,10 @@ public class DialogueUI : MonoBehaviour
         nameText.text = loc != null ? loc.Get(speaker) : speaker;
         fullContent = loc != null ? loc.Get(contentKey) : contentKey;
 
-        // ✅ 匹配声音：从列表中找，找不到就用默认值
+        // ✅ 匹配声音逻辑：初始化为默认值
         currentVoiceClip = defaultVoiceClip;
         currentVoicePitch = defaultPitch;
+        currentVoiceInterval = voiceInterval; // ✅ 默认使用全局 Interval
 
         foreach (var v in speakerVoices)
         {
@@ -147,6 +144,7 @@ public class DialogueUI : MonoBehaviour
             {
                 currentVoiceClip = v.voiceClip;
                 currentVoicePitch = v.pitch;
+                currentVoiceInterval = v.interval; // ✅ 匹配到角色特有 Interval
                 break;
             }
         }
@@ -163,8 +161,6 @@ public class DialogueUI : MonoBehaviour
         float secPerChar = 1f / charsPerSecond;
         float voiceTimer = 0f;
 
-        // ✅ 核心优化 1：移出循环
-        // 确保 pitch 不为 0（0会导致完全无声）
         float safePitch = Mathf.Max(0.1f, currentVoicePitch);
         voiceAudioSource.pitch = safePitch;
 
@@ -175,13 +171,13 @@ public class DialogueUI : MonoBehaviour
             char c = text[i];
             contentText.text += c;
 
+            // ✅ 使用 currentVoiceInterval
             if (!char.IsWhiteSpace(c) && voiceTimer <= 0f && currentVoiceClip != null)
             {
                 voiceAudioSource.PlayOneShot(currentVoiceClip);
-                voiceTimer = voiceInterval; 
+                voiceTimer = currentVoiceInterval; 
             }
 
-            // --- 停顿逻辑 ---
             float extra = 0f;
             if (punctuationPause > 0f && IsPunctuation(text[i]))
                 extra = punctuationPause;

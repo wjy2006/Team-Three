@@ -148,14 +148,14 @@ namespace Game.UI.Shop
         private IEnumerator TypeLine(string text)
         {
             float secPerChar = 1f / Mathf.Max(1f, charsPerSecond);
+            float lastVoiceTime = -voiceInterval; // 确保第一个字能响
 
-            // ✅ 开始打字：循环播放音效
-            if (voiceAudioSource != null && voiceClip != null)
+            // ✅ 必须关闭 loop，我们要手动控制播放频率
+            if (voiceAudioSource != null)
             {
-                voiceAudioSource.clip = voiceClip;
+                voiceAudioSource.loop = false;
                 voiceAudioSource.pitch = voicePitch;
-                voiceAudioSource.loop = true;
-                voiceAudioSource.Play();
+                voiceAudioSource.clip = voiceClip;
             }
 
             for (int i = 0; i < text.Length; i++)
@@ -164,6 +164,19 @@ namespace Game.UI.Shop
 
                 contentText.text += text[i];
 
+                // ✅ 核心改动：基于时间的频率控制
+                // 只有当时间到了，且当前字符不是空格时，才播放音效
+                if (voiceAudioSource != null && voiceClip != null)
+                {
+                    if (Time.unscaledTime - lastVoiceTime >= voiceInterval && !char.IsWhiteSpace(text[i]))
+                    {
+                        // 使用 PlayOneShot 防止声音被下一帧强行切断，听起来更完整
+                        voiceAudioSource.PlayOneShot(voiceClip);
+                        lastVoiceTime = Time.unscaledTime;
+                    }
+                }
+
+                // 计算等待时间
                 float extra = 0f;
                 if (punctuationPause > 0f && IsPunctuation(text[i]))
                     extra = punctuationPause;
@@ -180,9 +193,7 @@ namespace Game.UI.Shop
 
             contentText.text = text;
 
-            // ✅ 停止音效
-            if (voiceAudioSource != null) voiceAudioSource.Stop();
-
+            // ✅ 打完收工
             isTyping = false;
             typingCo = null;
             skipRequested = false;

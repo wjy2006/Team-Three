@@ -1,8 +1,10 @@
 key,text
 npc.all.system.name,※※※
 npc.all.ancients.name,古人
+npc.all.author.name,作者
+dlg.all.item_test,你好我是作者，我还没有做完这个游戏，但是我提前做了一点物品，都先给你了。
 dlg.all.empty_checked.001,坦白来说，这个横线只是代表一个空的槽位。
-dlg.all.empty_checked.002,如果你真的想查看关于“空”的信息，我会引用古人的一句话。
+dlg.all.empty_checked.002,如果你真的想查看关于 “ 空 ” 的信息，我会引用古人的一句话。
 dlg.all.empty_checked.003,此中有真意，欲辨已忘言。
 dlg.all.empty_dropped.001,这个槽位是空的，所以你无法丢掉任何东西。
 dlg.all.empty_dropped.002,本来无一物，何处惹尘埃？
@@ -12,7 +14,7 @@ dlg.all.default_checked,没有描述。
 dlg.all.default_full,你拿的东西太多了。
 npc.all.unknown.name,？？？
 
-dlg.all.StG44_checked.001,这是一把StG44，现代步枪的鼻祖。
+dlg.all.StG44_checked.001,这是一把 StG44 ，现代步枪的鼻祖。
 dlg.all.StG44_checked.002,不知道为什么，它看起来非常大。
 dlg.all.StG44_dropped.001,你丢掉了突击步枪。可能是因为它太重了。
 
@@ -25,7 +27,13 @@ dlg.all.missile_launcher_dropped.001,你丢掉了简单且强大的导弹发射�
 dlg.all.slime_rifle_checked.001,一把绿色的步枪，可以让人飞得很远。
 dlg.all.slime_rifle_dropped.001,你丢掉了弹射步枪。
 
-dlg.all.maze_medal_checked.001,一枚奖章。绶带上写着：“可以征服混沌的人”。
+dlg.all.mini_slime_rifle_checked.001,一把绿色的迷你步枪，可以让人飞得一般远。
+dlg.all.mini_slime_rifle_dropped.001,你丢掉了迷你弹射步枪。
+
+dlg.all.glock17_checked.001,格洛克 17 是一种奥地利制造的 9 mm 半自动手枪， 1980 年代开始服役，是世界上最著名、使用最广泛的手枪之一。
+dlg.all.glock17_dropped.001,你丢掉了格洛克 17 。
+
+dlg.all.maze_medal_checked.001,一枚奖章。绶带上写着 ： “可以征服混沌的人” 。
 dlg.all.maze_medal_checked.002,如果你乐意的话，它可以在商店换取50G。
 dlg.all.maze_medal_dropped.001,你丢掉了迷宫支配者奖章。
 dlg.all.maze_medal_dropped.002,看起来你并不是很热衷于荣誉。
@@ -36,7 +44,7 @@ dlg.all.health_potion_dropped.001,你丢掉了治疗药水。
 dlg.all.key_checked.001,一把钥匙，用于打开对应的门。
 dlg.all.key_dropped.001,某种力量阻止着你丢掉这把钥匙。
 
-dlg.all.daoli_checked.001,形状很奇怪的膨化脆片，回复3HP。
+dlg.all.daoli_checked.001,形状很奇怪的膨化脆片，回复 3 HP 。
 dlg.all.daoli_dropped.001,你丢掉了道理脆片。
 
 dlg.all.rocket_checked.001,从米米世界来的火箭。为你提供超强的护甲。
@@ -53,15 +61,19 @@ npc.core.unknown.name,？？？
 dlg.lab.button.001,这里有一个按钮。
 dlg.lab.button.002,你按下了它。
 dlg.lab.button.003,电流嗡嗡作响，不知道在哪里的喇叭开始播放一段声音：
-dlg.lab.button.004,“你好，欢迎你来玩我的游戏。你可以到右边的房间里来找我。”
+dlg.lab.button.004,“ 你好，欢迎你来玩我的游戏。你可以到右边的房间里来找我。 ”
 
 dlg.lab.button.005,你按下了这个按钮。
 dlg.lab.button.006,没有任何变化。
 
 dlg.lab.button2.001,你按下了这个按钮。
 dlg.lab.button2.002,管理员的声音传了出来。
-dlg.lab.button2.003,你好，下面的灰色方块其实用处不大。你要想办法利用右上的灰色方块，它们是一样的。
+dlg.lab.button2.003,你好，下面的灰色方块其实用处不大。你要想办法利用右上的灰色方块来拿到箱子里的物品，它们是一样的。
 dlg.lab.button2.004,什么都没有发生。
+
+dlg.lab.button3.003,你好，如果你现在没有特别适合这里的道具，我推荐你之后再来这个地方。
+dlg.lab.button4.001,你好，你注意到了吗？我们有些角色并不会被击退。
+dlg.lab.button4.002,如果你想像这些角色一样，你可以按下 Shift 或者 X 试试。
 
 dlg.lab.chest1.001,箱子是空的。
 dlg.lab.chest1.002,好吧，这种事有时就是会发生。
@@ -75,6 +87,9 @@ dlg.lab.chest2.001,你试图打开这个箱子。有点吃力。
 dlg.lab.chest2.002,不过箱子终于打开了，你获得了一块专属奖章。
 dlg.lab.chest2.003,这个箱子里已经没有东西了。
 
+dlg.lab.chest3.001,你拿到了一把钥匙。
+
+dlg.lab.chest4.001,你拿到了一把钥匙。
 
 dlg.lab.admin.001,你好，玩家。
 dlg.lab.admin.002,这个地方是我搭建的，你可以叫我管理员。
@@ -110,16 +125,15 @@ dlg.lab.admin.022,不过无所谓，因为我把自己的血量设为了无穷�
 dlg.lab.locked_door.001,这扇门没有锁，但是被某种力量封印了，你打不开。
 dlg.lab.locked_door.002,这扇门被锁住了，你需要持有对应的钥匙才能打开。
 
-dlg.lab.chest3.001,你拿到了一把钥匙。
 
 
 dlg.lab.guide.001,玩家你好。我是管理员刚刚雇来的向导。
 dlg.lab.guide.002,按道理来说，我应该向你详细地介绍这里的规则。
 dlg.lab.guide.003,但由于管理员给我开的工资是每小时 0 元，所以我将付出百分之 0 的精力来工作。
-dlg.lab.guide.004,不过这地方挺大，我四处转转也不错。
+dlg.lab.guide.004,。 。 。 。 。
 dlg.lab.guide.005,然后我这儿有把钥匙，给你了。
 dlg.lab.guide.006,我忘了它的作用了。
-dlg.lab.guide.007,限时活动结束了，所以你得不到任何东西。。。
+dlg.lab.guide.007,限时活动结束了，所以你得不到任何东西。 。 。
 dlg.lab.guide.008,怎么，你不知道我会瞬移吗？
 
 
@@ -128,6 +142,11 @@ dlg.lab.turret.001,你打开了会发射弹球的箱子。
 dlg.lab.turret.002,你获得了一把弹射步枪。
 dlg.lab.turret.003,会发射弹球的箱子不再会发射弹球了。
 dlg.lab.turret.004,一只不会发射弹球的箱子。
+
+dlg.lab.small_turret.001,你打开了会发射小弹球的箱子。
+dlg.lab.small_turret.002,你获得了一把迷你弹射步枪。
+dlg.lab.small_turret.003,会发射小弹球的箱子不再会发射小弹球了。
+dlg.lab.small_turret.004,一只不会发射小弹球的箱子。
 
 dlg.lab.admin.101,你好。
 dlg.lab.admin.102,这里是你的重生点。
@@ -165,5 +184,5 @@ talkop.shop.djgun.004,关于商店...
 
 dlg.shop.djgun.101,你吼！！
 dlg.shop.djgun.102,我素DJGun。
-dlg.shop.djgun.103,原！！！子！！！弹！！！！！
+dlg.shop.djgun.103,原！！！ 子！！！ 弹！！！！！
 dlg.shop.djgun.104,欢饮光临！！

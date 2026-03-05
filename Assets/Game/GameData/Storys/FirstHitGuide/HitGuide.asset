@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a16e56ce361060409ab7eac4b387598, type: 3}
   m_Name: HitGuide
   m_EditorClassIdentifier: Assembly-CSharp::NpcDodgeCondition
-  targetNpcId: Guide
+  targetNpcId: 

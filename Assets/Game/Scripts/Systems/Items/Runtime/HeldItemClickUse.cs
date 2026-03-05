@@ -16,17 +16,14 @@ public class HeldItemClickUse : MonoBehaviour
     [SerializeField] private Game.Gameplay.Player.HeldItemVisualController visualCtrl;
     [SerializeField] private Game.Gameplay.Combat.KnockbackReceiver kbReceiver;
 
-    // --- 2. 在 Awake 中添加自动获取 ---
     void Awake()
     {
         held = GetComponent<Game.Gameplay.Player.HeldItem>();
         if (audioSource == null) audioSource = GetComponent<AudioSource>();
-        // 自动寻找组件
         if (visualCtrl == null) visualCtrl = GetComponent<Game.Gameplay.Player.HeldItemVisualController>();
         if (kbReceiver == null) kbReceiver = GetComponent<Game.Gameplay.Combat.KnockbackReceiver>();
     }
 
-    // ✅ 音效播放助手
     private void PlayUseSfx(AudioClip clip)
     {
         if (audioSource != null && clip != null)
@@ -75,25 +72,23 @@ public class HeldItemClickUse : MonoBehaviour
             bool wantsShoot = weapon.fireMode == WeaponFireMode.Auto ? input.ClickHeld : justPressedThisFrame;
             if (!wantsShoot) return;
 
-            if (weapon.fireMode == WeaponFireMode.Auto)
+            // ✅ 改动点：SemiAuto / Auto 都根据 weapon.fireRate 限速
+            // ✅ weapon.fireRate <= 0 代表无上限（不做限速）
+            if (weapon.fireRate > 0f)
             {
                 if (Time.time < nextFireTime) return;
-                float rate = Mathf.Max(0.01f, weapon.fireRate);
-                nextFireTime = Time.time + (1f / rate);
+                nextFireTime = Time.time + (1f / weapon.fireRate);
             }
 
             if (weapon.Effect == null) return;
 
-            // --- ✨ 新增：触发后坐力效果 ---
-            // 视觉：枪往后缩
+            // --- ✨ 后坐力效果 ---
             if (visualCtrl != null) visualCtrl.ApplyVisualRecoil(weapon.visualRecoilStrength);
 
-            // 物理：玩家往后退
             if (kbReceiver != null && weapon.physicalRecoilForce > 0)
             {
                 kbReceiver.ApplyKnockback(-aimDir, weapon.physicalRecoilForce);
             }
-            // ----------------------------
 
             var ctx = new ItemUseContext { user = gameObject, item = weapon, aimWorldPos = aimWorldPos, aimDir = aimDir };
             PlayUseSfx(weapon.UseSfx);
@@ -105,6 +100,7 @@ public class HeldItemClickUse : MonoBehaviour
             }
             return;
         }
+
         // ====== 2) 非武器逻辑 ======
         if (!input.ConsumeClickDown(out _)) return;
 
@@ -115,7 +111,6 @@ public class HeldItemClickUse : MonoBehaviour
         bool applySuccess = item.Effect.Apply(ctx2);
         if (applySuccess)
         {
-            // ✅ 物品使用成功后播放音效
             PlayUseSfx(item.UseSfx);
 
             if (GameRoot.I != null && GameRoot.I.Triggers != null)
@@ -123,7 +118,6 @@ public class HeldItemClickUse : MonoBehaviour
                 GameRoot.I.Triggers.Raise(new HeldItemUsedEvent(item: item));
             }
 
-            // 如果是消耗品则清空
             held.held = null;
             GameRoot.I.vis.RefreshNow();
         }

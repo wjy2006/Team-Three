@@ -5977,7 +5977,7 @@ MonoBehaviour:
   contentText: {fileID: 2092505773}
   charsPerSecond: 0
   punctuationPause: 0
-  voiceAudioSource: {fileID: 0}
+  voiceAudioSource: {fileID: 1298028869}
   voiceClip: {fileID: 0}
   voiceInterval: 0
   voicePitch: 1

@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df912243a38aabd40b0ac5278c061f3b, type: 3}
   m_Name: FirstHitGuide
   m_EditorClassIdentifier: Assembly-CSharp::StoryAsset
-  steps: []
+  steps:
+  - rid: 3458542450349178880
   lockPlayerInput: 1
   pauseWorld: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 3458542450349178880
+      type: {class: DialogueStep, ns: , asm: Assembly-CSharp}
+      data:
+        dialogue: {fileID: 11400000, guid: 3cb2f50769130ff48be9d7c47c385124, type: 2}

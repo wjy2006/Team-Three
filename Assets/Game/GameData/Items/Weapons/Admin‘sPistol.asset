@@ -27,7 +27,7 @@ MonoBehaviour:
   buyPrice: 999
   sellPrice: 999
   effect: {fileID: 11400000, guid: 023c83b22fd9caa4db4f33168e4c33f7, type: 2}
-  fireRate: 6
+  fireRate: 0
   bulletSpeed: 15
   spreadDegrees: 0
   pellets: 1
@@ -38,5 +38,5 @@ MonoBehaviour:
   damage: 1
   bulletLifeTime: 2
   bulletPrefab: {fileID: 8870123741071226297, guid: 82d27aabfbafab449be1d4b914a724b8, type: 3}
-  firePointLocal: {x: 0.6, y: 0}
+  firePointLocal: {x: 0.7, y: 0}
   fireAngleOffset: 0

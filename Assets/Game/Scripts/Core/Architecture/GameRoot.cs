@@ -16,8 +16,8 @@ public class GameRoot : MonoBehaviour
     public PlayerInputReader playerInput;
     public HeldItem playerHeldItem;
     public HeldItemVisualController vis;
-    public GlitchVolumeTransition glitchVolume; 
-    public AudioSystem Audio ;
+    public GlitchVolumeTransition glitchVolume;
+    public AudioSystem Audio;
     public AudioSource globalSfxSource;
     [SerializeField] private AudioClip glitchTransitionSfx;
 
@@ -41,7 +41,7 @@ public class GameRoot : MonoBehaviour
     public GlobalState Global { get; private set; } = new GlobalState();
     public bool InputLocked { get; private set; }
     public bool IsTransitioning { get; private set; }
-    public const string STATE_GLITCH_WORLD = "IsGlitchWorld"; 
+    public const string STATE_GLITCH_WORLD = "IsGlitchWorld";
     public bool IsGlitchWorld => Global.GetBool(STATE_GLITCH_WORLD);
 
     private void Awake()
@@ -56,11 +56,15 @@ public class GameRoot : MonoBehaviour
         if (storyManager == null) storyManager = GetComponentInChildren<StoryManager>(true);
         if (triggerManager == null) triggerManager = GetComponentInChildren<TriggerManager>(true);
         if (Audio == null) Audio = GetComponentInChildren<AudioSystem>(true);
-        if (vis == null) vis=GetComponentInChildren<HeldItemVisualController>(true);
+        if (vis == null) vis = GetComponentInChildren<HeldItemVisualController>(true);
         if (globalSfxSource == null) Debug.LogWarning("[GameRoot] No globalSfxSource Found");
-        
+
         DontDestroyOnLoad(gameObject);
         RefreshRuntimeRefs();
+        if (globalSfxSource != null)
+        {
+            globalSfxSource.ignoreListenerPause = true;
+        }
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -140,9 +144,8 @@ public class GameRoot : MonoBehaviour
             // ✅ 转场开始：视听同步
             if (IsGlitchWorld)
             {
-                // 播放刺耳的干扰声（如果有的话）
-                if (Audio != null && glitchTransitionSfx != null)
-                    Audio.sourceA.PlayOneShot(glitchTransitionSfx); // 或者专门写个 PlaySFX
+                if (globalSfxSource != null && glitchTransitionSfx != null)
+                    globalSfxSource.PlayOneShot(glitchTransitionSfx);
 
                 if (glitchVolume != null) yield return glitchVolume.GlitchOut();
             }
@@ -159,7 +162,7 @@ public class GameRoot : MonoBehaviour
                 while (!op.isDone) yield return null;
             }
 
-            yield return null; 
+            yield return null;
             RefreshRuntimeRefs();
 
             if (playerSpawn != null && !string.IsNullOrEmpty(SceneTransfer.NextSpawnId))
@@ -179,6 +182,7 @@ public class GameRoot : MonoBehaviour
                 if (stats != null && stats.IsDead) stats.ReviveToFull();
                 I.Triggers.Raise(new DeathEvent());
             }
+            
 
             // ✅ 转场结束
             if (IsGlitchWorld)
