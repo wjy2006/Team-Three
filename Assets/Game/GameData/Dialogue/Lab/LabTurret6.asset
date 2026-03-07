@@ -64,7 +64,7 @@ MonoBehaviour:
     - speakerKey: npc.lab.system.name
       textKey: dlg.lab.turret.003
     nextId: 
-    boolKey: lab.gotSlime5
+    boolKey: lab.gotSlime6
     trueNextId: 
     falseNextId: 
     boolValue: 1
@@ -100,7 +100,7 @@ MonoBehaviour:
     - speakerKey: npc.lab.system.name
       textKey: dlg.lab.turret.003
     nextId: 
-    boolKey: lab.gotSlime5
+    boolKey: lab.gotSlime6
     trueNextId: say empty
     falseNextId: give item
     boolValue: 1

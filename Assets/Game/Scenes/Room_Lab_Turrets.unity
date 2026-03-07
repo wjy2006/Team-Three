@@ -7143,7 +7143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcId: npc.lab.box5
-  dialogue: {fileID: 11400000, guid: 028fd46fcd17fc84abec07862bc912c9, type: 2}
+  dialogue: {fileID: 11400000, guid: a5c17a15e16de0d4b90902e318f84620, type: 2}
 --- !u!114 &4913308554630355113
 MonoBehaviour:
   m_ObjectHideFlags: 0
