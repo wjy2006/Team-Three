@@ -23,19 +23,22 @@ namespace Game.Systems.Items
         public float damageToOthers = 50f;
         public float damageToPlayer = 19f;
 
-        [Tooltip("爆炸只会伤害这个 LayerMask 里的 IDamageable（不包含玩家，玩家固定扣 19）")]
+        [Tooltip("Explosion only damages IDamageable targets in this layer mask. Player self-damage still uses damageToPlayer.")]
         public LayerMask explosionLayer;
 
         [Header("VFX")]
         public GameObject explosionVfxPrefab;
         public float explosionVfxLife = 1.5f;
 
-        [Header("Impact Damage (delta-v)")]
-        public float dvThreshold = 6f;        // 低于这个 dv 不扣血
-        public float damagePerDv = 8f;        // 每 1 点 dv 造成多少伤害（线性）
-        public float maxImpactDamage = 120f;  // 单次撞击最多扣多少（防止极端情况）
+        [Header("Audio")]
+        public AudioClip flyingLoopSfx;
+        public AudioClip explosionSfx;
 
-        // 现在不靠 click 使用触发，所以 Apply 不做事（不消耗物品）
+        [Header("Impact Damage (delta-v)")]
+        public float dvThreshold = 6f;
+        public float damagePerDv = 8f;
+        public float maxImpactDamage = 120f;
+
         public override bool Apply(ItemUseContext ctx) => false;
     }
 }

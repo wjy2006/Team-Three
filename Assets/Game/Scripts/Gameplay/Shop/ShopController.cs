@@ -22,10 +22,10 @@ namespace Game.UI.Shop
         // ===== Audio SFX =====
         [Header("Audio SFX")]
         public AudioSource uiAudioSource;
-        public AudioClip moveSfx;      // 切换选项
-        public AudioClip confirmSfx;   // 确认进入
-        public AudioClip cancelSfx;    // 取消/返回
-        public AudioClip executeSfx;   // 交易成功（买/卖）
+        public AudioClip moveSfx;      // move selection
+        public AudioClip confirmSfx;   // confirm action
+        public AudioClip cancelSfx;    // cancel / back
+        public AudioClip executeSfx;   // transaction success (buy/sell)
 
         [Header("Leave Target")]
         public string leaveSceneName = "World_Town";
@@ -54,9 +54,9 @@ namespace Game.UI.Shop
         [Header("Buy Confirm UI")]
         public TMP_Text confirmPromptText;
         public TMP_Text[] confirmOptionTexts = new TMP_Text[2];
-        public string confirmPromptFormat = "{0}买下{1}？";
-        public string confirmYesText = "确定";
-        public string confirmNoText = "取消";
+        public string confirmPromptFormat = "{0}\u4E70\u4E0B{1}\uFF1F";
+        public string confirmYesText = "\u786E\u5B9A";
+        public string confirmNoText = "\u53D6\u6D88";
 
         // ===== Talk UI =====
         [Header("Talk UI")]
@@ -106,6 +106,8 @@ namespace Game.UI.Shop
         private PlayerStats stats;
         private Inventory inventory;
         private HeldItem heldItem;
+        private PlayerStats subscribedStats;
+        private Inventory subscribedInventory;
 
         // ===== Selections =====
         private int rootIndex = 0;
@@ -119,24 +121,17 @@ namespace Game.UI.Shop
         {
             if (uiAudioSource != null)
             {
-                uiAudioSource.spatialBlend = 0f; // 2D音效
-                uiAudioSource.ignoreListenerPause = true; // 暂停时也能听到
+                uiAudioSource.spatialBlend = 0f; // force 2D SFX
+                uiAudioSource.ignoreListenerPause = true; // still audible while paused
             }
         }
 
         private void Start()
         {
-            input = GameRoot.I != null ? GameRoot.I.playerInput : null;
-            inventory = GameRoot.I != null ? GameRoot.I.Inventory : null;
-
-            stats = FindFirstObjectByType<PlayerStats>();
-            heldItem = FindFirstObjectByType<HeldItem>();
+            ResolveRuntimeRefs();
 
             if (GameRoot.I != null && GameRoot.I.Pause != null)
                 GameRoot.I.Pause.PushPause("Shop");
-
-            if (stats != null) stats.OnStatsChanged += RefreshRootStats;
-            if (inventory != null) inventory.OnChanged += RefreshRootStats;
 
             if (talkDialogueUI != null)
             {
@@ -154,10 +149,54 @@ namespace Game.UI.Shop
             RefreshAll();
         }
 
+        private void ResolveRuntimeRefs()
+        {
+            var root = GameRoot.I;
+
+            if (root != null)
+            {
+                root.RefreshRuntimeRefs();
+
+                if (input == null) input = root.playerInput;
+                if (inventory == null) inventory = root.Inventory;
+                if (heldItem == null) heldItem = root.playerHeldItem;
+
+                if (stats == null && root.playerHeldItem != null)
+                    stats = root.playerHeldItem.GetComponent<PlayerStats>();
+            }
+
+            if (inventory == null) inventory = FindFirstObjectByType<Inventory>();
+            if (heldItem == null) heldItem = FindFirstObjectByType<HeldItem>();
+
+            if (stats == null && heldItem != null)
+                stats = heldItem.GetComponent<PlayerStats>();
+            if (stats == null)
+                stats = FindFirstObjectByType<PlayerStats>();
+
+            SyncRuntimeSubscriptions();
+        }
+
+        private void SyncRuntimeSubscriptions()
+        {
+            if (subscribedStats != stats)
+            {
+                if (subscribedStats != null) subscribedStats.OnStatsChanged -= RefreshRootStats;
+                if (stats != null) stats.OnStatsChanged += RefreshRootStats;
+                subscribedStats = stats;
+            }
+
+            if (subscribedInventory != inventory)
+            {
+                if (subscribedInventory != null) subscribedInventory.OnChanged -= RefreshRootStats;
+                if (inventory != null) inventory.OnChanged += RefreshRootStats;
+                subscribedInventory = inventory;
+            }
+        }
+
         private void OnDestroy()
         {
-            if (stats != null) stats.OnStatsChanged -= RefreshRootStats;
-            if (inventory != null) inventory.OnChanged -= RefreshRootStats;
+            if (subscribedStats != null) subscribedStats.OnStatsChanged -= RefreshRootStats;
+            if (subscribedInventory != null) subscribedInventory.OnChanged -= RefreshRootStats;
 
             if (talkDialogueUI != null)
                 talkDialogueUI.OnFinished -= OnTalkFinished;
@@ -173,13 +212,26 @@ namespace Game.UI.Shop
 
         private void PlaySFX(AudioClip clip)
         {
-            if (uiAudioSource != null && clip != null)
+            if (clip == null) return;
+
+            if (uiAudioSource != null)
+            {
                 uiAudioSource.PlayOneShot(clip);
+                return;
+            }
+
+            var globalSfx = GameRoot.I != null ? GameRoot.I.globalSfxSource : null;
+            if (globalSfx != null)
+                globalSfx.PlayOneShot(clip);
         }
 
         private void Update()
         {
-            if (input == null) return;
+            if (input == null)
+            {
+                ResolveRuntimeRefs();
+                if (input == null) return;
+            }
 
             input.ConsumeMenuDown();
 
@@ -270,6 +322,7 @@ namespace Game.UI.Shop
 
         private void TryOpenBuyConfirm(int idx)
         {
+            ResolveRuntimeRefs();
             if (stats == null || inventory == null) { ShowHintFail(hintNoItemKey); return; }
             BuySlot slot = GetBuySlot(idx);
             if (slot == null || slot.item == null) { ShowHintFail(hintNoItemKey); return; }
@@ -285,7 +338,7 @@ namespace Game.UI.Shop
             if (stats.Money < price) { ShowHintFail(hintNotEnoughMoneyKey); return; }
             if (!CanPlacePurchasedItem()) { ShowHintFail(hintBagFullKey); return; }
 
-            PlaySFX(confirmSfx); // 准备购买，进入确认界面
+            PlaySFX(confirmSfx); // open buy confirmation
             OpenBuyConfirm(slot.item, price);
         }
 
@@ -328,7 +381,11 @@ namespace Game.UI.Shop
 
         private void ExecutePendingBuy(int idx)
         {
+            ResolveRuntimeRefs();
+            if (stats == null || inventory == null) { ShowHintFail(hintNoItemKey); return; }
+
             BuySlot slot = GetBuySlot(idx);
+            if (slot == null || slot.item == null) { ShowHintFail(hintNoItemKey); return; }
             int price = slot.item.BuyPrice;
 
             bool placed = TryPlacePurchasedItem(slot.item);
@@ -340,7 +397,7 @@ namespace Game.UI.Shop
             AddBoughtCount(slot, 1);
             boughtLastFrame = true;
 
-            PlaySFX(executeSfx); // 钱扣了，货到了，响起来！
+            PlaySFX(executeSfx); // buy succeeded
             ShowHintSuccess(hintThanksKey);
 
             RefreshRootStats();
@@ -381,7 +438,8 @@ namespace Game.UI.Shop
 
         private void TrySell(int idx)
         {
-            if (stats == null || inventory == null) return;
+            ResolveRuntimeRefs();
+            if (stats == null || inventory == null) { ShowHintFail(hintNoItemKey); return; }
             ItemDefinition item = GetSellItem(idx);
             if (item == null || !IsSellable(item)) return;
 
@@ -391,7 +449,7 @@ namespace Game.UI.Shop
 
             if (price > 0) stats.AddMoney(price);
 
-            PlaySFX(executeSfx); // 卖破烂成功
+            PlaySFX(executeSfx); // sell succeeded
             RefreshRootStats();
             RefreshSellList();
         }
@@ -478,7 +536,7 @@ namespace Game.UI.Shop
 
             if (isSell)
             {
-                // 卖出界面隐藏所有无关UI
+                // Hide unrelated panels in sell mode.
                 if (leftPanel) leftPanel.SetActive(false);
                 if (rootPanel) rootPanel.SetActive(false);
                 if (buyPanel) buyPanel.SetActive(false);
@@ -500,7 +558,7 @@ namespace Game.UI.Shop
         private void RefreshRootOptions()
         {
             if (rootOptions == null || rootOptions.Length < 4) return;
-            string[] labels = { "购买", "出售", "对话", "离开" };
+            string[] labels = { "\u8D2D\u4E70", "\u51FA\u552E", "\u5BF9\u8BDD", "\u79BB\u5F00" };
             for (int i = 0; i < 4; i++)
             {
                 rootOptions[i].text = labels[i];
@@ -520,8 +578,14 @@ namespace Game.UI.Shop
 
         private int CountUsedSlots(Inventory inv)
         {
+            if (inv == null) return 0;
+
             int used = 0;
-            for (int i = 0; i < inv.Capacity; i++) if (inv.GetAt(i).Definition != null) used++;
+            for (int i = 0; i < inv.Capacity; i++)
+            {
+                var inst = inv.GetAt(i);
+                if (inst != null && inst.Definition != null) used++;
+            }
             return used;
         }
 
@@ -537,7 +601,7 @@ namespace Game.UI.Shop
 
                 if (nameTmp != null)
                 {
-                    if (slot == null || slot.item == null || (soldOut && string.IsNullOrEmpty(slot.soldOutNameKey))) nameTmp.text = "  ——";
+                    if (slot == null || slot.item == null || (soldOut && string.IsNullOrEmpty(slot.soldOutNameKey))) nameTmp.text = "  \u2014\u2014";
                     else if (soldOut) nameTmp.text = loc != null ? loc.Get(slot.soldOutNameKey) : slot.soldOutNameKey;
                     else nameTmp.text = slot.item.DisplayName;
                     nameTmp.color = (i == buyIndex) ? Color.yellow : Color.white;
@@ -570,7 +634,7 @@ namespace Game.UI.Shop
 
                 if (sellNameTexts[i])
                 {
-                    sellNameTexts[i].text = item != null ? item.DisplayName : "  ——";
+                    sellNameTexts[i].text = item != null ? item.DisplayName : "  \u2014\u2014";
                     sellNameTexts[i].color = selected ? Color.yellow : (sellable ? Color.white : Color.gray);
                 }
                 if (sellPriceTexts[i])
