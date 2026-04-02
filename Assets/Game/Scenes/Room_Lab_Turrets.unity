@@ -7142,8 +7142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488d6b18a3483f44a9d729655a674bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcId: npc.lab.box5
-  dialogue: {fileID: 11400000, guid: a5c17a15e16de0d4b90902e318f84620, type: 2}
+  npcId: npc.lab.box1
+  dialogue: {fileID: 11400000, guid: 186f74c40b657fe44ab44c934705991d, type: 2}
 --- !u!114 &4913308554630355113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7914,7 +7914,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5053671882696724112}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

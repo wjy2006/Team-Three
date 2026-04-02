@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.Systems.Items
 {
@@ -7,7 +7,7 @@ namespace Game.Systems.Items
     {
         [Header("Identity")]
         [SerializeField] private string itemId;
-        [SerializeField] private string displayName;
+        [SerializeField] private string displayNameKey;
 
         [Header("Dialogue")]
         public DialogueAsset infoDialogue;
@@ -17,8 +17,7 @@ namespace Game.Systems.Items
         [SerializeField] private ItemVisualConfig visual;
 
         [Header("Audio")]
-        [Tooltip("使用该物品时播放的音效")]
-        [SerializeField] private AudioClip useSfx; 
+        [SerializeField] private AudioClip useSfx;
 
         [Header("Category")]
         [SerializeField] private ItemType type;
@@ -28,16 +27,30 @@ namespace Game.Systems.Items
         [Min(0)][SerializeField] private int sellPrice;
         [SerializeField] private ItemEffect effect;
 
-        // ======= 对外只读访问 =======
         public string ItemId => itemId;
-        public string DisplayName => displayName;
+        public string DisplayNameKey => displayNameKey;
+
+        // Forced localization by key. No fallback to legacy displayName.
+        public string DisplayName
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(displayNameKey))
+                    return "[item.name.missing_key]";
+
+                var loc = GameRoot.I != null ? GameRoot.I.Localization : null;
+                if (loc == null)
+                    return $"[{displayNameKey}]";
+
+                return loc.Get(displayNameKey);
+            }
+        }
+
         public ItemType Type => type;
         public int BuyPrice => buyPrice;
         public int SellPrice => sellPrice;
         public ItemEffect Effect => effect;
         public ItemVisualConfig Visual => visual;
-        
-        // ✅ 新增音效访问器
         public AudioClip UseSfx => useSfx;
     }
 }

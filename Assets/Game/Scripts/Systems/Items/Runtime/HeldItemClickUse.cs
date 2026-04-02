@@ -42,8 +42,24 @@ public class HeldItemClickUse : MonoBehaviour
 
         if (GameRoot.I != null && GameRoot.I.Pause != null && GameRoot.I.Pause.IsPaused)
         {
-            input.ConsumeClickDown(out _);
-            if (input.ClickHeld) blockUntilClickReleased = true;
+            // Keep menu clicks available for menu UI while paused by menu.
+            bool menuOpen = Game.UI.Menu.FixedMenuController.Instance != null &&
+                            Game.UI.Menu.FixedMenuController.Instance.menuPanel != null &&
+                            Game.UI.Menu.FixedMenuController.Instance.menuPanel.activeInHierarchy;
+            bool shopOpen = Game.UI.Shop.ShopController.Instance != null &&
+                            Game.UI.Shop.ShopController.Instance.isActiveAndEnabled;
+
+            if (menuOpen || shopOpen)
+            {
+                // If the player is still holding click while operating menu,
+                // prevent auto-fire on the first frame after menu closes.
+                if (input.ClickHeld) blockUntilClickReleased = true;
+            }
+            else
+            {
+                input.ConsumeClickDown(out _);
+                if (input.ClickHeld) blockUntilClickReleased = true;
+            }
             return;
         }
 
@@ -103,6 +119,21 @@ public class HeldItemClickUse : MonoBehaviour
 
         // ====== 2) 非武器逻辑 ======
         if (!input.ConsumeClickDown(out _)) return;
+
+        if (item.Type == ItemType.Key)
+        {
+            bool openedByClick = DoorInteractTrigger.TryOpenAnyInRangeForHeldKey(item);
+            if (openedByClick)
+            {
+                PlayUseSfx(item.UseSfx);
+
+                if (GameRoot.I != null && GameRoot.I.Triggers != null)
+                {
+                    GameRoot.I.Triggers.Raise(new HeldItemUsedEvent(item: item));
+                }
+                return;
+            }
+        }
 
         if (item.Effect == null) return;
 

@@ -52,7 +52,7 @@ public class RocketMountEntity : MonoBehaviour
             flightLoopSource.playOnAwake = false;
             flightLoopSource.loop = false;
             flightLoopSource.spatialBlend = 0f;
-            flightLoopSource.ignoreListenerPause = true;
+            flightLoopSource.ignoreListenerPause = false;
         }
     }
 

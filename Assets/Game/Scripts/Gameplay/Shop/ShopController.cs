@@ -7,6 +7,8 @@ namespace Game.UI.Shop
 {
     public class ShopController : MonoBehaviour
     {
+        public static ShopController Instance { get; private set; }
+
         private enum State
         {
             Root,
@@ -26,6 +28,11 @@ namespace Game.UI.Shop
         public AudioClip confirmSfx;   // confirm action
         public AudioClip cancelSfx;    // cancel / back
         public AudioClip executeSfx;   // transaction success (buy/sell)
+
+        [Header("Mouse Hover")]
+        public bool useMouseHoverSelection = true;
+        public bool useRenderedTextHitArea = true;
+        public Vector2 renderedTextHitPadding = new Vector2(6f, 4f);
 
         [Header("Leave Target")]
         public string leaveSceneName = "World_Town";
@@ -54,9 +61,9 @@ namespace Game.UI.Shop
         [Header("Buy Confirm UI")]
         public TMP_Text confirmPromptText;
         public TMP_Text[] confirmOptionTexts = new TMP_Text[2];
-        public string confirmPromptFormat = "{0}\u4E70\u4E0B{1}\uFF1F";
-        public string confirmYesText = "\u786E\u5B9A";
-        public string confirmNoText = "\u53D6\u6D88";
+        public string confirmPromptTextKey = "ui.shop.confirm.buy_template";
+        public string confirmYesTextKey = "ui.shop.confirm.yes";
+        public string confirmNoTextKey = "ui.shop.confirm.no";
 
         // ===== Talk UI =====
         [Header("Talk UI")]
@@ -80,6 +87,13 @@ namespace Game.UI.Shop
         // ===== Root UI =====
         [Header("Root UI")]
         public TMP_Text[] rootOptions = new TMP_Text[4];
+        public string[] rootOptionTextKeys = new string[4]
+        {
+            "ui.shop.root.buy",
+            "ui.shop.root.sell",
+            "ui.shop.root.talk",
+            "ui.shop.root.leave"
+        };
         public TMP_Text moneyText;
         public TMP_Text slotsText;
 
@@ -97,6 +111,7 @@ namespace Game.UI.Shop
         [Header("Sell UI (8 slots: 0-6 inv, 7 held)")]
         public TMP_Text[] sellNameTexts = new TMP_Text[8];
         public TMP_Text[] sellPriceTexts = new TMP_Text[8];
+        public string sellUnsellableTextKey = "ui.shop.sell.unsellable";
 
         [Header("Portrait")]
         public ShopPortraitController portrait;
@@ -116,9 +131,16 @@ namespace Game.UI.Shop
         private int talkIndex = 0;
         private int confirmIndex = 0;
         private bool boughtLastFrame = false;
+        private int hoveredRootIndex = -1;
+        private int hoveredBuyIndex = -1;
+        private int hoveredConfirmIndex = -1;
+        private int hoveredSellIndex = -1;
+        private int hoveredTalkIndex = -1;
 
         private void Awake()
         {
+            Instance = this;
+
             if (uiAudioSource != null)
             {
                 uiAudioSource.spatialBlend = 0f; // force 2D SFX
@@ -195,6 +217,8 @@ namespace Game.UI.Shop
 
         private void OnDestroy()
         {
+            if (Instance == this) Instance = null;
+
             if (subscribedStats != null) subscribedStats.OnStatsChanged -= RefreshRootStats;
             if (subscribedInventory != null) subscribedInventory.OnChanged -= RefreshRootStats;
 
@@ -237,7 +261,7 @@ namespace Game.UI.Shop
 
             if (state != State.TalkDialogue)
             {
-                if (input.ConsumeCancelDown())
+                if (input.ConsumeCancelDown() || input.ConsumeInteractDown())
                 {
                     if (state == State.BuyConfirm)
                     {
@@ -256,6 +280,9 @@ namespace Game.UI.Shop
                     return;
                 }
             }
+
+            UpdateMouseHoverSelection();
+            if (TryHandleRootPanelClick()) return;
 
             switch (state)
             {
@@ -284,17 +311,17 @@ namespace Game.UI.Shop
                 PlaySFX(moveSfx);
                 RefreshRootOptions();
             }
+        }
 
-            if (input.ConsumeInteractDown())
+        private void ExecuteRootSelection()
+        {
+            PlaySFX(confirmSfx);
+            switch (rootIndex)
             {
-                PlaySFX(confirmSfx);
-                switch (rootIndex)
-                {
-                    case 0: buyIndex = 0; SetState(State.Buy); RefreshAll(); break;
-                    case 1: sellIndex = 0; SetState(State.Sell); RefreshAll(); break;
-                    case 2: talkIndex = 0; SetState(State.TalkSelect); RefreshAll(); break;
-                    case 3: LeaveShop(); break;
-                }
+                case 0: buyIndex = 0; SetState(State.Buy); RefreshAll(); break;
+                case 1: sellIndex = 0; SetState(State.Sell); RefreshAll(); break;
+                case 2: talkIndex = 0; SetState(State.TalkSelect); RefreshAll(); break;
+                case 3: LeaveShop(); break;
             }
         }
 
@@ -314,8 +341,14 @@ namespace Game.UI.Shop
                 RefreshBuyItemInfo();
             }
 
-            if (input.ConsumeInteractDown())
+            if (ConsumeBuyClick(out int clicked))
             {
+                if (buyIndex != clicked)
+                {
+                    buyIndex = clicked;
+                    RefreshBuyList();
+                    RefreshBuyItemInfo();
+                }
                 TryOpenBuyConfirm(buyIndex);
             }
         }
@@ -349,7 +382,10 @@ namespace Game.UI.Shop
             string priceStr = $"{price}G";
             string itemName = item != null ? item.DisplayName : "";
             if (confirmPromptText != null)
-                confirmPromptText.text = string.Format(confirmPromptFormat, priceStr, itemName);
+            {
+                string template = Loc(confirmPromptTextKey, "{0} buy {1}?");
+                confirmPromptText.text = string.Format(template, priceStr, itemName);
+            }
             RefreshConfirmOptions();
         }
 
@@ -365,8 +401,14 @@ namespace Game.UI.Shop
                 RefreshConfirmOptions();
             }
 
-            if (input.ConsumeInteractDown())
+            if (ConsumeBuyConfirmClick(out int clicked))
             {
+                if (confirmIndex != clicked)
+                {
+                    confirmIndex = clicked;
+                    RefreshConfirmOptions();
+                }
+
                 if (confirmIndex == 0)
                 {
                     ExecutePendingBuy(buyIndex);
@@ -430,8 +472,13 @@ namespace Game.UI.Shop
                 RefreshSellList();
             }
 
-            if (input.ConsumeInteractDown())
+            if (ConsumeSellClick(out int clicked))
             {
+                if (sellIndex != clicked)
+                {
+                    sellIndex = clicked;
+                    RefreshSellList();
+                }
                 TrySell(sellIndex);
             }
         }
@@ -472,8 +519,13 @@ namespace Game.UI.Shop
                 RefreshTalkOptions();
             }
 
-            if (input.ConsumeInteractDown())
+            if (ConsumeTalkClick(out int clicked))
             {
+                if (talkIndex != clicked)
+                {
+                    talkIndex = clicked;
+                    RefreshTalkOptions();
+                }
                 PlaySFX(confirmSfx);
                 StartTalkDialogue(talkIndex);
             }
@@ -502,6 +554,11 @@ namespace Game.UI.Shop
         {
             bool enteringBuyFromOutside = (s == State.Buy) && (state != State.Buy) && (state != State.BuyConfirm);
             state = s;
+            hoveredRootIndex = -1;
+            hoveredBuyIndex = -1;
+            hoveredConfirmIndex = -1;
+            hoveredSellIndex = -1;
+            hoveredTalkIndex = -1;
 
             if (portrait != null)
                 portrait.SetBasePose(state == State.BuyConfirm ? ShopPortraitController.Pose.Confirm : ShopPortraitController.Pose.Idle);
@@ -558,11 +615,12 @@ namespace Game.UI.Shop
         private void RefreshRootOptions()
         {
             if (rootOptions == null || rootOptions.Length < 4) return;
-            string[] labels = { "\u8D2D\u4E70", "\u51FA\u552E", "\u5BF9\u8BDD", "\u79BB\u5F00" };
+            bool rootPanelVisibleByState = IsRootPanelVisibleByState();
             for (int i = 0; i < 4; i++)
             {
-                rootOptions[i].text = labels[i];
-                rootOptions[i].color = (state == State.Root && i == rootIndex) ? Color.yellow : Color.white;
+                string key = GetKey(rootOptionTextKeys, i);
+                rootOptions[i].text = Loc(key, rootOptions[i].text);
+                rootOptions[i].color = (rootPanelVisibleByState && i == rootIndex) ? Color.yellow : Color.white;
             }
         }
 
@@ -639,7 +697,7 @@ namespace Game.UI.Shop
                 }
                 if (sellPriceTexts[i])
                 {
-                    sellPriceTexts[i].text = item == null ? "" : (sellable ? $"{item.SellPrice}G" : "NO!!");
+                    sellPriceTexts[i].text = item == null ? "" : (sellable ? $"{item.SellPrice}G" : Loc(sellUnsellableTextKey, "NO!!"));
                     sellPriceTexts[i].color = selected ? Color.yellow : (sellable ? Color.white : Color.gray);
                 }
             }
@@ -664,10 +722,228 @@ namespace Game.UI.Shop
         private void RefreshConfirmOptions()
         {
             if (confirmOptionTexts == null) return;
-            confirmOptionTexts[0].text = confirmYesText;
-            confirmOptionTexts[1].text = confirmNoText;
+            confirmOptionTexts[0].text = Loc(confirmYesTextKey, "Yes");
+            confirmOptionTexts[1].text = Loc(confirmNoTextKey, "Cancel");
             for (int i = 0; i < 2; i++)
                 confirmOptionTexts[i].color = (state == State.BuyConfirm && i == confirmIndex) ? Color.yellow : Color.white;
+        }
+
+        private void UpdateMouseHoverSelection()
+        {
+            if (!useMouseHoverSelection || input == null) return;
+
+            Vector2 pointer = input.PointerPos;
+
+            if (IsRootPanelVisibleByState())
+            {
+                int hovered = GetHoveredTextIndex(rootOptions, 4, pointer);
+                if (hovered != hoveredRootIndex)
+                {
+                    if (hovered >= 0) PlaySFX(moveSfx);
+                    hoveredRootIndex = hovered;
+                }
+
+                if (hovered >= 0 && rootIndex != hovered)
+                {
+                    rootIndex = hovered;
+                    RefreshRootOptions();
+                }
+            }
+
+            if (state == State.TalkDialogue) return;
+
+            switch (state)
+            {
+                case State.Buy:
+                {
+                    int hovered = GetHoveredBuyIndex(pointer);
+                    if (hovered != hoveredBuyIndex)
+                    {
+                        if (hovered >= 0) PlaySFX(moveSfx);
+                        hoveredBuyIndex = hovered;
+                    }
+
+                    if (hovered >= 0 && buyIndex != hovered)
+                    {
+                        buyIndex = hovered;
+                        RefreshBuyList();
+                        RefreshBuyItemInfo();
+                    }
+                    break;
+                }
+                case State.BuyConfirm:
+                {
+                    int hovered = GetHoveredTextIndex(confirmOptionTexts, 2, pointer);
+                    if (hovered != hoveredConfirmIndex)
+                    {
+                        if (hovered >= 0) PlaySFX(moveSfx);
+                        hoveredConfirmIndex = hovered;
+                    }
+
+                    if (hovered >= 0 && confirmIndex != hovered)
+                    {
+                        confirmIndex = hovered;
+                        RefreshConfirmOptions();
+                    }
+                    break;
+                }
+                case State.Sell:
+                {
+                    int hovered = GetHoveredSellIndex(pointer);
+                    if (hovered != hoveredSellIndex)
+                    {
+                        if (hovered >= 0) PlaySFX(moveSfx);
+                        hoveredSellIndex = hovered;
+                    }
+
+                    if (hovered >= 0 && sellIndex != hovered)
+                    {
+                        sellIndex = hovered;
+                        RefreshSellList();
+                    }
+                    break;
+                }
+                case State.TalkSelect:
+                {
+                    int hovered = GetHoveredTextIndex(talkOptions, 4, pointer);
+                    if (hovered != hoveredTalkIndex)
+                    {
+                        if (hovered >= 0) PlaySFX(moveSfx);
+                        hoveredTalkIndex = hovered;
+                    }
+
+                    if (hovered >= 0 && talkIndex != hovered)
+                    {
+                        talkIndex = hovered;
+                        RefreshTalkOptions();
+                    }
+                    break;
+                }
+            }
+        }
+
+        private int GetHoveredBuyIndex(Vector2 screenPos)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (IsTextHit(GetTextAt(buyNameTexts, i), screenPos) || IsTextHit(GetTextAt(buyPriceTexts, i), screenPos))
+                    return i;
+            }
+            return -1;
+        }
+
+        private int GetHoveredSellIndex(Vector2 screenPos)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                if (IsTextHit(GetTextAt(sellNameTexts, i), screenPos) || IsTextHit(GetTextAt(sellPriceTexts, i), screenPos))
+                    return i;
+            }
+            return -1;
+        }
+
+        private int GetHoveredTextIndex(TMP_Text[] texts, int maxCount, Vector2 screenPos)
+        {
+            if (texts == null) return -1;
+            int count = Mathf.Min(maxCount, texts.Length);
+            for (int i = 0; i < count; i++)
+            {
+                if (IsTextHit(texts[i], screenPos)) return i;
+            }
+            return -1;
+        }
+
+        private bool IsRootPanelVisibleByState()
+        {
+            return state == State.Root || state == State.TalkSelect || state == State.TalkDialogue;
+        }
+
+        private bool TryHandleRootPanelClick()
+        {
+            if (!IsRootPanelVisibleByState() || input == null || !input.ClickDown) return false;
+
+            int clicked = GetHoveredTextIndex(rootOptions, 4, input.PointerPos);
+            if (clicked < 0) return false;
+
+            input.ConsumeClickDown(out _);
+
+            if (rootIndex != clicked)
+            {
+                rootIndex = clicked;
+                RefreshRootOptions();
+            }
+
+            if (state == State.TalkDialogue && talkDialogueUI != null && talkDialogueUI.IsOpen)
+                talkDialogueUI.Close();
+
+            ExecuteRootSelection();
+            return true;
+        }
+
+        private bool ConsumeBuyClick(out int clicked)
+        {
+            clicked = -1;
+            if (input == null || !input.ConsumeClickDown(out Vector2 clickPos)) return false;
+            clicked = GetHoveredBuyIndex(clickPos);
+            return clicked >= 0;
+        }
+
+        private bool ConsumeBuyConfirmClick(out int clicked)
+        {
+            clicked = -1;
+            if (input == null || !input.ConsumeClickDown(out Vector2 clickPos)) return false;
+            clicked = GetHoveredTextIndex(confirmOptionTexts, 2, clickPos);
+            return clicked >= 0;
+        }
+
+        private bool ConsumeSellClick(out int clicked)
+        {
+            clicked = -1;
+            if (input == null || !input.ConsumeClickDown(out Vector2 clickPos)) return false;
+            clicked = GetHoveredSellIndex(clickPos);
+            return clicked >= 0;
+        }
+
+        private bool ConsumeTalkClick(out int clicked)
+        {
+            clicked = -1;
+            if (input == null || !input.ConsumeClickDown(out Vector2 clickPos)) return false;
+            clicked = GetHoveredTextIndex(talkOptions, 4, clickPos);
+            return clicked >= 0;
+        }
+
+        private TMP_Text GetTextAt(TMP_Text[] arr, int i)
+        {
+            if (arr == null || i < 0 || i >= arr.Length) return null;
+            return arr[i];
+        }
+
+        private bool IsTextHit(TMP_Text text, Vector2 screenPos)
+        {
+            if (text == null || !text.gameObject.activeInHierarchy) return false;
+
+            RectTransform rect = text.rectTransform;
+            Canvas canvas = rect != null ? rect.GetComponentInParent<Canvas>() : null;
+            Camera cam = null;
+            if (canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay)
+                cam = canvas.worldCamera;
+
+            if (!useRenderedTextHitArea)
+                return RectTransformUtility.RectangleContainsScreenPoint(rect, screenPos, cam);
+
+            if (rect == null) return false;
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, screenPos, cam, out Vector2 localPoint))
+                return false;
+
+            text.ForceMeshUpdate();
+            Bounds textBounds = text.textBounds;
+            if (textBounds.size.sqrMagnitude <= 0.0001f)
+                return RectTransformUtility.RectangleContainsScreenPoint(rect, screenPos, cam);
+
+            Vector2 min = new Vector2(textBounds.min.x, textBounds.min.y) - renderedTextHitPadding;
+            Vector2 max = new Vector2(textBounds.max.x, textBounds.max.y) + renderedTextHitPadding;
+            return localPoint.x >= min.x && localPoint.x <= max.x &&
+                   localPoint.y >= min.y && localPoint.y <= max.y;
         }
 
         // =========================
@@ -718,6 +994,13 @@ namespace Game.UI.Shop
         private void ShowHintFail(string key) { PlaySFX(cancelSfx); if (portrait) portrait.OverridePose(ShopPortraitController.Pose.BuyFail, 2f); ShowHint(key); }
 
         private string GetKey(string[] arr, int idx) => (arr != null && idx >= 0 && idx < arr.Length) ? arr[idx] : null;
+        private string Loc(string key, string fallback)
+        {
+            if (string.IsNullOrWhiteSpace(key)) return fallback;
+            var loc = GameRoot.I != null ? GameRoot.I.Localization : null;
+            if (loc == null) return fallback;
+            return loc.Get(key);
+        }
 
         private void LeaveShop() { PlaySFX(cancelSfx); GameRoot.I?.TransitionTo(leaveSceneName, leaveSpawnId); }
 

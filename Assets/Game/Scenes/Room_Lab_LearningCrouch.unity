@@ -1145,8 +1145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488d6b18a3483f44a9d729655a674bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableNPC
-  npcId: lab.box.004
-  dialogue: {fileID: 11400000, guid: 700d6f709c5f2264499ebab4822a194e, type: 2}
+  npcId: lab.box.005
+  dialogue: {fileID: 11400000, guid: a5c17a15e16de0d4b90902e318f84620, type: 2}
 --- !u!1 &2914958225030598631
 GameObject:
   m_ObjectHideFlags: 0
@@ -3912,7 +3912,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 3
-      m_TileSpriteIndex: 3
+      m_TileSpriteIndex: 4
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -4145,10 +4145,10 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 1
-    m_Data: {fileID: -1126912842, guid: be615d8f665cb0f4db9ef8dd45d610d3, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: -1126912842, guid: be615d8f665cb0f4db9ef8dd45d610d3, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: -1563734960, guid: be615d8f665cb0f4db9ef8dd45d610d3, type: 3}
   - m_RefCount: 1

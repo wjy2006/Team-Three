@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MiniworldRocket
   m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.Items.ItemDefinition
   itemId: MiniworldRocket
-  displayName: "\u7C73\u7C73\u4E16\u754C\u706B\u7BAD"
+  displayNameKey: item.name.miniworldrocket
   infoDialogue: {fileID: 11400000, guid: 699f00f9238ad7541bb2e128fc9bbd28, type: 2}
   dropDialogue: {fileID: 11400000, guid: 44b8f036b3b78534bbea42172b3c67ea, type: 2}
   visual:

@@ -50,6 +50,21 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scenes/Room_Lab_LearningCrouch.unity
     guid: e403b94045b08474da090b653ec570d9
+  - enabled: 1
+    path: Assets/Game/Scenes/END.unity
+    guid: acc866c9465f64944bface1128f27d80
+  - enabled: 1
+    path: Assets/Game/Scenes/World_Battlefield.unity
+    guid: f6175733072a31f44aeb70ecd88b373f
+  - enabled: 1
+    path: Assets/Game/Scenes/World_Transition.unity
+    guid: ffe9a80326fdd734aa393632f4a844e1
+  - enabled: 1
+    path: Assets/Game/Scenes/World_BigWorld.unity
+    guid: 156acc0e70b50e04fbe9e85668f839f5
+  - enabled: 1
+    path: Assets/Game/Scenes/World_Box1.unity
+    guid: aaafe06a736a38449bfc86a20a6102e8
   m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 668b30f8043be5441a5b1f86906f1d52, type: 3}
   m_UseUCBPForAssetBundles: 0

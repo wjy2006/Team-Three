@@ -1,0 +1,1732 @@
+fileFormatVersion: 2
+guid: e1ca0449fc4bfe841a85a8eed7600a09
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2618569241543852470
+    second: tiles-stone32x32_0
+  - first:
+      213: 4015404314679978791
+    second: tiles-stone32x32_1
+  - first:
+      213: 5902038868189778861
+    second: tiles-stone32x32_2
+  - first:
+      213: 6828887649633190926
+    second: tiles-stone32x32_3
+  - first:
+      213: -7507666476920096822
+    second: tiles-stone32x32_4
+  - first:
+      213: -4918979546946343870
+    second: tiles-stone32x32_5
+  - first:
+      213: 1468745515587197200
+    second: tiles-stone32x32_6
+  - first:
+      213: -4885615959011735010
+    second: tiles-stone32x32_7
+  - first:
+      213: 357911925147100127
+    second: tiles-stone32x32_8
+  - first:
+      213: 780270492362987407
+    second: tiles-stone32x32_9
+  - first:
+      213: -628306240747526783
+    second: tiles-stone32x32_10
+  - first:
+      213: -2167827870495803010
+    second: tiles-stone32x32_11
+  - first:
+      213: -3854873573332229053
+    second: tiles-stone32x32_12
+  - first:
+      213: -3483791475161227124
+    second: tiles-stone32x32_13
+  - first:
+      213: 3440593492219097462
+    second: tiles-stone32x32_14
+  - first:
+      213: -192325634873485760
+    second: tiles-stone32x32_15
+  - first:
+      213: 2891949378971760623
+    second: tiles-stone32x32_16
+  - first:
+      213: -5293373755149929642
+    second: tiles-stone32x32_17
+  - first:
+      213: 2449539230925725162
+    second: tiles-stone32x32_18
+  - first:
+      213: -3248271384911208063
+    second: tiles-stone32x32_19
+  - first:
+      213: -7897579634707790368
+    second: tiles-stone32x32_20
+  - first:
+      213: -4930202905194549352
+    second: tiles-stone32x32_21
+  - first:
+      213: 6182213920243362887
+    second: tiles-stone32x32_22
+  - first:
+      213: 855038486352132271
+    second: tiles-stone32x32_23
+  - first:
+      213: -596621718336195216
+    second: tiles-stone32x32_24
+  - first:
+      213: 724180313688664279
+    second: tiles-stone32x32_25
+  - first:
+      213: -1428233461355269079
+    second: tiles-stone32x32_26
+  - first:
+      213: 7344583812111415219
+    second: tiles-stone32x32_27
+  - first:
+      213: -7968057350534116600
+    second: tiles-stone32x32_28
+  - first:
+      213: 4144202183450671249
+    second: tiles-stone32x32_29
+  - first:
+      213: 5341857884584084160
+    second: tiles-stone32x32_30
+  - first:
+      213: 6003051142545045503
+    second: tiles-stone32x32_31
+  - first:
+      213: -7006644665068258669
+    second: tiles-stone32x32_32
+  - first:
+      213: -5276259443704657027
+    second: tiles-stone32x32_33
+  - first:
+      213: 572339449464600817
+    second: tiles-stone32x32_34
+  - first:
+      213: 1346710204964133988
+    second: tiles-stone32x32_35
+  - first:
+      213: -83817534100297720
+    second: tiles-stone32x32_36
+  - first:
+      213: -301182763760067260
+    second: tiles-stone32x32_37
+  - first:
+      213: -6939735609445492531
+    second: tiles-stone32x32_38
+  - first:
+      213: 1415076082946296439
+    second: tiles-stone32x32_39
+  - first:
+      213: -4977999749398265422
+    second: tiles-stone32x32_40
+  - first:
+      213: 8891233429473684727
+    second: tiles-stone32x32_41
+  - first:
+      213: 7186168645836736122
+    second: tiles-stone32x32_42
+  - first:
+      213: -3333568290601504766
+    second: tiles-stone32x32_43
+  - first:
+      213: 2780830206351535837
+    second: tiles-stone32x32_44
+  - first:
+      213: -8194646121290629752
+    second: tiles-stone32x32_45
+  - first:
+      213: 6013048123665084641
+    second: tiles-stone32x32_46
+  - first:
+      213: -2381980915550842402
+    second: tiles-stone32x32_47
+  - first:
+      213: 1266979697977237890
+    second: tiles-stone32x32_48
+  - first:
+      213: -6782545014125082518
+    second: tiles-stone32x32_49
+  - first:
+      213: 2689690612812847246
+    second: tiles-stone32x32_50
+  - first:
+      213: -4985901795139021182
+    second: tiles-stone32x32_51
+  - first:
+      213: -9138958234465441837
+    second: tiles-stone32x32_52
+  - first:
+      213: 1323398459311346912
+    second: tiles-stone32x32_53
+  - first:
+      213: -8390998344711108949
+    second: tiles-stone32x32_54
+  - first:
+      213: 8568118960094007854
+    second: tiles-stone32x32_55
+  - first:
+      213: 8385935704467478057
+    second: tiles-stone32x32_56
+  - first:
+      213: 5778328228806079251
+    second: tiles-stone32x32_57
+  - first:
+      213: 1644251764710785137
+    second: tiles-stone32x32_58
+  - first:
+      213: 7774543652548543967
+    second: tiles-stone32x32_59
+  - first:
+      213: 4935509349030814564
+    second: tiles-stone32x32_60
+  - first:
+      213: 2259143811904438664
+    second: tiles-stone32x32_61
+  - first:
+      213: -7002755585053953421
+    second: tiles-stone32x32_62
+  - first:
+      213: 6829684224456018741
+    second: tiles-stone32x32_63
+  - first:
+      213: 4043253817555172979
+    second: tiles-stone32x32_64
+  - first:
+      213: -6628048042653887626
+    second: tiles-stone32x32_65
+  - first:
+      213: 7966166007223737078
+    second: tiles-stone32x32_66
+  - first:
+      213: -2091380301696728366
+    second: tiles-stone32x32_67
+  - first:
+      213: 3332530702293002667
+    second: tiles-stone32x32_68
+  - first:
+      213: -680711063443649523
+    second: tiles-stone32x32_69
+  - first:
+      213: 1910131078137124047
+    second: tiles-stone32x32_70
+  - first:
+      213: -4859609141096915637
+    second: tiles-stone32x32_71
+  - first:
+      213: 786940852127528765
+    second: tiles-stone32x32_72
+  - first:
+      213: -3568686667365655570
+    second: tiles-stone32x32_73
+  - first:
+      213: 4373560797370292788
+    second: tiles-stone32x32_74
+  - first:
+      213: 9008763788259302787
+    second: tiles-stone32x32_75
+  - first:
+      213: 1579884794207556228
+    second: tiles-stone32x32_76
+  - first:
+      213: -5225210272777504835
+    second: tiles-stone32x32_77
+  - first:
+      213: -3119038424162006558
+    second: tiles-stone32x32_78
+  - first:
+      213: -7773931090844144152
+    second: tiles-stone32x32_79
+  - first:
+      213: -105369562705007440
+    second: tiles-stone32x32_80
+  - first:
+      213: 700599324427003032
+    second: tiles-stone32x32_81
+  - first:
+      213: -5088270772239204584
+    second: tiles-stone32x32_82
+  - first:
+      213: 7196947699044301245
+    second: tiles-stone32x32_83
+  - first:
+      213: 8604152752061287909
+    second: tiles-stone32x32_84
+  - first:
+      213: -415669443052455473
+    second: tiles-stone32x32_85
+  - first:
+      213: -4506291807863345897
+    second: tiles-stone32x32_86
+  - first:
+      213: 9174923259410982796
+    second: tiles-stone32x32_87
+  - first:
+      213: -7320278545693271320
+    second: tiles-stone32x32_88
+  - first:
+      213: 4960783298445618407
+    second: tiles-stone32x32_89
+  - first:
+      213: 5137766089850987525
+    second: tiles-stone32x32_90
+  - first:
+      213: -1586515580171106693
+    second: tiles-stone32x32_91
+  - first:
+      213: 135091426661187591
+    second: tiles-stone32x32_92
+  - first:
+      213: -587007100460648844
+    second: tiles-stone32x32_93
+  - first:
+      213: -695804408862635816
+    second: tiles-stone32x32_94
+  - first:
+      213: 3184353593074586411
+    second: tiles-stone32x32_95
+  - first:
+      213: -2516916715516993739
+    second: tiles-stone32x32_96
+  - first:
+      213: 2284099924711496107
+    second: tiles-stone32x32_97
+  - first:
+      213: 2276808608774692416
+    second: tiles-stone32x32_98
+  - first:
+      213: 1053180378115219129
+    second: tiles-stone32x32_99
+  - first:
+      213: -4228972598169712288
+    second: tiles-stone32x32_100
+  - first:
+      213: -9004168525577404460
+    second: tiles-stone32x32_101
+  - first:
+      213: -836345078246601859
+    second: tiles-stone32x32_102
+  - first:
+      213: -6646768047308424305
+    second: tiles-stone32x32_103
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tiles-stone32x32_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 288
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b14cf5f9d6075420800000000000000
+      internalID: 2618569241543852470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 288
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72b221e13f499b730800000000000000
+      internalID: 4015404314679978791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 288
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da3100d841148e150800000000000000
+      internalID: 5902038868189778861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 288
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e044077e22515ce50800000000000000
+      internalID: 6828887649633190926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 288
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac7b117dd196fc790800000000000000
+      internalID: -7507666476920096822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 288
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24ce9d6f9264cbbb0800000000000000
+      internalID: -4918979546946343870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 019d502c348026410800000000000000
+      internalID: 1468745515587197200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_7
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1a402e9b2ec23cb0800000000000000
+      internalID: -4885615959011735010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_8
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd3e447effe87f400800000000000000
+      internalID: 357911925147100127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_9
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f87d306f0e314da00800000000000000
+      internalID: 780270492362987407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_10
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 185251e8dcec747f0800000000000000
+      internalID: -628306240747526783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_11
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e79f7e499045ae1e0800000000000000
+      internalID: -2167827870495803010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_12
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 344ed77b8ecb08ac0800000000000000
+      internalID: -3854873573332229053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_13
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c802b7b7c1617afc0800000000000000
+      internalID: -3483791475161227124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6717d385d817fbf20800000000000000
+      internalID: 3440593492219097462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_15
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0461a24aad8b45df0800000000000000
+      internalID: -192325634873485760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_16
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe7f50253a4422820800000000000000
+      internalID: 2891949378971760623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_17
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 653b9ec7d982a86b0800000000000000
+      internalID: -5293373755149929642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_18
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aed16bac3f28ef120800000000000000
+      internalID: 2449539230925725162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_19
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1812d40b262dbe2d0800000000000000
+      internalID: -3248271384911208063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_20
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e502e75a29266290800000000000000
+      internalID: -7897579634707790368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_21
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89fa74d3496649bb0800000000000000
+      internalID: -4930202905194549352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_22
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74ca4914ec2abc550800000000000000
+      internalID: 6182213920243362887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_23
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa87e4029f4bddb00800000000000000
+      internalID: 855038486352132271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_24
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 075b94d45bf58b7f0800000000000000
+      internalID: -596621718336195216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_25
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d86ebe882ecc0a00800000000000000
+      internalID: 724180313688664279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_26
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 924b797eb35ed2ce0800000000000000
+      internalID: -1428233461355269079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_27
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b73cf750143de560800000000000000
+      internalID: 7344583812111415219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80b49776e06cb6190800000000000000
+      internalID: -7968057350534116600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_29
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 198b9fdcde9238930800000000000000
+      internalID: 4144202183450671249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_30
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c201439177122a40800000000000000
+      internalID: 5341857884584084160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_31
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff776e7653f1f4350800000000000000
+      internalID: 6003051142545045503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_32
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39a7837ccc563ce90800000000000000
+      internalID: -7006644665068258669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_33
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7b0f23adf5f6c6b0800000000000000
+      internalID: -5276259443704657027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_34
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f8b74862bb51f700800000000000000
+      internalID: 572339449464600817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_35
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46cd746dbc970b210800000000000000
+      internalID: 1346710204964133988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_36
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 808a006956836def0800000000000000
+      internalID: -83817534100297720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_37
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44d5c914fdbf1dbf0800000000000000
+      internalID: -301182763760067260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_38
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc85fd34b3b11bf90800000000000000
+      internalID: -6939735609445492531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_39
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77a4a26333c53a310800000000000000
+      internalID: 1415076082946296439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_40
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b1022d3a979aeab0800000000000000
+      internalID: -4977999749398265422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_41
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fc6bd242b1046b70800000000000000
+      internalID: 8891233429473684727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_42
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7606273f466ab360800000000000000
+      internalID: 7186168645836736122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_43
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 200f03c3d49ccb1d0800000000000000
+      internalID: -3333568290601504766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_44
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dde6246d65e779620800000000000000
+      internalID: 2780830206351535837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_45
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88d707015c4c64e80800000000000000
+      internalID: -8194646121290629752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_46
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e0f264f863a27350800000000000000
+      internalID: 6013048123665084641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_47
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed115d24af081fed0800000000000000
+      internalID: -2381980915550842402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_48
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 281a0939257359110800000000000000
+      internalID: 1266979697977237890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_49
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a684affbe3f8fd1a0800000000000000
+      internalID: -6782545014125082518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_50
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e88996c9c53b35520800000000000000
+      internalID: 2689690612812847246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_51
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28691c7dbb48ecab0800000000000000
+      internalID: -4985901795139021182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_52
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d76e81f7e5eb2180800000000000000
+      internalID: -9138958234465441837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_53
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e45d8713e7ad5210800000000000000
+      internalID: 1323398459311346912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_54
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba68a90867f2d8b80800000000000000
+      internalID: -8390998344711108949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-stone32x32_55
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2251b16cc218e670800000000000000
+      internalID: 8568118960094007854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 1cb8db710831e9d4998b60e8b06147d6
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      tiles-stone32x32_0: 2618569241543852470
+      tiles-stone32x32_1: 4015404314679978791
+      tiles-stone32x32_10: -628306240747526783
+      tiles-stone32x32_11: -2167827870495803010
+      tiles-stone32x32_12: -3854873573332229053
+      tiles-stone32x32_13: -3483791475161227124
+      tiles-stone32x32_14: 3440593492219097462
+      tiles-stone32x32_15: -192325634873485760
+      tiles-stone32x32_16: 2891949378971760623
+      tiles-stone32x32_17: -5293373755149929642
+      tiles-stone32x32_18: 2449539230925725162
+      tiles-stone32x32_19: -3248271384911208063
+      tiles-stone32x32_2: 5902038868189778861
+      tiles-stone32x32_20: -7897579634707790368
+      tiles-stone32x32_21: -4930202905194549352
+      tiles-stone32x32_22: 6182213920243362887
+      tiles-stone32x32_23: 855038486352132271
+      tiles-stone32x32_24: -596621718336195216
+      tiles-stone32x32_25: 724180313688664279
+      tiles-stone32x32_26: -1428233461355269079
+      tiles-stone32x32_27: 7344583812111415219
+      tiles-stone32x32_28: -7968057350534116600
+      tiles-stone32x32_29: 4144202183450671249
+      tiles-stone32x32_3: 6828887649633190926
+      tiles-stone32x32_30: 5341857884584084160
+      tiles-stone32x32_31: 6003051142545045503
+      tiles-stone32x32_32: -7006644665068258669
+      tiles-stone32x32_33: -5276259443704657027
+      tiles-stone32x32_34: 572339449464600817
+      tiles-stone32x32_35: 1346710204964133988
+      tiles-stone32x32_36: -83817534100297720
+      tiles-stone32x32_37: -301182763760067260
+      tiles-stone32x32_38: -6939735609445492531
+      tiles-stone32x32_39: 1415076082946296439
+      tiles-stone32x32_4: -7507666476920096822
+      tiles-stone32x32_40: -4977999749398265422
+      tiles-stone32x32_41: 8891233429473684727
+      tiles-stone32x32_42: 7186168645836736122
+      tiles-stone32x32_43: -3333568290601504766
+      tiles-stone32x32_44: 2780830206351535837
+      tiles-stone32x32_45: -8194646121290629752
+      tiles-stone32x32_46: 6013048123665084641
+      tiles-stone32x32_47: -2381980915550842402
+      tiles-stone32x32_48: 1266979697977237890
+      tiles-stone32x32_49: -6782545014125082518
+      tiles-stone32x32_5: -4918979546946343870
+      tiles-stone32x32_50: 2689690612812847246
+      tiles-stone32x32_51: -4985901795139021182
+      tiles-stone32x32_52: -9138958234465441837
+      tiles-stone32x32_53: 1323398459311346912
+      tiles-stone32x32_54: -8390998344711108949
+      tiles-stone32x32_55: 8568118960094007854
+      tiles-stone32x32_6: 1468745515587197200
+      tiles-stone32x32_7: -4885615959011735010
+      tiles-stone32x32_8: 357911925147100127
+      tiles-stone32x32_9: 780270492362987407
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

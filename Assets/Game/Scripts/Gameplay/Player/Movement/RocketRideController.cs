@@ -65,12 +65,16 @@ public class RocketRideController : MonoBehaviour
             if (input == null) return;
         }
 
+        bool isPaused = GameRoot.I != null &&
+                        GameRoot.I.Pause != null &&
+                        GameRoot.I.Pause.IsPaused;
+
         // ✅ 等旧火箭销毁期间不要生成新火箭
         if (switchPending)
         {
             if (rocket != null)
             {
-                bool accelHeld = input.ClickHeld;
+                bool accelHeld = !isPaused && input.ClickHeld;
                 Vector2 aimDir = GetAimDir(rocket.transform.position);
                 rocket.SetInput(aimDir, accelHeld);
             }
@@ -123,7 +127,7 @@ public class RocketRideController : MonoBehaviour
         // 4) 输入驱动
         if (rocket != null)
         {
-            bool accelHeld = input.ClickHeld;
+            bool accelHeld = !isPaused && input.ClickHeld;
             Vector2 aimDir = GetAimDir(rocket.transform.position);
             rocket.SetInput(aimDir, accelHeld);
         }

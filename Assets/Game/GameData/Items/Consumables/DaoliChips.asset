@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DaoliChips
   m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.Items.ItemDefinition
   itemId: DaoliChips
-  displayName: "\u9053\u7406\u8106\u7247"
+  displayNameKey: item.name.daolichips
   infoDialogue: {fileID: 11400000, guid: 5294e3f10574790488eee3714025a9b1, type: 2}
   dropDialogue: {fileID: 11400000, guid: f1cf7e3c728c065429cdf28cdb9e41ca, type: 2}
   visual:

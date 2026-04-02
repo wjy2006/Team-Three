@@ -18,7 +18,7 @@ MonoBehaviour:
     type: 1
     lines: []
     nextId: 
-    boolKey: lab.box5.given
+    boolKey: lab.gotSlime1
     trueNextId: say nothing
     falseNextId: say tips
     boolValue: 0

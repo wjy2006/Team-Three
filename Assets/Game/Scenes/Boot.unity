@@ -320,11 +320,28 @@ MonoBehaviour:
   infoText: {fileID: 1571127918}
   holdActionText: {fileID: 1735231611}
   dropText: {fileID: 73251759}
+  slotClickAreas:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  infoClickArea: {fileID: 0}
+  holdClickArea: {fileID: 0}
+  dropClickArea: {fileID: 0}
+  heldClickArea: {fileID: 0}
+  useRenderedTextHitArea: 1
+  renderedTextHitPadding: {x: 6, y: 4}
+  debugClickLogs: 0
+  debugHitDetails: 0
   stats: {fileID: 8435163443797893739}
   heldItem: {fileID: 8435163443797893737}
   inventory: {fileID: 8435163443797893736}
   EmptyDropped: {fileID: 11400000, guid: 973cda59f8bf1d644bc3e58679fd8fba, type: 2}
   EmptyChecked: {fileID: 11400000, guid: 8d01227a149b78444b482eb63b7d8851, type: 2}
+  HeldHoldActionDialogue: {fileID: 11400000, guid: 64150ff9c6fd8934f91e7ff0172d62c4, type: 2}
 --- !u!1 &111880446
 GameObject:
   m_ObjectHideFlags: 0
@@ -5401,8 +5418,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_LinearDamping: 3
+  m_AngularDamping: 3
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -6189,7 +6206,6 @@ GameObject:
   - component: {fileID: 8435163443797893740}
   - component: {fileID: 8435163443797893741}
   - component: {fileID: 8435163443797893742}
-  - component: {fileID: 8435163443797893744}
   - component: {fileID: 8435163443797893743}
   - component: {fileID: 8435163443797893745}
   - component: {fileID: 8435163443797893746}
@@ -6857,20 +6873,6 @@ MonoBehaviour:
   fadeDuration: 3
   lagDelay: 0
   lagCatchupDuration: 0.6
---- !u!114 &8435163443797893744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4455213691704363990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4cbbc22253032845a87a0258bbad5a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHp: 10
-  hp: 10
 --- !u!114 &8435163443797893745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6952,10 +6954,6 @@ MonoBehaviour:
     voiceClip: {fileID: 8300000, guid: 9cf5ce92d0e9f7642857c899cce78fc0, type: 3}
     pitch: 0.8
     interval: 0.035
-  - speakerKey: npc.lab.admin.name
-    voiceClip: {fileID: 8300000, guid: 9cf5ce92d0e9f7642857c899cce78fc0, type: 3}
-    pitch: 0.8
-    interval: 0.035
   - speakerKey: npc.core.unknown.name
     voiceClip: {fileID: 8300000, guid: cea613b105545244b88fd93c062b3eb9, type: 3}
     pitch: 1
@@ -6964,6 +6962,18 @@ MonoBehaviour:
     voiceClip: {fileID: 8300000, guid: cea613b105545244b88fd93c062b3eb9, type: 3}
     pitch: 1
     interval: 0.065
+  - speakerKey: npc.outdoor.guide.name
+    voiceClip: {fileID: 8300000, guid: cea613b105545244b88fd93c062b3eb9, type: 3}
+    pitch: 1
+    interval: 0.065
+  - speakerKey: npc.lab.admin.name
+    voiceClip: {fileID: 8300000, guid: 9cf5ce92d0e9f7642857c899cce78fc0, type: 3}
+    pitch: 0.8
+    interval: 0.035
+  - speakerKey: npc.outdoor.admin.name
+    voiceClip: {fileID: 8300000, guid: 9cf5ce92d0e9f7642857c899cce78fc0, type: 3}
+    pitch: 0.8
+    interval: 0.035
 --- !u!114 &8504859135682991106
 MonoBehaviour:
   m_ObjectHideFlags: 0

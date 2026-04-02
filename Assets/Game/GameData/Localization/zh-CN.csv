@@ -1,4 +1,25 @@
 key,text
+
+item.name.daolichips,道理脆片
+item.name.daolichipspromotion,道理脆片（促销）
+item.name.daolichipspromax,道理脆片（粉贵）
+item.name.healthpotion,治疗药水
+item.name.mazemedal,迷宫支配者奖章
+item.name.test,测试物品
+item.name.lab_key_bottomright,钥匙
+item.name.lab_key_topleft,钥匙
+item.name.lab_key_bottomleft,钥匙
+item.name.lab_key_bottomright2,钥匙
+item.name.lab_key_frontdoor,钥匙
+item.name.2131,管理员的手枪
+item.name.minislimerifle,迷你弹射步枪
+item.name.miniworldrocket,米米世界火箭
+item.name.missil_launcher,导弹发射器
+item.name.glock17,格洛克17
+item.name.slimerifle,弹射步枪
+item.name.stg44,突击步枪
+
+
 npc.all.system.name,※※※
 npc.all.ancients.name,古人
 npc.all.author.name,作者
@@ -8,6 +29,7 @@ dlg.all.empty_checked.002,如果你真的想查看关于 “ 空 ” 的信息�
 dlg.all.empty_checked.003,此中有真意，欲辨已忘言。
 dlg.all.empty_dropped.001,这个槽位是空的，所以你无法丢掉任何东西。
 dlg.all.empty_dropped.002,本来无一物，何处惹尘埃？
+dlg.all.hold_helditem.001,很巧的是，你发现你已经手持了这个物品。
 
 dlg.all.default_dropped,你丢弃了它。
 dlg.all.default_checked,没有描述。
@@ -68,12 +90,13 @@ dlg.lab.button.006,没有任何变化。
 
 dlg.lab.button2.001,你按下了这个按钮。
 dlg.lab.button2.002,管理员的声音传了出来。
-dlg.lab.button2.003,你好，下面的灰色方块其实用处不大。你要想办法利用右上的灰色方块来拿到箱子里的物品，它们是一样的。
+dlg.lab.button2.003,你好，这个地方需要至少一件道具。以及下面的灰色方块用处不大。你要利用右上方的灰色方块来拿到箱子里的物品。它们是一样的。
 dlg.lab.button2.004,什么都没有发生。
 
 dlg.lab.button3.003,你好，如果你现在没有特别适合这里的道具，我推荐你之后再来这个地方。
 dlg.lab.button4.001,你好，你注意到了吗？我们有些角色并不会被击退。
-dlg.lab.button4.002,如果你想像这些角色一样，你可以按下 Shift 或者 X 试试。
+dlg.lab.button4.002,如果你想像这些角色一样，你可以按一下 Shift 或者 X 试试。
+dlg.lab.button4.003,以及，有时候，受到伤害并不代表你做错了。
 
 dlg.lab.chest1.001,箱子是空的。
 dlg.lab.chest1.002,好吧，这种事有时就是会发生。
@@ -90,6 +113,8 @@ dlg.lab.chest2.003,这个箱子里已经没有东西了。
 dlg.lab.chest3.001,你拿到了一把钥匙。
 
 dlg.lab.chest4.001,你拿到了一把钥匙。
+
+dlg.lab.chest5.001,你拿到了大门的钥匙。
 
 dlg.lab.admin.001,你好，玩家。
 dlg.lab.admin.002,这个地方是我搭建的，你可以叫我管理员。
@@ -127,7 +152,7 @@ dlg.lab.locked_door.002,这扇门被锁住了，你需要持有对应的钥匙�
 
 
 
-dlg.lab.guide.001,玩家你好。我是管理员刚刚雇来的向导。
+dlg.lab.guide.001,你来了。我是管理员刚刚雇来的向导。
 dlg.lab.guide.002,按道理来说，我应该向你详细地介绍这里的规则。
 dlg.lab.guide.003,但由于管理员给我开的工资是每小时 0 元，所以我将付出百分之 0 的精力来工作。
 dlg.lab.guide.004,。 。 。 。 。
@@ -135,6 +160,7 @@ dlg.lab.guide.005,然后我这儿有把钥匙，给你了。
 dlg.lab.guide.006,我忘了它的作用了。
 dlg.lab.guide.007,限时活动结束了，所以你得不到任何东西。 。 。
 dlg.lab.guide.008,怎么，你不知道我会瞬移吗？
+dlg.lab.guide.009,。 。 。 。 。
 
 
 
@@ -186,3 +212,51 @@ dlg.shop.djgun.101,你吼！！
 dlg.shop.djgun.102,我素DJGun。
 dlg.shop.djgun.103,原！！！ 子！！！ 弹！！！！！
 dlg.shop.djgun.104,欢饮光临！！
+
+
+npc.outdoor.system.name,※※※
+npc.outdoor.unknown.name,？？？
+npc.outdoor.admin.name,管理员
+npc.outdoor.guide.name,向导
+
+
+
+dlg.outdoor.signboard_congratulation.001,一块告示牌，上面写了几句话：
+dlg.outdoor.signboard_congratulation.002,你好，恭喜你进入了新的章节。
+dlg.outdoor.signboard_congratulation.003,我还是管理员，这个地方不好设置按钮了，不过我还会在告示牌上给予你必要的提示，好让你顺利地游戏。
+
+dlg.outdoor.signboard1.001,一块告示牌，上面写了一句话：
+dlg.outdoor.signboard1.002,这是一间蓝色的小房子。
+
+dlg.outdoor.signboard2.001,一块告示牌，上面写了一句话：
+dlg.outdoor.signboard2.002,这是一间红色的小房子。
+
+dlg.outdoor.signboard3.001,一块告示牌，上面写了一句话：
+dlg.outdoor.signboard3.002,这是一间绿色的小房子。
+
+dlg.outdoor.signboard4.001,一块告示牌，上面写了一句话：
+dlg.outdoor.signboard4.002,这是一块告示牌。
+
+dlg.outdoor.guide.001,你来了。
+dlg.outdoor.guide.002,怎么，我在这儿有什么问题吗？
+
+dlg.outdoor.guide.003,不，这个红色的房子不是我的家。
+
+dlg.outdoor.guide.004,。 。 。 。 。
+
+dlg.outdoor.signboard_box.001,一块告示牌，上面写了一句话：
+dlg.outdoor.signboard_box.002,你好，这里是你的新武器。希望你喜欢它。
+
+dlg.outdoor.box1.001,你向箱子伸手，但是什么也没有摸到。
+dlg.outdoor.box1.002,你感受到了一股不属于管理员的力量。
+ui.menu.action.info,信息
+ui.menu.action.hold,手持
+ui.menu.action.drop,丢弃
+ui.shop.root.buy,购买
+ui.shop.root.sell,出售
+ui.shop.root.talk,对话
+ui.shop.root.leave,离开
+ui.shop.confirm.yes,确定
+ui.shop.confirm.no,取消
+ui.shop.confirm.buy_template,{0}买下{1}？
+ui.shop.sell.unsellable,NO!!

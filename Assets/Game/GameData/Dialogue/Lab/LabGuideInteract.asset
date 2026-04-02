@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RepeatDialogueAsset
   lines:
   - speakerKey: npc.lab.guide.name
-    textKey: dlg.lab.guide.007
+    textKey: dlg.lab.guide.009

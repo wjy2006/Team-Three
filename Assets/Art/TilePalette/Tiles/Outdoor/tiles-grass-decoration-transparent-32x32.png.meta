@@ -1,0 +1,734 @@
+fileFormatVersion: 2
+guid: a91d2377e6fc6864cb3d4ba6f58d45e4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5502713904246672262
+    second: tiles-grass-decoration-transparent-32x32_0
+  - first:
+      213: -2115019842667664352
+    second: tiles-grass-decoration-transparent-32x32_1
+  - first:
+      213: -7048272001773170510
+    second: tiles-grass-decoration-transparent-32x32_2
+  - first:
+      213: -2654785340590940812
+    second: tiles-grass-decoration-transparent-32x32_3
+  - first:
+      213: 1976929796134719263
+    second: tiles-grass-decoration-transparent-32x32_4
+  - first:
+      213: 1645521585798794125
+    second: tiles-grass-decoration-transparent-32x32_5
+  - first:
+      213: -4319956572148793964
+    second: tiles-grass-decoration-transparent-32x32_6
+  - first:
+      213: 9074553040091574619
+    second: tiles-grass-decoration-transparent-32x32_7
+  - first:
+      213: -599397838423710574
+    second: tiles-grass-decoration-transparent-32x32_8
+  - first:
+      213: 5366315159397515911
+    second: tiles-grass-decoration-transparent-32x32_9
+  - first:
+      213: -3702335344420875526
+    second: tiles-grass-decoration-transparent-32x32_10
+  - first:
+      213: -6086308301563956788
+    second: tiles-grass-decoration-transparent-32x32_11
+  - first:
+      213: 2559844288166105109
+    second: tiles-grass-decoration-transparent-32x32_12
+  - first:
+      213: -5417420714137846366
+    second: tiles-grass-decoration-transparent-32x32_13
+  - first:
+      213: 3081570318954794618
+    second: tiles-grass-decoration-transparent-32x32_14
+  - first:
+      213: 1094415217874240796
+    second: tiles-grass-decoration-transparent-32x32_15
+  - first:
+      213: -4568338867637961223
+    second: tiles-grass-decoration-transparent-32x32_16
+  - first:
+      213: -5814713475780258357
+    second: tiles-grass-decoration-transparent-32x32_17
+  - first:
+      213: -6283530253052177624
+    second: tiles-grass-decoration-transparent-32x32_18
+  - first:
+      213: -6389496919445043798
+    second: tiles-grass-decoration-transparent-32x32_19
+  - first:
+      213: 6661154231138412509
+    second: tiles-grass-decoration-transparent-32x32_20
+  - first:
+      213: -661389946691291416
+    second: tiles-grass-decoration-transparent-32x32_21
+  - first:
+      213: -354114638391090683
+    second: tiles-grass-decoration-transparent-32x32_22
+  - first:
+      213: -4340620251622044087
+    second: tiles-grass-decoration-transparent-32x32_23
+  - first:
+      213: -568184247102729719
+    second: tiles-grass-decoration-transparent-32x32_24
+  - first:
+      213: 4178924564825169109
+    second: tiles-grass-decoration-transparent-32x32_25
+  - first:
+      213: 3961028817266801112
+    second: tiles-grass-decoration-transparent-32x32_26
+  - first:
+      213: 6950186166762205751
+    second: tiles-grass-decoration-transparent-32x32_27
+  - first:
+      213: 2689278882919540387
+    second: tiles-grass-decoration-transparent-32x32_28
+  - first:
+      213: -6193392121683657791
+    second: tiles-grass-decoration-transparent-32x32_29
+  - first:
+      213: -898541655969371195
+    second: tiles-grass-decoration-transparent-32x32_30
+  - first:
+      213: 7329654628614945248
+    second: tiles-grass-decoration-transparent-32x32_31
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7436c4dbde62a3b0800000000000000
+      internalID: -5502713904246672262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02c24e0b8a0f5a2e0800000000000000
+      internalID: -2115019842667664352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b09afd25f18f2e90800000000000000
+      internalID: -7048272001773170510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47d99236cce482bd0800000000000000
+      internalID: -2654785340590940812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1fce74ec277f6b10800000000000000
+      internalID: 1976929796134719263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8b46c7f92116d610800000000000000
+      internalID: 1645521585798794125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49df4ffb26e6c04c0800000000000000
+      internalID: -4319956572148793964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b51791239e94fed70800000000000000
+      internalID: 9074553040091574619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2942e9977d28ea7f0800000000000000
+      internalID: -599397838423710574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 782ceac943bf87a40800000000000000
+      internalID: 5366315159397515911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_10
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af29b6cbe99ae9cc0800000000000000
+      internalID: -3702335344420875526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc1f4cba8d6198ba0800000000000000
+      internalID: -6086308301563956788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_12
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 510147441d4668320800000000000000
+      internalID: 2559844288166105109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_13
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ad78fe209471d4b0800000000000000
+      internalID: -5417420714137846366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_14
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7e00b3d0efe3ca20800000000000000
+      internalID: 3081570318954794618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_15
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c150d2a97d4203f00800000000000000
+      internalID: 1094415217874240796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_16
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fd34d401000a90c0800000000000000
+      internalID: -4568338867637961223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_17
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc5d075c6ecfd4fa0800000000000000
+      internalID: -5814713475780258357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_18
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8239763c68a6cc8a0800000000000000
+      internalID: -6283530253052177624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_19
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa5860f9762f357a0800000000000000
+      internalID: -6389496919445043798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_20
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd7681d1b7c217c50800000000000000
+      internalID: 6661154231138412509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-grass-decoration-transparent-32x32_21
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e67371095542d6f0800000000000000
+      internalID: -661389946691291416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: d5d9c3c8da9150443a91c78213f76619
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      tiles-grass-decoration-transparent-32x32_0: -5502713904246672262
+      tiles-grass-decoration-transparent-32x32_1: -2115019842667664352
+      tiles-grass-decoration-transparent-32x32_10: -3702335344420875526
+      tiles-grass-decoration-transparent-32x32_11: -6086308301563956788
+      tiles-grass-decoration-transparent-32x32_12: 2559844288166105109
+      tiles-grass-decoration-transparent-32x32_13: -5417420714137846366
+      tiles-grass-decoration-transparent-32x32_14: 3081570318954794618
+      tiles-grass-decoration-transparent-32x32_15: 1094415217874240796
+      tiles-grass-decoration-transparent-32x32_16: -4568338867637961223
+      tiles-grass-decoration-transparent-32x32_17: -5814713475780258357
+      tiles-grass-decoration-transparent-32x32_18: -6283530253052177624
+      tiles-grass-decoration-transparent-32x32_19: -6389496919445043798
+      tiles-grass-decoration-transparent-32x32_2: -7048272001773170510
+      tiles-grass-decoration-transparent-32x32_20: 6661154231138412509
+      tiles-grass-decoration-transparent-32x32_21: -661389946691291416
+      tiles-grass-decoration-transparent-32x32_3: -2654785340590940812
+      tiles-grass-decoration-transparent-32x32_4: 1976929796134719263
+      tiles-grass-decoration-transparent-32x32_5: 1645521585798794125
+      tiles-grass-decoration-transparent-32x32_6: -4319956572148793964
+      tiles-grass-decoration-transparent-32x32_7: 9074553040091574619
+      tiles-grass-decoration-transparent-32x32_8: -599397838423710574
+      tiles-grass-decoration-transparent-32x32_9: 5366315159397515911
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

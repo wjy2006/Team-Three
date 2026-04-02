@@ -129,7 +129,7 @@ public class DialogueSystem : MonoBehaviour
                             break;
                         }
 
-                        bool success = inventory.TryAdd(node.itemToGive);
+                        bool success = TryGiveItemToInventoryOrHand(node.itemToGive);
                         Debug.Log($"[Dialogue] GiveItem (Close flush): {node.itemToGive.name} | Result: {success}");
 
                         nodeId = success ? node.successNextId : node.failNextId;
@@ -278,7 +278,7 @@ public class DialogueSystem : MonoBehaviour
                     }
 
                     // 3. 执行添加逻辑
-                    bool success = inventory.TryAdd(node.itemToGive);
+                    bool success = TryGiveItemToInventoryOrHand(node.itemToGive);
                     Debug.Log($"[Dialogue] GiveItem: {node.itemToGive.name} | Result: {success}");
 
                     // 4. 根据结果跳转
@@ -341,5 +341,20 @@ public class DialogueSystem : MonoBehaviour
         {
             StepGraph();
         }
+    }
+    private bool TryGiveItemToInventoryOrHand(Game.Systems.Items.ItemDefinition item)
+    {
+        if (item == null || GameRoot.I == null) return false;
+
+        var inventory = GameRoot.I.Inventory;
+        if (inventory != null && inventory.TryAdd(item))
+            return true;
+
+        var heldItem = GameRoot.I.playerHeldItem;
+        if (heldItem == null) return false;
+        if (heldItem.held != null || heldItem.heldInstance != null) return false;
+
+        heldItem.SetHeld(new Game.Systems.Items.Runtime.ItemInstance(item));
+        return true;
     }
 }

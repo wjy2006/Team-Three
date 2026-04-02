@@ -8,7 +8,7 @@ public class LocalizationService : MonoBehaviour
     public LocalizationCatalog catalog;
     public string currentLocale = "zh-CN";
 
-    private Dictionary<string, string> map = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, string> map = new(StringComparer.Ordinal);
 
     public void SetLocale(string locale)
     {
@@ -19,10 +19,10 @@ public class LocalizationService : MonoBehaviour
     public string Get(string key)
     {
         if (string.IsNullOrEmpty(key)) return "";
-        return map.TryGetValue(key, out var v) ? v : $"[{key}]";
+        return map.TryGetValue(key, out var value) ? value : $"[{key}]";
     }
 
-    void Awake()
+    private void Awake()
     {
         Load(currentLocale);
     }
@@ -33,14 +33,14 @@ public class LocalizationService : MonoBehaviour
 
         if (catalog == null)
         {
-            Debug.LogError("LocalizationService: catalog 未绑定");
+            Debug.LogError("LocalizationService: catalog is not assigned.");
             return;
         }
 
         var table = catalog.Get(locale);
         if (table == null || table.csv == null)
         {
-            Debug.LogError($"LocalizationService: 找不到 locale={locale} 的表或 csv 未绑定");
+            Debug.LogError($"LocalizationService: missing table or csv for locale={locale}.");
             return;
         }
 
@@ -48,7 +48,8 @@ public class LocalizationService : MonoBehaviour
         Debug.Log($"LocalizationService: loaded {map.Count} entries for {locale}");
     }
 
-    // 轻量 CSV：两列 key,text，支持 text 里有逗号/引号/换行（用引号包裹）
+    // Lightweight CSV parser for "key,text" rows.
+    // Supports commas, quotes and newlines in quoted text fields.
     private static void ParseCsvToMap(string csv, Dictionary<string, string> outMap)
     {
         var rows = ReadCsvRows(csv);
@@ -60,14 +61,14 @@ public class LocalizationService : MonoBehaviour
             var key = row[0].Trim();
             var text = row[1];
 
-            // 跳过表头或空 key
+            // Skip header row and empty keys.
             if (string.IsNullOrEmpty(key) || key == "key") continue;
 
             outMap[key] = text;
         }
     }
 
-    // 简单 CSV 行/列解析（支持引号转义 ""）
+    // Basic CSV row/column reader with escaped quote support ("").
     private static List<List<string>> ReadCsvRows(string csv)
     {
         var result = new List<List<string>>();
@@ -84,7 +85,7 @@ public class LocalizationService : MonoBehaviour
             {
                 if (c == '"')
                 {
-                    // 处理 "" 作为一个 "
+                    // Treat doubled quote as a single quote.
                     if (i + 1 < csv.Length && csv[i + 1] == '"')
                     {
                         cell.Append('"');
@@ -113,7 +114,7 @@ public class LocalizationService : MonoBehaviour
                 }
                 else if (c == '\r')
                 {
-                    // ignore
+                    // Ignore CR, LF handles end-of-row.
                 }
                 else if (c == '\n')
                 {
@@ -129,7 +130,7 @@ public class LocalizationService : MonoBehaviour
             }
         }
 
-        // last cell
+        // Last cell / row.
         row.Add(cell.ToString());
         result.Add(row);
 
