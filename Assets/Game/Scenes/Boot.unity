@@ -320,6 +320,9 @@ MonoBehaviour:
   infoText: {fileID: 1571127918}
   holdActionText: {fileID: 1735231611}
   dropText: {fileID: 73251759}
+  infoTextKey: ui.menu.action.info
+  holdTextKey: ui.menu.action.hold
+  dropTextKey: ui.menu.action.drop
   slotClickAreas:
   - {fileID: 0}
   - {fileID: 0}
@@ -336,6 +339,8 @@ MonoBehaviour:
   renderedTextHitPadding: {x: 6, y: 4}
   debugClickLogs: 0
   debugHitDetails: 0
+  enableDoubleClickHold: 1
+  doubleClickInterval: 0.28
   stats: {fileID: 8435163443797893739}
   heldItem: {fileID: 8435163443797893737}
   inventory: {fileID: 8435163443797893736}
@@ -5919,7 +5924,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3881611369355023695}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a016b1ec1aba6c4fba5e97581297d8d, type: 3}
   m_Name: 
@@ -6800,8 +6805,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a484574f22ba3f64eb2bcc2b3406d62f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 20
-  hp: 20
+  maxHp: 2000
+  hp: 2000
   money: 0
 --- !u!114 &8435163443797893740
 MonoBehaviour:

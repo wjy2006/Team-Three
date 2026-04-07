@@ -1,5 +1,18 @@
 key,text
 
+ui.menu.action.info,信息
+ui.menu.action.hold,手持
+ui.menu.action.drop,丢弃
+ui.shop.root.buy,购买
+ui.shop.root.sell,出售
+ui.shop.root.talk,对话
+ui.shop.root.leave,离开
+ui.shop.confirm.yes,确定
+ui.shop.confirm.no,取消
+ui.shop.confirm.buy_template,{0}买下{1}？
+ui.shop.sell.unsellable,NO!!
+
+
 item.name.daolichips,道理脆片
 item.name.daolichipspromotion,道理脆片（促销）
 item.name.daolichipspromax,道理脆片（粉贵）
@@ -95,8 +108,8 @@ dlg.lab.button2.004,什么都没有发生。
 
 dlg.lab.button3.003,你好，如果你现在没有特别适合这里的道具，我推荐你之后再来这个地方。
 dlg.lab.button4.001,你好，你注意到了吗？我们有些角色并不会被击退。
-dlg.lab.button4.002,如果你想像这些角色一样，你可以按一下 Shift 或者 X 试试。
-dlg.lab.button4.003,以及，有时候，受到伤害并不代表你做错了。
+dlg.lab.button4.002,如果你想像这些角色一样，你可以按一下 Shift 试试。
+dlg.lab.button4.003,以及，有时候，受到一些伤害是计划之内的。
 
 dlg.lab.chest1.001,箱子是空的。
 dlg.lab.chest1.002,好吧，这种事有时就是会发生。
@@ -222,7 +235,7 @@ npc.outdoor.guide.name,向导
 
 
 dlg.outdoor.signboard_congratulation.001,一块告示牌，上面写了几句话：
-dlg.outdoor.signboard_congratulation.002,你好，恭喜你进入了新的章节。
+dlg.outdoor.signboard_congratulation.002,你好，欢迎你来到外面。
 dlg.outdoor.signboard_congratulation.003,我还是管理员，这个地方不好设置按钮了，不过我还会在告示牌上给予你必要的提示，好让你顺利地游戏。
 
 dlg.outdoor.signboard1.001,一块告示牌，上面写了一句话：
@@ -249,14 +262,3 @@ dlg.outdoor.signboard_box.002,你好，这里是你的新武器。希望你喜�
 
 dlg.outdoor.box1.001,你向箱子伸手，但是什么也没有摸到。
 dlg.outdoor.box1.002,你感受到了一股不属于管理员的力量。
-ui.menu.action.info,信息
-ui.menu.action.hold,手持
-ui.menu.action.drop,丢弃
-ui.shop.root.buy,购买
-ui.shop.root.sell,出售
-ui.shop.root.talk,对话
-ui.shop.root.leave,离开
-ui.shop.confirm.yes,确定
-ui.shop.confirm.no,取消
-ui.shop.confirm.buy_template,{0}买下{1}？
-ui.shop.sell.unsellable,NO!!
