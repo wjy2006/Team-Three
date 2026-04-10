@@ -61,6 +61,7 @@ public class GameRoot : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
         RefreshRuntimeRefs();
+        BindRoomChaosForScene(SceneManager.GetActiveScene());
         if (globalSfxSource != null)
         {
             globalSfxSource.ignoreListenerPause = true;
@@ -80,9 +81,37 @@ public class GameRoot : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        BindRoomChaosForScene(scene);
         RefreshRuntimeRefs();
         if (IsTransitioning) return;
         ApplyLevelCameraSettings();
+    }
+
+    private void BindRoomChaosForScene(Scene scene)
+    {
+        if (Global == null) return;
+
+        int defaultLevel = 0;
+        string roomId = scene.name;
+
+        RoomChaosContext context = null;
+        var contexts = FindObjectsByType<RoomChaosContext>(FindObjectsSortMode.None);
+        for (int i = 0; i < contexts.Length; i++)
+        {
+            if (contexts[i] != null && contexts[i].gameObject.scene == scene)
+            {
+                context = contexts[i];
+                break;
+            }
+        }
+
+        if (context != null)
+        {
+            defaultLevel = context.defaultLevel;
+            roomId = context.GetEffectiveRoomId(scene);
+        }
+
+        RoomChaosService.BindRoom(Global, roomId, defaultLevel);
     }
 
     public void RefreshRuntimeRefs()

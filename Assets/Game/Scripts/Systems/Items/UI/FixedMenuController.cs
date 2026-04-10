@@ -550,7 +550,7 @@ namespace Game.UI.Menu
                         if (item.dropDialogue != null) OpenDialogueAsset(item.dropDialogue);
                         else OpenOneLine("npc.all.unknown.name", "dlg.all.default_dropped");
 
-                        if (item.Type == ItemType.Key) return;
+                        if (item.Type == ItemType.Key || item.Type == ItemType.Quest) return;
                         if (heldSelected)
                         {
                             if (heldItem != null) heldItem.SetHeld(null);

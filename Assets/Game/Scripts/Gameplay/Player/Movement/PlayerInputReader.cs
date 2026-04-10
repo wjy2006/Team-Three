@@ -17,20 +17,25 @@ public class PlayerInputReader : MonoBehaviour
 
     public bool LeftDown { get; private set; }
     public bool RightDown { get; private set; }
+    public bool UnstuckDown { get; private set; }
+
     public bool ClickDown { get; private set; }
-    public Vector2 PointerPos { get; private set; }      // 实时屏幕坐标
-    public Vector2 ClickScreenPos { get; private set; }  // 点击瞬间屏幕坐标
+    public Vector2 PointerPos { get; private set; }
+    public Vector2 ClickScreenPos { get; private set; }
     public bool ClickHeld { get; private set; }
+
     private bool gameplayEnabled = true;
     public void SetAllGameplayEnabled(bool enabled) => gameplayEnabled = enabled;
 
     private PlayerInputActions actions;
 
-    [SerializeField, Min(0f)] private float interactDebounce = 0.1f; // 100ms
-    [SerializeField, Min(0f)] private float menuDebounce = 0.1f;     // 100ms
+    [SerializeField, Min(0f)] private float interactDebounce = 0.1f;
+    [SerializeField, Min(0f)] private float menuDebounce = 0.1f;
+    [SerializeField, Min(0f)] private float unstuckDebounce = 0.15f;
 
     private float nextInteractTime = 0f;
-    private float nextMenuTime = 0f; // ✅ 新增：Menu 防抖计时
+    private float nextMenuTime = 0f;
+    private float nextUnstuckTime = 0f;
 
     private void Awake()
     {
@@ -53,7 +58,6 @@ public class PlayerInputReader : MonoBehaviour
         Move = actions.Player.Move.ReadValue<Vector2>();
 
         InteractHeld = actions.Player.Interact.IsPressed();
-
         bool rawInteractDown = actions.Player.Interact.WasPressedThisFrame();
         if (rawInteractDown && Time.unscaledTime >= nextInteractTime)
         {
@@ -68,7 +72,6 @@ public class PlayerInputReader : MonoBehaviour
         CancelDown = actions.Player.Cancel.WasPressedThisFrame();
         CancelHeld = actions.Player.Cancel.IsPressed();
 
-        // ✅ MenuDebounce：和 Interact 一样做防抖
         bool rawMenuDown = actions.Player.Menu.WasPressedThisFrame();
         if (rawMenuDown && Time.unscaledTime >= nextMenuTime)
         {
@@ -87,14 +90,23 @@ public class PlayerInputReader : MonoBehaviour
         LeftDown = actions.Player.Left.WasPressedThisFrame();
         RightDown = actions.Player.Right.WasPressedThisFrame();
 
+        bool rawUnstuckDown = actions.Player.Unstuck.WasPressedThisFrame();
+        if (rawUnstuckDown && Time.unscaledTime >= nextUnstuckTime)
+        {
+            UnstuckDown = true;
+            nextUnstuckTime = Time.unscaledTime + unstuckDebounce;
+        }
+        else
+        {
+            UnstuckDown = false;
+        }
+
         ClickDown = actions.Player.Click.WasPressedThisFrame();
         ClickHeld = actions.Player.Click.IsPressed();
         PointerPos = actions.Player.Point.ReadValue<Vector2>();
 
         if (ClickDown)
-        {
             ClickScreenPos = PointerPos;
-        }
     }
 
     public bool ConsumeInteractDown()
@@ -155,9 +167,17 @@ public class PlayerInputReader : MonoBehaviour
         return true;
     }
 
+    public bool ConsumeUnstuckDown()
+    {
+        if (!gameplayEnabled) return false;
+        if (!UnstuckDown) return false;
+        UnstuckDown = false;
+        return true;
+    }
+
     public void SetMoveEnabled(bool enabled)
     {
-        if (enabled&&gameplayEnabled)
+        if (enabled && gameplayEnabled)
             actions.Player.Move.Enable();
         else
         {
@@ -180,3 +200,4 @@ public class PlayerInputReader : MonoBehaviour
         return true;
     }
 }
+

@@ -7,7 +7,7 @@ public class HeldItemClickUse : MonoBehaviour
     private Game.Gameplay.Player.HeldItem held;
 
     [Header("Audio")]
-    public AudioSource audioSource; // ✅ 拖入玩家身上的 AudioSource
+    public AudioSource audioSource;
 
     private float nextFireTime;
     private bool blockUntilClickReleased;
@@ -16,7 +16,7 @@ public class HeldItemClickUse : MonoBehaviour
     [SerializeField] private Game.Gameplay.Player.HeldItemVisualController visualCtrl;
     [SerializeField] private Game.Gameplay.Combat.KnockbackReceiver kbReceiver;
 
-    void Awake()
+    private void Awake()
     {
         held = GetComponent<Game.Gameplay.Player.HeldItem>();
         if (audioSource == null) audioSource = GetComponent<AudioSource>();
@@ -27,12 +27,10 @@ public class HeldItemClickUse : MonoBehaviour
     private void PlayUseSfx(AudioClip clip)
     {
         if (audioSource != null && clip != null)
-        {
             audioSource.PlayOneShot(clip);
-        }
     }
 
-    void Update()
+    private void Update()
     {
         if (input == null)
         {
@@ -42,7 +40,6 @@ public class HeldItemClickUse : MonoBehaviour
 
         if (GameRoot.I != null && GameRoot.I.Pause != null && GameRoot.I.Pause.IsPaused)
         {
-            // Keep menu clicks available for menu UI while paused by menu.
             bool menuOpen = Game.UI.Menu.FixedMenuController.Instance != null &&
                             Game.UI.Menu.FixedMenuController.Instance.menuPanel != null &&
                             Game.UI.Menu.FixedMenuController.Instance.menuPanel.activeInHierarchy;
@@ -51,8 +48,6 @@ public class HeldItemClickUse : MonoBehaviour
 
             if (menuOpen || shopOpen)
             {
-                // If the player is still holding click while operating menu,
-                // prevent auto-fire on the first frame after menu closes.
                 if (input.ClickHeld) blockUntilClickReleased = true;
             }
             else
@@ -79,7 +74,7 @@ public class HeldItemClickUse : MonoBehaviour
 
         if (!TryGetAim(out var aimWorldPos, out var aimDir)) return;
 
-        // ====== 1) 武器逻辑 ======
+        // 1) Weapon
         if (item is WeaponDefinition weapon)
         {
             bool justPressedThisFrame = input.ClickDown;
@@ -88,8 +83,6 @@ public class HeldItemClickUse : MonoBehaviour
             bool wantsShoot = weapon.fireMode == WeaponFireMode.Auto ? input.ClickHeld : justPressedThisFrame;
             if (!wantsShoot) return;
 
-            // ✅ 改动点：SemiAuto / Auto 都根据 weapon.fireRate 限速
-            // ✅ weapon.fireRate <= 0 代表无上限（不做限速）
             if (weapon.fireRate > 0f)
             {
                 if (Time.time < nextFireTime) return;
@@ -98,27 +91,43 @@ public class HeldItemClickUse : MonoBehaviour
 
             if (weapon.Effect == null) return;
 
-            // --- ✨ 后坐力效果 ---
             if (visualCtrl != null) visualCtrl.ApplyVisualRecoil(weapon.visualRecoilStrength);
-
-            if (kbReceiver != null && weapon.physicalRecoilForce > 0)
-            {
+            if (kbReceiver != null && weapon.physicalRecoilForce > 0f)
                 kbReceiver.ApplyKnockback(-aimDir, weapon.physicalRecoilForce);
-            }
 
-            var ctx = new ItemUseContext { user = gameObject, item = weapon, aimWorldPos = aimWorldPos, aimDir = aimDir };
+            var ctx = new ItemUseContext
+            {
+                user = gameObject,
+                item = weapon,
+                aimWorldPos = aimWorldPos,
+                aimDir = aimDir
+            };
+
             PlayUseSfx(weapon.UseSfx);
             weapon.Effect.Apply(ctx);
 
             if (justPressedThisFrame && GameRoot.I != null && GameRoot.I.Triggers != null)
-            {
                 GameRoot.I.Triggers.Raise(new HeldItemUsedEvent(item: weapon));
-            }
+
             return;
         }
 
-        // ====== 2) 非武器逻辑 ======
+        // 2) Non-weapon
         if (!input.ConsumeClickDown(out _)) return;
+
+        bool insertedByClick = GemSocketInteractTrigger.TryInsertAnyInRangeForHeldGem(item);
+        if (insertedByClick)
+        {
+            PlayUseSfx(item.UseSfx);
+
+            if (GameRoot.I != null && GameRoot.I.Triggers != null)
+                GameRoot.I.Triggers.Raise(new HeldItemUsedEvent(item: item));
+
+            if (GameRoot.I != null && GameRoot.I.vis != null)
+                GameRoot.I.vis.RefreshNow();
+
+            return;
+        }
 
         if (item.Type == ItemType.Key)
         {
@@ -128,35 +137,40 @@ public class HeldItemClickUse : MonoBehaviour
                 PlayUseSfx(item.UseSfx);
 
                 if (GameRoot.I != null && GameRoot.I.Triggers != null)
-                {
                     GameRoot.I.Triggers.Raise(new HeldItemUsedEvent(item: item));
-                }
+
                 return;
             }
         }
 
         if (item.Effect == null) return;
 
-        var ctx2 = new ItemUseContext { user = gameObject, item = item, aimWorldPos = aimWorldPos, aimDir = aimDir };
+        var ctx2 = new ItemUseContext
+        {
+            user = gameObject,
+            item = item,
+            aimWorldPos = aimWorldPos,
+            aimDir = aimDir
+        };
 
         bool applySuccess = item.Effect.Apply(ctx2);
-        if (applySuccess)
-        {
-            PlayUseSfx(item.UseSfx);
+        if (!applySuccess) return;
 
-            if (GameRoot.I != null && GameRoot.I.Triggers != null)
-            {
-                GameRoot.I.Triggers.Raise(new HeldItemUsedEvent(item: item));
-            }
+        PlayUseSfx(item.UseSfx);
 
-            held.held = null;
+        if (GameRoot.I != null && GameRoot.I.Triggers != null)
+            GameRoot.I.Triggers.Raise(new HeldItemUsedEvent(item: item));
+
+        held.held = null;
+        if (GameRoot.I != null && GameRoot.I.vis != null)
             GameRoot.I.vis.RefreshNow();
-        }
     }
 
     private bool TryGetAim(out Vector2 aimWorldPos, out Vector2 aimDir)
     {
-        aimWorldPos = default; aimDir = Vector2.right;
+        aimWorldPos = default;
+        aimDir = Vector2.right;
+
         var cam = Camera.main;
         if (cam == null) return false;
 
@@ -166,8 +180,8 @@ public class HeldItemClickUse : MonoBehaviour
 
         Vector2 origin = transform.position;
         Vector2 dir = aimWorldPos - origin;
-
         if (dir.sqrMagnitude < 0.0001f) return false;
+
         aimDir = dir.normalized;
         return true;
     }

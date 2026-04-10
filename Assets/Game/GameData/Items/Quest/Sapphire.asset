@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d12c48b1e997b49ba903c282467dbc, type: 3}
+  m_Name: Sapphire
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.Items.ItemDefinition
+  itemId: sapphire
+  displayNameKey: item.name.sapphire
+  infoDialogue: {fileID: 11400000, guid: c990b2102b2f4a8f92b7596ca59f2f61, type: 2}
+  dropDialogue: {fileID: 11400000, guid: 95df4f40a37646b9a5449f17d7df8588, type: 2}
+  visual:
+    worldSprite: {fileID: 8565911879513389373, guid: 587bcad17ad799b4fb40e1cb015d6090, type: 3}
+    rotationMode: 1
+    defaultAngleOffset: 0
+    holdDistance: 0
+    z: 0
+  useSfx: {fileID: 0}
+  type: 4
+  buyPrice: 0
+  sellPrice: 0
+  effect: {fileID: 11400000, guid: 214413aa910766d41a26a43862744aff, type: 2}

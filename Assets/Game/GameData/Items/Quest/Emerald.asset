@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d12c48b1e997b49ba903c282467dbc, type: 3}
+  m_Name: Emerald
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.Items.ItemDefinition
+  itemId: emerald
+  displayNameKey: item.name.emerald
+  infoDialogue: {fileID: 11400000, guid: 2cab68bf769944e5bd9806a0a7a31fb9, type: 2}
+  dropDialogue: {fileID: 11400000, guid: 55d871db3f1749fc91b6ca537f9c614b, type: 2}
+  visual:
+    worldSprite: {fileID: -2154472756403814111, guid: 587bcad17ad799b4fb40e1cb015d6090, type: 3}
+    rotationMode: 1
+    defaultAngleOffset: 0
+    holdDistance: 0
+    z: 0
+  useSfx: {fileID: 0}
+  type: 4
+  buyPrice: 0
+  sellPrice: 0
+  effect: {fileID: 11400000, guid: 214413aa910766d41a26a43862744aff, type: 2}

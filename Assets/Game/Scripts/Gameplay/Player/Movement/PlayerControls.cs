@@ -190,6 +190,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Unstuck"",
+                    ""type"": ""Button"",
+                    ""id"": ""80e5f591-a9ef-4e07-a659-88bf149ec88b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -566,6 +575,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Point"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3380b2cc-9706-4b5d-babe-c62d51b11434"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Unstuck"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -585,6 +605,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Continue = m_Player.FindAction("Continue", throwIfNotFound: true);
         m_Player_Click = m_Player.FindAction("Click", throwIfNotFound: true);
         m_Player_Point = m_Player.FindAction("Point", throwIfNotFound: true);
+        m_Player_Unstuck = m_Player.FindAction("Unstuck", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -676,6 +697,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Continue;
     private readonly InputAction m_Player_Click;
     private readonly InputAction m_Player_Point;
+    private readonly InputAction m_Player_Unstuck;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -731,6 +753,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Point".
         /// </summary>
         public InputAction @Point => m_Wrapper.m_Player_Point;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Unstuck".
+        /// </summary>
+        public InputAction @Unstuck => m_Wrapper.m_Player_Unstuck;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -790,6 +816,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Point.started += instance.OnPoint;
             @Point.performed += instance.OnPoint;
             @Point.canceled += instance.OnPoint;
+            @Unstuck.started += instance.OnUnstuck;
+            @Unstuck.performed += instance.OnUnstuck;
+            @Unstuck.canceled += instance.OnUnstuck;
         }
 
         /// <summary>
@@ -834,6 +863,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Point.started -= instance.OnPoint;
             @Point.performed -= instance.OnPoint;
             @Point.canceled -= instance.OnPoint;
+            @Unstuck.started -= instance.OnUnstuck;
+            @Unstuck.performed -= instance.OnUnstuck;
+            @Unstuck.canceled -= instance.OnUnstuck;
         }
 
         /// <summary>
@@ -951,5 +983,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPoint(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Unstuck" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUnstuck(InputAction.CallbackContext context);
     }
 }

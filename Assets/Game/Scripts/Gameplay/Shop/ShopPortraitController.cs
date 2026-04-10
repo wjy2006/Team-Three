@@ -5,6 +5,12 @@ namespace Game.UI.Shop
 {
     public class ShopPortraitController : MonoBehaviour
     {
+        public enum Mode
+        {
+            ReactivePoses,
+            LoopTwoBG
+        }
+
         public enum Pose
         {
             Idle,
@@ -14,6 +20,9 @@ namespace Game.UI.Shop
             BuyFail
         }
 
+        [Header("Mode")]
+        public Mode mode = Mode.ReactivePoses;
+
         [Header("Portrait GameObjects")]
         public GameObject idleGO;
         public GameObject blinkGO;
@@ -21,6 +30,12 @@ namespace Game.UI.Shop
         public GameObject confirmGO;
         public GameObject successGO;
         public GameObject failGO;
+
+        [Header("Loop Two BG (Mode = LoopTwoBG)")]
+        public GameObject loopBgA;
+        public GameObject loopBgB;
+        public float loopBgADuration = 0.25f;
+        public float loopBgBDuration = 0.25f;
 
         [Header("Blink Settings")]
         public float blinkMinInterval = 2.5f;
@@ -30,12 +45,57 @@ namespace Game.UI.Shop
         private Pose basePose = Pose.Idle;
         private Coroutine overrideCo;
         private Coroutine blinkCo;
+        private Coroutine loopCo;
         private bool isOverriding;
 
         private void Start()
         {
+            ApplyModeState();
+        }
+
+        private void OnDisable()
+        {
+            StopAllPortraitCoroutines();
+        }
+
+        private bool IsLoopMode => mode == Mode.LoopTwoBG;
+
+        private void ApplyModeState()
+        {
+            StopAllPortraitCoroutines();
+            DisableAll();
+
+            if (IsLoopMode)
+            {
+                loopCo = StartCoroutine(LoopTwoBgRoutine());
+                return;
+            }
+
             ApplyBasePose();
             TryStartBlink();
+        }
+
+        private void StopAllPortraitCoroutines()
+        {
+            if (overrideCo != null)
+            {
+                StopCoroutine(overrideCo);
+                overrideCo = null;
+            }
+
+            if (blinkCo != null)
+            {
+                StopCoroutine(blinkCo);
+                blinkCo = null;
+            }
+
+            if (loopCo != null)
+            {
+                StopCoroutine(loopCo);
+                loopCo = null;
+            }
+
+            isOverriding = false;
         }
 
         // =========================
@@ -43,6 +103,8 @@ namespace Game.UI.Shop
         // =========================
         public void SetBasePose(Pose pose)
         {
+            if (IsLoopMode) return;
+
             basePose = pose;
 
             if (!isOverriding)
@@ -80,6 +142,8 @@ namespace Game.UI.Shop
         // =========================
         public void OverridePose(Pose pose, float duration)
         {
+            if (IsLoopMode) return;
+
             if (overrideCo != null)
                 StopCoroutine(overrideCo);
 
@@ -114,6 +178,7 @@ namespace Game.UI.Shop
         // =========================
         public void OnTypingStart()
         {
+            if (IsLoopMode) return;
             if (isOverriding) return;
             StopBlink();
             SetBasePose(Pose.Talk);
@@ -121,6 +186,7 @@ namespace Game.UI.Shop
 
         public void OnTypingEnd()
         {
+            if (IsLoopMode) return;
             if (isOverriding) return;
             SetBasePose(Pose.Idle);
         }
@@ -130,6 +196,12 @@ namespace Game.UI.Shop
         // =========================
         private void TryStartBlink()
         {
+            if (IsLoopMode)
+            {
+                StopBlink();
+                return;
+            }
+
             if (basePose != Pose.Idle || isOverriding)
             {
                 StopBlink();
@@ -173,6 +245,40 @@ namespace Game.UI.Shop
             blinkCo = null;
         }
 
+        private IEnumerator LoopTwoBgRoutine()
+        {
+            GameObject a = loopBgA != null ? loopBgA : idleGO;
+            GameObject b = loopBgB != null ? loopBgB : blinkGO;
+            float aDuration = Mathf.Max(0.01f, loopBgADuration);
+            float bDuration = Mathf.Max(0.01f, loopBgBDuration);
+
+            if (a == null && b == null)
+            {
+                yield break;
+            }
+
+            if (a == null) a = b;
+            if (b == null) b = a;
+
+            if (a == b)
+            {
+                DisableAll();
+                SetActive(a);
+                yield break;
+            }
+
+            while (true)
+            {
+                DisableAll();
+                SetActive(a);
+                yield return new WaitForSecondsRealtime(aDuration);
+
+                DisableAll();
+                SetActive(b);
+                yield return new WaitForSecondsRealtime(bDuration);
+            }
+        }
+
         // =========================
         // Helpers
         // =========================
@@ -184,6 +290,8 @@ namespace Game.UI.Shop
             if (confirmGO) confirmGO.SetActive(false);
             if (successGO) successGO.SetActive(false);
             if (failGO) failGO.SetActive(false);
+            if (loopBgA) loopBgA.SetActive(false);
+            if (loopBgB) loopBgB.SetActive(false);
         }
 
         private void SetActive(GameObject go)

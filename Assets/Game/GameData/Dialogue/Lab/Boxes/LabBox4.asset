@@ -32,7 +32,7 @@ MonoBehaviour:
     type: 0
     lines:
     - speakerKey: npc.lab.system.name
-      textKey: dlg.lab.chest2.003
+      textKey: dlg.all.default_given
     nextId: 
     boolKey: lab.box3.given
     trueNextId: say no
@@ -80,7 +80,7 @@ MonoBehaviour:
     type: 0
     lines:
     - speakerKey: npc.lab.system.name
-      textKey: dlg.lab.chest4.001
+      textKey: dlg.lab.box4.001
     nextId: set
     boolKey: lab.box3.given
     trueNextId: say no

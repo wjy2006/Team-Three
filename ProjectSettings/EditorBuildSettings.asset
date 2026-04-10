@@ -39,7 +39,7 @@ EditorBuildSettings:
     path: Assets/Game/Scenes/Room_Lab_Reviving.unity
     guid: b4fae51ef35e870418ac96de5e60fecf
   - enabled: 1
-    path: Assets/Game/Scenes/Shop_Lab_DJGun.unity
+    path: Assets/Game/Scenes/Shop_House_DJGun.unity
     guid: 586567ab995bfe64da24d1bf506293a3
   - enabled: 1
     path: Assets/Game/Scenes/Room_Lab_Corridor.unity
@@ -65,6 +65,27 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scenes/World_Box1.unity
     guid: aaafe06a736a38449bfc86a20a6102e8
+  - enabled: 1
+    path: Assets/Game/Scenes/Room_House_BlueRight.unity
+    guid: a125871745640cb49a132aa0b0cc1ee7
+  - enabled: 1
+    path: Assets/Game/Scenes/Room_House_BlueLeft.unity
+    guid: e94543a6d9970c840a0f0a39ed57b3d9
+  - enabled: 1
+    path: Assets/Game/Scenes/Room_House_GreenLeft.unity
+    guid: ebde6fb2d631a7f44a2826b333812e63
+  - enabled: 1
+    path: Assets/Game/Scenes/Shop_Lab_Dog.unity
+    guid: 9f5e9536f9066f645ab8410d3b746fea
+  - enabled: 1
+    path: Assets/Game/Scenes/World_StoneCase.unity
+    guid: df2dc58b13640554ea2b976a321c77b4
+  - enabled: 1
+    path: Assets/Game/Scenes/World_Mystery.unity
+    guid: e9a1b9232a81ffa448137376b2c9357d
+  - enabled: 1
+    path: Assets/Game/Scenes/Room_Lab_End.unity
+    guid: b9aff09caa0addc4aaaf2655c824b2f9
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 668b30f8043be5441a5b1f86906f1d52, type: 3}
   m_UseUCBPForAssetBundles: 0

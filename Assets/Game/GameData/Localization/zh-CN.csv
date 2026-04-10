@@ -12,13 +12,16 @@ ui.shop.confirm.no,取消
 ui.shop.confirm.buy_template,{0}买下{1}？
 ui.shop.sell.unsellable,NO!!
 
-
+item.name.ruby,红宝石
+item.name.emerald,绿宝石
+item.name.sapphire,蓝宝石
 item.name.daolichips,道理脆片
 item.name.daolichipspromotion,道理脆片（促销）
 item.name.daolichipspromax,道理脆片（粉贵）
 item.name.healthpotion,治疗药水
 item.name.mazemedal,迷宫支配者奖章
 item.name.test,测试物品
+item.name.trash,垃圾
 item.name.lab_key_bottomright,钥匙
 item.name.lab_key_topleft,钥匙
 item.name.lab_key_bottomleft,钥匙
@@ -31,7 +34,10 @@ item.name.missil_launcher,导弹发射器
 item.name.glock17,格洛克17
 item.name.slimerifle,弹射步枪
 item.name.stg44,突击步枪
-
+item.name.apple,苹果
+item.name.stable_anchor,稳定锚
+item.name.chaos,混乱
+item.name.dog_residue,狗剩
 
 npc.all.system.name,※※※
 npc.all.ancients.name,古人
@@ -44,10 +50,24 @@ dlg.all.empty_dropped.001,这个槽位是空的，所以你无法丢掉任何东
 dlg.all.empty_dropped.002,本来无一物，何处惹尘埃？
 dlg.all.hold_helditem.001,很巧的是，你发现你已经手持了这个物品。
 
+dlg.system.chaos.level_up,混乱的程度上升了。
+dlg.system.chaos.level_down,混乱的程度下降了。
+dlg.system.chaos.already_max,已经无法更混乱了。
+dlg.system.chaos.already_min,已经无法更有序了。
+
 dlg.all.default_dropped,你丢弃了它。
 dlg.all.default_checked,没有描述。
 dlg.all.default_full,你拿的东西太多了。
+dlg.all.default_given,这个箱子里已经没有东西了。
 npc.all.unknown.name,？？？
+
+dlg.all.ruby_checked.001,一颗红宝石，像凝华的烈火。
+dlg.all.ruby_dropped.001,管理员并不想让你丢弃这颗红宝石。
+dlg.all.emerald_checked.001,一颗绿宝石，像深幽的密林。
+dlg.all.emerald_dropped.001,管理员并不想让你丢弃这颗绿宝石。
+dlg.all.sapphire_checked.001,一颗蓝宝石，像孤冷的深海。
+dlg.all.sapphire_dropped.001,管理员并不想让你丢弃这颗蓝宝石。
+
 
 dlg.all.StG44_checked.001,这是一把 StG44 ，现代步枪的鼻祖。
 dlg.all.StG44_checked.002,不知道为什么，它看起来非常大。
@@ -57,7 +77,7 @@ dlg.all.admin's_pistol_checked.001,一把让人费解的小手枪。之前属于
 dlg.all.admin's_pistol_dropped.001,因为某些原因，你丢掉了管理员的手枪。
 
 dlg.all.missile_launcher_checked.001,导弹的发射器。简单且强大。
-dlg.all.missile_launcher_dropped.001,你丢掉了简单且强大的导弹发射器。
+dlg.all.missile_launcher_dropped.001,你丢不掉强大的导弹发射器。它太强大了。
 
 dlg.all.slime_rifle_checked.001,一把绿色的步枪，可以让人飞得很远。
 dlg.all.slime_rifle_dropped.001,你丢掉了弹射步枪。
@@ -86,6 +106,22 @@ dlg.all.rocket_checked.001,从米米世界来的火箭。为你提供超强的�
 dlg.all.rocket_checked.002,和超高的伤害。。？
 dlg.all.rocket_dropped.001,你抛弃了这个不安全的火箭。
 
+dlg.all.trash_checked.001,一些你从垃圾箱里淘到的垃圾。百无一用。
+dlg.all.trash_dropped.001,你丢掉了垃圾。
+dlg.all.trash_dropped.002,随地乱丢垃圾是不好的。
+
+dlg.all.apple_checked.001,一个红色的苹果。看起来很好吃。
+dlg.all.apple_dropped.001,你丢掉了红色的苹果。
+
+dlg.all.residue_checked.001,一团狗剩。使用后扣除 1 HP。
+dlg.all.residue_dropped.001,狗剩被扔了。
+
+dlg.all.chaos_checked.001,你得到了混乱的力量。
+dlg.all.chaos_dropped.001,你无法摆脱混乱的力量。
+
+dlg.all.anchor_checked.001,你得到了稳定的力量。
+dlg.all.anchor_checked.001,你 丢 弃 了 稳 定 的 力 量 。
+
 
 npc.lab.system.name,※※※
 npc.lab.unknown.name,？？？
@@ -107,27 +143,33 @@ dlg.lab.button2.003,你好，这个地方需要至少一件道具。以及下面
 dlg.lab.button2.004,什么都没有发生。
 
 dlg.lab.button3.003,你好，如果你现在没有特别适合这里的道具，我推荐你之后再来这个地方。
+
 dlg.lab.button4.001,你好，你注意到了吗？我们有些角色并不会被击退。
 dlg.lab.button4.002,如果你想像这些角色一样，你可以按一下 Shift 试试。
 dlg.lab.button4.003,以及，有时候，受到一些伤害是计划之内的。
 
-dlg.lab.chest1.001,箱子是空的。
-dlg.lab.chest1.002,好吧，这种事有时就是会发生。
-dlg.lab.chest1.003,你再次检查了这个箱子。
-dlg.lab.chest1.004,你发现这个箱子里真的什么也没有。
-dlg.lab.chest1.005,你没忍住又检查了一遍这个箱子。
-dlg.lab.chest1.006,令人惊奇的是，这个箱子里真的什么也没有！
+dlg.lab.button_final.001,你好，这里是游戏结束的地方，你需要将游戏过程中收集到的三颗宝石放到这里。
+dlg.lab.button_final.002,祝你玩得愉快。
+
+dlg.lab.box1.001,箱子是空的。
+dlg.lab.box1.002,好吧，这种事有时就是会发生。
+dlg.lab.box1.003,你再次检查了这个箱子。
+dlg.lab.box1.004,你发现这个箱子里真的什么也没有。
+dlg.lab.box1.005,你没忍住又检查了一遍这个箱子。
+dlg.lab.box1.006,令人惊奇的是，这个箱子里真的什么也没有！
 
 
-dlg.lab.chest2.001,你试图打开这个箱子。有点吃力。
-dlg.lab.chest2.002,不过箱子终于打开了，你获得了一块专属奖章。
-dlg.lab.chest2.003,这个箱子里已经没有东西了。
+dlg.lab.box2.001,你试图打开这个箱子。有点吃力。
+dlg.lab.box2.002,不过箱子终于打开了，你获得了一块专属奖章。
+dlg.lab.box2.003,这个箱子里已经没有东西了。
 
-dlg.lab.chest3.001,你拿到了一把钥匙。
+dlg.lab.box3.001,你拿到了一把钥匙。
 
-dlg.lab.chest4.001,你拿到了一把钥匙。
+dlg.lab.box4.001,你拿到了一把钥匙。
 
-dlg.lab.chest5.001,你拿到了大门的钥匙。
+dlg.lab.box5.001,你拿到了大门的钥匙。
+
+
 
 dlg.lab.admin.001,你好，玩家。
 dlg.lab.admin.002,这个地方是我搭建的，你可以叫我管理员。
@@ -163,7 +205,17 @@ dlg.lab.admin.022,不过无所谓，因为我把自己的血量设为了无穷�
 dlg.lab.locked_door.001,这扇门没有锁，但是被某种力量封印了，你打不开。
 dlg.lab.locked_door.002,这扇门被锁住了，你需要持有对应的钥匙才能打开。
 
+dlg.lab.empty_ruby_slot.001,一个用来装红宝石的瓶子，现在是空的。
+dlg.lab.empty_emerald_slot.001,一个用来装绿宝石的瓶子，现在是空的。
+dlg.lab.empty_sapphire_slot.001,一个用来装蓝宝石的瓶子，现在是空的。
 
+dlg.lab.inserting_ruby.001,你把红宝石放了进去。宝石化为了液体，发出深红的光芒。
+dlg.lab.inserting_emerald.001,你把绿宝石放了进去。宝石化为了液体，发出深绿的光芒。
+dlg.lab.inserting_sapphire.001,你把蓝宝石放了进去。宝石化为了液体，发出深蓝的光芒。
+
+dlg.lab.inserted_ruby_slot.001,散发着深红色光芒的瓶子。
+dlg.lab.inserted_emerald_slot.001,散发着深绿色光芒的瓶子。
+dlg.lab.inserted_sapphire_slot.001,散发着深蓝色光芒的瓶子。
 
 dlg.lab.guide.001,你来了。我是管理员刚刚雇来的向导。
 dlg.lab.guide.002,按道理来说，我应该向你详细地介绍这里的规则。
@@ -226,6 +278,17 @@ dlg.shop.djgun.102,我素DJGun。
 dlg.shop.djgun.103,原！！！ 子！！！ 弹！！！！！
 dlg.shop.djgun.104,欢饮光临！！
 
+npc.shop.dog.name,神烦狗
+dlg.shop.dog.001,汪！
+
+info.shop.dog.001,一团神秘物质。
+
+talkop.shop.dog.001,打招呼
+talkop.shop.dog.002,关于你是谁...
+talkop.shop.dog.003,关于狗剩...
+talkop.shop.dog.004,关于商店...
+
+ui.shop.sell.dog_unsellable,汪！
 
 npc.outdoor.system.name,※※※
 npc.outdoor.unknown.name,？？？
@@ -257,8 +320,51 @@ dlg.outdoor.guide.003,不，这个红色的房子不是我的家。
 
 dlg.outdoor.guide.004,。 。 。 。 。
 
-dlg.outdoor.signboard_box.001,一块告示牌，上面写了一句话：
-dlg.outdoor.signboard_box.002,你好，这里是你的新武器。希望你喜欢它。
+dlg.outdoor.cannot_open,门是锁着的，打不开。
 
-dlg.outdoor.box1.001,你向箱子伸手，但是什么也没有摸到。
-dlg.outdoor.box1.002,你感受到了一股不属于管理员的力量。
+dlg.outdoor.signboard_box.001,一块告示牌，上面写了几句话：
+dlg.outdoor.signboard_box.002,你好，如果一切正常的话，这个箱子里应该放了一把钥匙。
+dlg.outdoor.signboard_box.003,但因为一些原因，我并不能百分百保证这件事。
+dlg.outdoor.signboard_box.004,如果你发现这里并没有我说的东西，请回来找我。
+
+dlg.outdoor.signboard_blocked.001,一块告示牌，上面写了一句话：
+dlg.outdoor.signboard_blocked.002,你好，前面的区域不属于我的游戏，所以我设置了一堵空气墙。
+
+dlg.outdoor.signboard_stone.001,一块告示牌，上面写了几句话：
+dlg.outdoor.signboard_stone.002,你好，这里的规则相信你能自己搞懂。
+dlg.outdoor.signboard_stone.003,我要说的是，如果你在这里卡死了，试着按 R 回到出生点。
+
+dlg.outdoor.box1.001,你打开了树丛中藏匿着的箱子。
+dlg.outdoor.box1.002,你拿到了一瓶生命药水。
+
+dlg.outdoor.box2.001,你发现自己无法触及这个箱子。
+dlg.outdoor.box2.002,你感受到了一股不属于管理员的力量。
+
+dlg.outdoor.box3.001,你拿到了一把火箭发射器。
+
+dlg.outdoor.boxEmerald.001,你拿到了一块绿色的宝石。
+
+dlg.outdoor.mystery.001,讲真的，其实我并不推荐你来这个地方。
+dlg.outdoor.mystery.002,而且这个红色的房子也不是我的家。
+
+dlg.outdoor.try_to_enter.001,看来你真的很想从这里过去。
+dlg.outdoor.try_to_enter.002,那我会为你让开这条路。
+
+npc.house.system.name,※※※
+npc.house.unknown.name,？？？
+npc.house.admin.name,管理员
+npc.house.guide.name,向导
+
+dlg.house.box1.001,你打开了箱子，从箱子里拿到了一些垃圾。
+dlg.house.box1.002,看来这是一个垃圾箱。
+
+dlg.house.box2.001,箱子里有很多苹果。
+dlg.house.box2.002,你拿了一个苹果。
+dlg.house.box2.003,你又拿了一个苹果。
+dlg.house.box2.004,也许你已经拿得很多了。
+dlg.house.box2.005,箱子自己合上了，看来它并不喜欢贪得无厌的人。
+
+dlg.house.turret.001,你从箱子里拿到了一把突击步枪。很沉。
+
+dlg.house.boxRuby.001,你拿到了一块红色的宝石。
+

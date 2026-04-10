@@ -35,8 +35,6 @@ namespace Game.Gameplay.Combat
         public float hitKnockbackForce = 4f;
         public float explosionKnockbackForce = 8f;
 
-        [Header("Anti-Clip")]
-        public bool explodeIfStuckInside = true;
 
         // 复用 Overlap 数组，避免GC
         private readonly Collider2D[] overlap = new Collider2D[32];
@@ -126,7 +124,6 @@ namespace Game.Gameplay.Combat
         private void FixedUpdate()
         {
             if (!useTriggerMode) return;
-            if (explodeIfStuckInside && CheckStuckAndExplode()) return;
 
             Vector2 currentPos = rb.position;
             Vector2 delta = currentPos - lastPos;
@@ -146,7 +143,7 @@ namespace Game.Gameplay.Combat
                     {
                         var h = hits[i];
                         if (h.collider == null) continue;
-                        if (Time.time < armUntil && owner != null && h.collider.transform.root == owner.transform.root) continue;
+                        if (Time.time < armUntil && IsOwnerCollider(h.collider)) continue;
                         if (hitLayer.value != 0 && ((1 << h.collider.gameObject.layer) & hitLayer.value) == 0) continue;
 
                         if (h.distance < bestDist)
@@ -162,7 +159,7 @@ namespace Game.Gameplay.Combat
 
                         // ✅ 唯一修改：只有打到 Damageable 才 snap 位置
                         // 打墙时不 snap，慢速子弹不会视觉上"沾"在墙面
-                        if (hit.collider.TryGetComponent<IDamageable>(out _))
+                        if (TryGetDamageable(hit.collider, out _))
                             rb.position = hit.point;
 
                         HandleHit(hit.collider, hit.point);
@@ -176,7 +173,7 @@ namespace Game.Gameplay.Combat
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!useTriggerMode) return;
-            if (Time.time < armUntil && owner != null && other.transform.root == owner.transform.root) return;
+            if (Time.time < armUntil && IsOwnerCollider(other)) return;
             if (hitLayer.value != 0 && ((1 << other.gameObject.layer) & hitLayer.value) == 0) return;
 
             HandleHit(other, transform.position);
@@ -188,10 +185,10 @@ namespace Game.Gameplay.Combat
 
             var other = collision.collider;
             if (other == null) return;
-            if (Time.time < armUntil && owner != null && other.transform.root == owner.transform.root) return;
+            if (Time.time < armUntil && IsOwnerCollider(other)) return;
             if (hitLayer.value != 0 && ((1 << other.gameObject.layer) & hitLayer.value) == 0) return;
 
-            if (other.TryGetComponent<IDamageable>(out var damageable))
+            if (TryGetDamageable(other, out var damageable))
             {
                 Vector2 hitPoint = collision.GetContact(0).point;
                 Vector2 dir = rb != null && rb.linearVelocity.sqrMagnitude > 0.0001f ? rb.linearVelocity.normalized : Vector2.zero;
@@ -210,7 +207,7 @@ namespace Game.Gameplay.Combat
 
         private void HandleHit(Collider2D other, Vector2 hitPoint)
         {
-            if (other.TryGetComponent<IDamageable>(out var damageable))
+            if (TryGetDamageable(other, out var damageable))
             {
                 Vector2 dir = rb != null && rb.linearVelocity.sqrMagnitude > 0.0001f ? rb.linearVelocity.normalized : Vector2.zero;
                 var info = MakeDamageInfo(damage, hitPoint, dir, "bullet", hitKnockbackForce, KnockbackKind.Hit);
@@ -255,7 +252,7 @@ namespace Game.Gameplay.Combat
                 if (c == null) continue;
                 if (explosionIgnoresTriggers && c.isTrigger) continue;
 
-                if (c.TryGetComponent<IDamageable>(out var dmg))
+                if (TryGetDamageable(c, out var dmg))
                 {
                     Vector2 toTarget = (Vector2)c.transform.position - center;
                     float dist = toTarget.magnitude;
@@ -283,38 +280,27 @@ namespace Game.Gameplay.Combat
                 kind = kind
             };
         }
-
-        private bool CheckStuckAndExplode()
+        private bool IsOwnerCollider(Collider2D c)
         {
-            if (!useTriggerMode) return false;
-            if (Time.time < armUntil) return false;
+            if (owner == null || c == null) return false;
+            var ownerTr = owner.transform;
+            var targetTr = c.transform;
+            return targetTr == ownerTr || targetTr.IsChildOf(ownerTr);
+        }
 
-            int count = col.Overlap(filter, overlap);
-            if (count <= 0) return false;
+        private static bool TryGetDamageable(Collider2D collider, out IDamageable damageable)
+        {
+            damageable = null;
+            if (collider == null) return false;
 
-            Collider2D best = null;
-            for (int i = 0; i < count; i++)
+            if (collider.TryGetComponent<IDamageable>(out var self))
             {
-                var c = overlap[i];
-                if (c == null) continue;
-                if (owner != null && c.transform.root == owner.transform.root) continue;
-                if (c.isTrigger) continue;
-                best = c;
-                break;
+                damageable = self;
+                return true;
             }
 
-            if (best == null) return false;
-
-            Vector2 center = rb.position;
-            Vector2 snapPoint = best.ClosestPoint(center);
-            rb.position = snapPoint;
-
-            if (enableDebugLog)
-                Debug.Log($"[Bullet2D] {name} stuck inside {best.name}, explode immediately.");
-
-            Explode(snapPoint);
-            Destroy(gameObject);
-            return true;
+            damageable = collider.GetComponentInParent<IDamageable>();
+            return damageable != null;
         }
-    }
+}
 }

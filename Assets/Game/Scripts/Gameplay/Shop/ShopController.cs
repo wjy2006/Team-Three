@@ -299,18 +299,8 @@ namespace Game.UI.Shop
         // =========================
         private void UpdateRoot()
         {
-            if (input.ConsumeUpDown())
-            {
-                rootIndex = Mathf.Clamp(rootIndex - 1, 0, 3);
-                PlaySFX(moveSfx);
-                RefreshRootOptions();
-            }
-            if (input.ConsumeDownDown())
-            {
-                rootIndex = Mathf.Clamp(rootIndex + 1, 0, 3);
-                PlaySFX(moveSfx);
-                RefreshRootOptions();
-            }
+            // Intentionally no keyboard navigation in shop root.
+            // Selection is driven by mouse hover/click.
         }
 
         private void ExecuteRootSelection()
@@ -330,17 +320,6 @@ namespace Game.UI.Shop
         // =========================
         private void UpdateBuy()
         {
-            bool moved = false;
-            if (input.ConsumeUpDown()) { buyIndex = Mathf.Clamp(buyIndex - 1, 0, 3); moved = true; }
-            if (input.ConsumeDownDown()) { buyIndex = Mathf.Clamp(buyIndex + 1, 0, 3); moved = true; }
-
-            if (moved)
-            {
-                PlaySFX(moveSfx);
-                RefreshBuyList();
-                RefreshBuyItemInfo();
-            }
-
             if (ConsumeBuyClick(out int clicked))
             {
                 if (buyIndex != clicked)
@@ -391,16 +370,6 @@ namespace Game.UI.Shop
 
         private void UpdateBuyConfirm()
         {
-            bool moved = false;
-            if (input.ConsumeUpDown() || input.ConsumeLeftDown()) { confirmIndex = 0; moved = true; }
-            if (input.ConsumeDownDown() || input.ConsumeRightDown()) { confirmIndex = 1; moved = true; }
-
-            if (moved)
-            {
-                PlaySFX(moveSfx);
-                RefreshConfirmOptions();
-            }
-
             if (ConsumeBuyConfirmClick(out int clicked))
             {
                 if (confirmIndex != clicked)
@@ -460,18 +429,6 @@ namespace Game.UI.Shop
         // =========================
         private void UpdateSell()
         {
-            bool moved = false;
-            if (input.ConsumeRightDown()) { if (sellIndex <= 3) { sellIndex += 4; moved = true; } }
-            if (input.ConsumeLeftDown()) { if (sellIndex >= 4) { sellIndex -= 4; moved = true; } }
-            if (input.ConsumeUpDown()) { if (sellIndex % 4 != 0) { sellIndex -= 1; moved = true; } }
-            if (input.ConsumeDownDown()) { if (sellIndex % 4 != 3) { sellIndex += 1; moved = true; } }
-
-            if (moved)
-            {
-                PlaySFX(moveSfx);
-                RefreshSellList();
-            }
-
             if (ConsumeSellClick(out int clicked))
             {
                 if (sellIndex != clicked)
@@ -506,19 +463,6 @@ namespace Game.UI.Shop
         // =========================
         private void UpdateTalkSelect()
         {
-            if (input.ConsumeUpDown())
-            {
-                talkIndex = Mathf.Clamp(talkIndex - 1, 0, 3);
-                PlaySFX(moveSfx);
-                RefreshTalkOptions();
-            }
-            if (input.ConsumeDownDown())
-            {
-                talkIndex = Mathf.Clamp(talkIndex + 1, 0, 3);
-                PlaySFX(moveSfx);
-                RefreshTalkOptions();
-            }
-
             if (ConsumeTalkClick(out int clicked))
             {
                 if (talkIndex != clicked)

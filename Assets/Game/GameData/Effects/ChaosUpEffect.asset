@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01910311b23b4589a8a1f8267c1984f4, type: 3}
+  m_Name: ChaosUpEffect
+  m_EditorClassIdentifier: 
+  delta: 1
+  minLevel: 0
+  maxLevel: 2
+  defaultRoomLevel: 0
+  levelUpDialogue: {fileID: 11400000, guid: f7450b8b2085417287dcde631cc8e813, type: 2}
+  levelDownDialogue: {fileID: 11400000, guid: 5da138b7b5054d11af624c9076e5746d, type: 2}
+  alreadyMaxDialogue: {fileID: 11400000, guid: 88e5c454ea6d46eb91e2045d4efc5902, type: 2}
+  alreadyMinDialogue: {fileID: 11400000, guid: 3b63e8f90fb74d3da43f40edc4deab91, type: 2}

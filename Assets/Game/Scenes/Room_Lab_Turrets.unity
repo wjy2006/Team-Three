@@ -7142,8 +7142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488d6b18a3483f44a9d729655a674bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcId: npc.lab.box1
-  dialogue: {fileID: 11400000, guid: 186f74c40b657fe44ab44c934705991d, type: 2}
+  npcId: npc.lab.boxRuby
+  dialogue: {fileID: 11400000, guid: 755127c574f91964ca725ddc21db7a5b, type: 2}
 --- !u!114 &4913308554630355113
 MonoBehaviour:
   m_ObjectHideFlags: 0

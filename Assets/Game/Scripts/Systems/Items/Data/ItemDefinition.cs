@@ -52,5 +52,10 @@ namespace Game.Systems.Items
         public ItemEffect Effect => effect;
         public ItemVisualConfig Visual => visual;
         public AudioClip UseSfx => useSfx;
+
+        public void SetBuyPrice(int value)
+        {
+            buyPrice = Mathf.Max(0, value);
+        }
     }
 }

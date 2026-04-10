@@ -25,7 +25,7 @@ MonoBehaviour:
     condition: {fileID: 0}
     intKey: 
     intValue: 0
-    itemToGive: {fileID: 11400000, guid: 1336b23204492904b9398c4c019650d6, type: 2}
+    itemToGive: {fileID: 11400000, guid: ebf80e89a49e4f8188c3f1d7763c55bc, type: 2}
     successNextId: 2
     failNextId: 
   - id: 2
@@ -39,7 +39,7 @@ MonoBehaviour:
     condition: {fileID: 0}
     intKey: 
     intValue: 0
-    itemToGive: {fileID: 11400000, guid: 6ff0eaea5eccd264aba81efa7efb9012, type: 2}
+    itemToGive: {fileID: 11400000, guid: 080da1cfcd7d4c7092f3f3ce2d1fe843, type: 2}
     successNextId: 3
     failNextId: 
   - id: 3
@@ -53,7 +53,7 @@ MonoBehaviour:
     condition: {fileID: 0}
     intKey: 
     intValue: 0
-    itemToGive: {fileID: 11400000, guid: 1d7aba94f8b9ae74b8d9392b717d0511, type: 2}
+    itemToGive: {fileID: 11400000, guid: 8a51e379a603dd440b355ff0a9ba1465, type: 2}
     successNextId: 4
     failNextId: 
   - id: 4
@@ -67,7 +67,7 @@ MonoBehaviour:
     condition: {fileID: 0}
     intKey: 
     intValue: 0
-    itemToGive: {fileID: 11400000, guid: d030ccfcca6703d449ede59dea304013, type: 2}
+    itemToGive: {fileID: 11400000, guid: 550937ed97873ce418eedbde2730f58c, type: 2}
     successNextId: 5
     failNextId: 
   - id: 5
@@ -95,7 +95,7 @@ MonoBehaviour:
     condition: {fileID: 0}
     intKey: 
     intValue: 0
-    itemToGive: {fileID: 11400000, guid: b3387b417fcf8d94c9f1036366426ea4, type: 2}
+    itemToGive: {fileID: 11400000, guid: 6755b3d930a24eab8392b7361eca2dd2, type: 2}
     successNextId: 
     failNextId: 
   - id: start
