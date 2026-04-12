@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using Game.Systems.Items;
+using Game.Systems.Items.Runtime;
 
 [Serializable]
 public class SetItemBuyPriceStep : StoryStep
@@ -12,6 +13,6 @@ public class SetItemBuyPriceStep : StoryStep
     public override IEnumerator Play(StoryContext ctx)
     {
         if (item == null) yield break;
-        item.SetBuyPrice(buyPrice);
+        RuntimeItemPriceOverrides.SetBuyPrice(item, buyPrice);
     }
 }

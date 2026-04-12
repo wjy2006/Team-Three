@@ -23,7 +23,7 @@ MonoBehaviour:
     holdDistance: 0
     z: 0
   useSfx: {fileID: 8300000, guid: 3c1506d12332ac14aa6c22f503eb799b, type: 3}
-  type: 1
+  type: 4
   buyPrice: 100
   sellPrice: 50
   effect: {fileID: 11400000, guid: 023c83b22fd9caa4db4f33168e4c33f7, type: 2}

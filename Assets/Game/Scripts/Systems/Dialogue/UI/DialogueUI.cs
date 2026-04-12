@@ -53,6 +53,8 @@ public class DialogueUI : MonoBehaviour
     public event Action OnNodeEnd;
 
     public bool IsOpen { get; private set; }
+    public bool IgnoreInput { get; set; }
+    public bool IsTyping => isTyping;
 
     void Awake()
     {
@@ -70,6 +72,7 @@ public class DialogueUI : MonoBehaviour
     void Update()
     {
         if (!IsOpen) return;
+        if (IgnoreInput) return;
         if (Time.frameCount == openFrame) return;
         if (input == null) return;
 
@@ -95,19 +98,37 @@ public class DialogueUI : MonoBehaviour
     {
         if (newLines == null || newLines.Length == 0) return;
 
-        if (!IsOpen)
-        {
-            if (GameRoot.I != null && GameRoot.I.Pause != null)
-                GameRoot.I.Pause.PushPause("Dialogue");
-
-            dialogRoot.SetActive(true);
-            IsOpen = true;
-            openFrame = Time.frameCount;
-        }
+        EnsureOpen();
 
         lines = newLines;
         index = 0;
         Show();
+    }
+
+    public void ShowImmediateLine(DialogueLine line)
+    {
+        EnsureOpen();
+        StopTypingIfNeeded();
+
+        var loc = GameRoot.I != null ? GameRoot.I.Localization : null;
+        string speaker = line.speakerKey;
+        string contentKey = line.textKey;
+
+        nameText.text = loc != null ? loc.Get(speaker) : speaker;
+        fullContent = loc != null ? loc.Get(contentKey) : contentKey;
+        contentText.text = fullContent;
+    }
+
+    private void EnsureOpen()
+    {
+        if (IsOpen) return;
+
+        if (GameRoot.I != null && GameRoot.I.Pause != null)
+            GameRoot.I.Pause.PushPause("Dialogue");
+
+        dialogRoot.SetActive(true);
+        IsOpen = true;
+        openFrame = Time.frameCount;
     }
 
     void Next()

@@ -46,6 +46,12 @@ public class RocketRideController : MonoBehaviour
         if (stateStore == null) stateStore = gameObject.AddComponent<RuntimeItemStateStore>();
     }
 
+    private void OnDestroy()
+    {
+        if (stats != null)
+            stats.SetDamageEnabled(true);
+    }
+
     /// <summary>
     /// SpawnOnLoad.SpawnTo() 完成后会在 Player 上 SendMessage("OnPostSpawn")
     /// 火箭是独立物体收不到，必须由 Controller 转发
@@ -228,6 +234,7 @@ public class RocketRideController : MonoBehaviour
 
         if (GameRoot.I != null) GameRoot.I.SetMoveLocked(true);
         if (move != null) move.canMove = false;
+        if (stats != null) stats.SetDamageEnabled(false);
         ShowPlayer(false);
 
         // ✅ 非商店场景：立刻接管（解决“普通物品切火箭不跟随”）
@@ -295,6 +302,7 @@ public class RocketRideController : MonoBehaviour
     {
         if (GameRoot.I != null) GameRoot.I.SetMoveLocked(false);
         if (move != null) move.canMove = true;
+        if (stats != null) stats.SetDamageEnabled(true);
         ShowPlayer(true);
     }
 

@@ -16,6 +16,13 @@ public class DisableByGlobalState : MonoBehaviour
         All
     }
 
+    public enum IntCompareMode
+    {
+        Equal,
+        LessThan,
+        GreaterThan
+    }
+
     [Serializable]
     public struct Rule
     {
@@ -23,6 +30,7 @@ public class DisableByGlobalState : MonoBehaviour
         public RuleValueType valueType;
         public bool expectedBool;
         public int expectedInt;
+        public IntCompareMode intCompareMode;
 
         public bool IsConfigured => !string.IsNullOrWhiteSpace(key);
 
@@ -33,7 +41,18 @@ public class DisableByGlobalState : MonoBehaviour
             return valueType switch
             {
                 RuleValueType.Bool => global.GetBool(key) == expectedBool,
-                RuleValueType.Int => global.GetInt(key) == expectedInt,
+                RuleValueType.Int => IsIntMatch(global.GetInt(key)),
+                _ => false
+            };
+        }
+
+        private bool IsIntMatch(int current)
+        {
+            return intCompareMode switch
+            {
+                IntCompareMode.Equal => current == expectedInt,
+                IntCompareMode.LessThan => current < expectedInt,
+                IntCompareMode.GreaterThan => current > expectedInt,
                 _ => false
             };
         }

@@ -358,6 +358,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""0d8474ef-c0d6-4095-8687-aa9e3e1d5bcc"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""6937c46d-1bce-406d-9b14-481f37d4532a"",
                     ""path"": ""<Keyboard>/ctrl"",
                     ""interactions"": """",

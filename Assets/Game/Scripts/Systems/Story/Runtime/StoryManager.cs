@@ -1,15 +1,37 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StoryManager : MonoBehaviour
 {
     public bool IsPlaying { get; private set; }
+    private readonly Queue<StoryAsset> queue = new Queue<StoryAsset>();
+    private Coroutine queueRoutine;
 
     public void Play(StoryAsset story)
     {
         if (story == null) return;
-        if (IsPlaying) return;
-        StartCoroutine(RunStory(story));
+        queue.Enqueue(story);
+        if (queueRoutine == null)
+            queueRoutine = StartCoroutine(ProcessQueue());
+    }
+
+    private IEnumerator ProcessQueue()
+    {
+        try
+        {
+            while (queue.Count > 0)
+            {
+                var next = queue.Dequeue();
+                if (next == null) continue;
+                yield return RunStory(next);
+            }
+
+        }
+        finally
+        {
+            queueRoutine = null;
+        }
     }
 
     private IEnumerator RunStory(StoryAsset story)

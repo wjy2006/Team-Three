@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public class GlobalState
@@ -13,7 +14,11 @@ public class GlobalState
         => bools.TryGetValue(key, out var v) && v;
 
     public void SetBool(string key, bool value)
-        => bools[key] = value;
+    {
+        bool hadPrevious = bools.TryGetValue(key, out bool previous);
+        bools[key] = value;
+        Debug.Log($"[GlobalState] SetBool key='{key}' value={value} previous={(hadPrevious ? previous.ToString() : "<unset>")}");
+    }
 
     // ===== Int =====
     public int GetInt(string key)

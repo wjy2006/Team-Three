@@ -5901,7 +5901,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3897474949421446997
 Transform:
   m_ObjectHideFlags: 0
@@ -6532,12 +6532,12 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7eec0b808e5941f45b36483ceb1e3eff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.9375, y: 0.9375}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -6808,9 +6808,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a484574f22ba3f64eb2bcc2b3406d62f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 200
-  hp: 200
+  maxHp: 20
+  hp: 20
   money: 0
+  defaultDeathRespawnScene: Room_Lab_Reviving
+  defaultDeathRespawnSpawnId: Left
 --- !u!114 &8435163443797893740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6843,6 +6845,9 @@ MonoBehaviour:
   spriteRenderer: {fileID: 1895264586}
   firePoint: {fileID: 1376144442}
   defaultFirePointLocal: {x: 0.6, y: 0}
+  playerBodyRenderer: {fileID: 7265050084445299577}
+  chaosHeldMaterial: {fileID: 2100000, guid: 62d94b21c20f40f6b8255f786d4fb6a8, type: 2}
+  chaosItemId: chaos
   useMainCamera: 1
 --- !u!114 &8435163443797893742
 MonoBehaviour:

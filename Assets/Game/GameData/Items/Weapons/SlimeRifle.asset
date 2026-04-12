@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -38,5 +38,5 @@ MonoBehaviour:
   damage: 2
   bulletLifeTime: 2
   bulletPrefab: {fileID: 8870123741071226297, guid: 33560efa6a8c8564fa9bccb686b00a0d, type: 3}
-  firePointLocal: {x: 1.3, y: 0}
+  firePointLocal: {x: 0.8, y: 0}
   fireAngleOffset: 0

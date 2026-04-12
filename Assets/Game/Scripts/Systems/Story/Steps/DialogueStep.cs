@@ -12,14 +12,29 @@ public class DialogueStep : StoryStep
         if (dialogue == null) yield break;
         if (ctx?.Root == null || ctx.Root.Dialogue == null) yield break;
 
+        var dialogueSystem = ctx.Root.Dialogue;
         bool done = false;
-        void OnClosed() => done = true;
+        void OnSessionClosed() => done = true;
 
-        ctx.Root.Dialogue.ui.OnClosed += OnClosed;
-        ctx.Root.Dialogue.Open("_story", dialogue);
+        dialogueSystem.OnSessionClosed += OnSessionClosed;
+        try
+        {
+            // Safety: if previous dialogue is still active for one frame, wait before opening next step.
+            while (dialogueSystem.HasActiveSession)
+                yield return null;
 
-        while (!done) yield return null;
+            dialogueSystem.Open("_story", dialogue);
 
-        ctx.Root.Dialogue.ui.OnClosed -= OnClosed;
+            // If Open did nothing (e.g. empty asset), don't stall the story.
+            if (!dialogueSystem.HasActiveSession)
+                done = true;
+
+            while (!done)
+                yield return null;
+        }
+        finally
+        {
+            dialogueSystem.OnSessionClosed -= OnSessionClosed;
+        }
     }
 }

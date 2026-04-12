@@ -57,7 +57,7 @@ MonoBehaviour:
     condition: {fileID: 0}
     intKey: 
     intValue: 0
-    itemToGive: {fileID: 11400000, guid: 550937ed97873ce418eedbde2730f58c, type: 2}
+    itemToGive: {fileID: 11400000, guid: ebf80e89a49e4f8188c3f1d7763c55bc, type: 2}
     successNextId: say
     failNextId: say full
   - id: say full

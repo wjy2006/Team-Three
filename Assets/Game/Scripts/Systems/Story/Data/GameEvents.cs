@@ -30,6 +30,20 @@ public sealed class DamagedEvent : GameEvent
     }
 }
 
+public sealed class HealthDeathEvent : GameEvent
+{
+    public readonly GameObject target;
+    public readonly GameObject source;
+    public readonly DamageInfo info;
+
+    public HealthDeathEvent(GameObject target, DamageInfo info)
+    {
+        this.target = target;
+        this.info = info;
+        source = info.source;
+    }
+}
+
 public class InteractEvent : GameEvent
 {
     public GameObject target;

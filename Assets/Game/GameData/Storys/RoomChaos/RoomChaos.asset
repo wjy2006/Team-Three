@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df912243a38aabd40b0ac5278c061f3b, type: 3}
+  m_Name: RoomChaos
+  m_EditorClassIdentifier: Assembly-CSharp::StoryAsset
+  steps:
+  - rid: 2508717384659632196
+  lockPlayerInput: 1
+  pauseWorld: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 2508717384659632196
+      type: {class: DialogueStep, ns: , asm: Assembly-CSharp}
+      data:
+        dialogue: {fileID: 11400000, guid: 69d69e6409414ae08803d98b32cb351d, type: 2}

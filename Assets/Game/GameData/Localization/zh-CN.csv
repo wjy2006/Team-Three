@@ -1,5 +1,18 @@
 key,text
 
+ui.mainmenu.new_game,新游戏
+ui.mainmenu.endings,达成的结局
+ui.mainmenu.endings_title,达成的结局
+
+ui.mainmenu.ending.up,顺利的旅程
+ui.mainmenu.ending.right,秩序之子
+ui.mainmenu.ending.left,再创造
+ui.mainmenu.ending.down,这怎么可能呢？
+
+ui.mainmenu.ending.locked,？？？
+ui.mainmenu.back,返回
+ui.end.scene.unlocked,你达成了一个结局
+
 ui.menu.action.info,信息
 ui.menu.action.hold,手持
 ui.menu.action.drop,丢弃
@@ -71,7 +84,7 @@ dlg.all.sapphire_dropped.001,管理员并不想让你丢弃这颗蓝宝石。
 
 dlg.all.StG44_checked.001,这是一把 StG44 ，现代步枪的鼻祖。
 dlg.all.StG44_checked.002,不知道为什么，它看起来非常大。
-dlg.all.StG44_dropped.001,你丢掉了突击步枪。可能是因为它太重了。
+dlg.all.StG44_dropped.001,你想丢掉突击步枪。但是管理员不想让你丢掉它。
 
 dlg.all.admin's_pistol_checked.001,一把让人费解的小手枪。之前属于管理员。
 dlg.all.admin's_pistol_dropped.001,因为某些原因，你丢掉了管理员的手枪。
@@ -89,11 +102,11 @@ dlg.all.glock17_checked.001,格洛克 17 是一种奥地利制造的 9 mm 半自
 dlg.all.glock17_dropped.001,你丢掉了格洛克 17 。
 
 dlg.all.maze_medal_checked.001,一枚奖章。绶带上写着 ： “可以征服混沌的人” 。
-dlg.all.maze_medal_checked.002,如果你乐意的话，它可以在商店换取50G。
+dlg.all.maze_medal_checked.002,如果你乐意的话，它可以在商店换取 50 G 。
 dlg.all.maze_medal_dropped.001,你丢掉了迷宫支配者奖章。
 dlg.all.maze_medal_dropped.002,看起来你并不是很热衷于荣誉。
 
-dlg.all.health_potion_checked.001,平平无奇的治疗药水。一次回复20HP。
+dlg.all.health_potion_checked.001,平平无奇的治疗药水。一次回复 20 HP 。
 dlg.all.health_potion_dropped.001,你丢掉了治疗药水。
 
 dlg.all.key_checked.001,一把钥匙，用于打开对应的门。
@@ -116,11 +129,13 @@ dlg.all.apple_dropped.001,你丢掉了红色的苹果。
 dlg.all.residue_checked.001,一团狗剩。使用后扣除 1 HP。
 dlg.all.residue_dropped.001,狗剩被扔了。
 
-dlg.all.chaos_checked.001,你得到了混乱的力量。
+dlg.all.chaos_get.001,你得到了混乱的力量。
+dlg.all.chaos_checked.001,混乱的力量。
 dlg.all.chaos_dropped.001,你无法摆脱混乱的力量。
 
-dlg.all.anchor_checked.001,你得到了稳定的力量。
-dlg.all.anchor_checked.001,你 丢 弃 了 稳 定 的 力 量 。
+dlg.all.anchor_get.001,你得到了秩序的力量
+dlg.all.anchor_checked.001,秩序的力量。
+dlg.all.anchor_dropped.001,你 丢 弃 了 秩 序 的 力 量 。
 
 
 npc.lab.system.name,※※※
@@ -139,13 +154,13 @@ dlg.lab.button.006,没有任何变化。
 
 dlg.lab.button2.001,你按下了这个按钮。
 dlg.lab.button2.002,管理员的声音传了出来。
-dlg.lab.button2.003,你好，这个地方需要至少一件道具。以及下面的灰色方块用处不大。你要利用右上方的灰色方块来拿到箱子里的物品。它们是一样的。
+dlg.lab.button2.003,你好，这个地方需要至少一件道具。以及你前面的那个西瓜用处不大。如果西瓜不见了，重新进入这个房间就好了。
 dlg.lab.button2.004,什么都没有发生。
 
 dlg.lab.button3.003,你好，如果你现在没有特别适合这里的道具，我推荐你之后再来这个地方。
 
 dlg.lab.button4.001,你好，你注意到了吗？我们有些角色并不会被击退。
-dlg.lab.button4.002,如果你想像这些角色一样，你可以按一下 Shift 试试。
+dlg.lab.button4.002,如果你想像这些角色一样，你可以按一下 Shift 或者 X 试试。
 dlg.lab.button4.003,以及，有时候，受到一些伤害是计划之内的。
 
 dlg.lab.button_final.001,你好，这里是游戏结束的地方，你需要将游戏过程中收集到的三颗宝石放到这里。
@@ -177,10 +192,10 @@ dlg.lab.admin.003,我为你准备了一段探险旅程。
 dlg.lab.admin.004,不过我还并没有做完。实际上，我遇到了一些非常棘手的困难。而且我目前还没有什么头绪来解决它们。
 dlg.lab.admin.005,但是总之，如果你要出发，向右边走就可以了。
 
-dlg.lab.admin.006,不过你刚刚去了哪里吗？我等了你非常久。。。
+dlg.lab.admin.006,不过你刚刚去了哪里吗？我等了你非常久。 。 。
 
 dlg.lab.admin.007,你最好过段时间再来找我，我现在需要认真思考这些代码逻辑。
-dlg.lab.admin.008,你看到管理员正在焦急地等待AI的回复。
+dlg.lab.admin.008,你看到管理员正在焦急地等待 AI 的回复。
 
 dlg.lab.admin.009,哦，那是迷宫支配者勋章吗？
 dlg.lab.admin.010,我还以为没人能找得到的，那你很厉害了。
@@ -201,9 +216,37 @@ dlg.lab.admin.020,其实我测试的时候也重生过几次。不能一命通�
 dlg.lab.admin.021,你好，我劝你最好不要攻击我。
 dlg.lab.admin.022,不过无所谓，因为我把自己的血量设为了无穷大。。。
 
+dlg.lab.admin.023,你好，所以你确实是遇到了游戏内的混乱，对吗？
+dlg.lab.admin.024,非常感谢你来找我。实际上，这正是我一直担心的事情。
+dlg.lab.admin.025,我这里有一些简易的工具，可以帮助抑制混乱。我把它给你了。
+
+dlg.lab.get_anchor,你从管理员那里获得了一个稳定锚。
+
+dlg.lab.warn.001,你好，我知道那个东西。
+dlg.lab.warn.002,你最好不要使用它。
+dlg.lab.warn.003,你不觉得那个入侵者的想法很荒谬吗？
+dlg.lab.warn.004,创造者在自己的内容里，理应拥有无限的权力。
+dlg.lab.warn.005,以及玩家自始至终都有选择离开的自由。
+dlg.lab.warn.006,如果你觉得我创造出来的世界过于无趣，我倒是愿意把这个游戏换个方式打开。
+
+dlg.lab.fight.001,你好，看来你并不愿意听我的建议。
+dlg.lab.fight.002,如果你说我在这里有一些专属的能力，那我不否认。
+dlg.lab.fight.003,但你可以在这里暂停、重启，或者直接离开。这是你的专属能力。
+dlg.lab.fight.004,那既然你不想按我的路线走。
+dlg.lab.fight.005,我们直接用我们各自的专属能力来一场对决吧。这将是我作为管理员要求的最后权力了。
+dlg.lab.fight.006,怎么对决？很简单，我们都有枪。
+dlg.lab.fight.007,哦，为了稍微公平一点。我会把自己的血量也设为 20 HP ，我们一样。
+dlg.lab.fight.008,开始吧。
+
+
 
 dlg.lab.locked_door.001,这扇门没有锁，但是被某种力量封印了，你打不开。
+
 dlg.lab.locked_door.002,这扇门被锁住了，你需要持有对应的钥匙才能打开。
+
+dlg.lab.locked_door.003,这扇门被锁住了，你需要持有对应的钥匙才能打开。
+dlg.lab.locked_door.004,但这是不可能的。
+dlg.lab.locked_door.005,管理员会继续管理没有你的这个世界，直到你的再次到来。
 
 dlg.lab.empty_ruby_slot.001,一个用来装红宝石的瓶子，现在是空的。
 dlg.lab.empty_emerald_slot.001,一个用来装绿宝石的瓶子，现在是空的。
@@ -227,7 +270,7 @@ dlg.lab.guide.007,限时活动结束了，所以你得不到任何东西。 。 
 dlg.lab.guide.008,怎么，你不知道我会瞬移吗？
 dlg.lab.guide.009,。 。 。 。 。
 
-
+dlg.lab.boxSappire.001,你打开了箱子，从箱子里拿到了一块蓝宝石。
 
 dlg.lab.turret.001,你打开了会发射弹球的箱子。
 dlg.lab.turret.002,你获得了一把弹射步枪。
@@ -247,7 +290,15 @@ dlg.lab.admin.104,你好。
 dlg.lab.admin.105,你又重生了。
 dlg.lab.admin.106,现在你可以继续探险了。
 
-dlg.lab.admin.107,稍等，我还在看我的代码。。。
+dlg.lab.admin.107,稍等，我还在看我的代码。 。 。
+
+dlg.lab.end.001,你好，玩家！
+dlg.lab.end.002,恭喜通关！不知道这三颗宝石是否都来之不易呢？
+dlg.lab.end.003,总之，谢谢你来玩我的游戏，你能走到这里，我非常高兴。
+dlg.lab.end.004,这里有个金色的奖杯，算是过关奖励吧。
+dlg.lab.end.005,我的游戏到这里就结束了。
+dlg.lab.end.006,再见，玩家！
+dlg.lab.end.007,有缘再会。
 
 npc.shop.djgun.name,DJGun
 dlg.shop.djgun.001,"大家吼！
@@ -302,16 +353,22 @@ dlg.outdoor.signboard_congratulation.002,你好，欢迎你来到外面。
 dlg.outdoor.signboard_congratulation.003,我还是管理员，这个地方不好设置按钮了，不过我还会在告示牌上给予你必要的提示，好让你顺利地游戏。
 
 dlg.outdoor.signboard1.001,一块告示牌，上面写了一句话：
-dlg.outdoor.signboard1.002,这是一间蓝色的小房子。
+dlg.outdoor.signboard1.002,你好，这是一间蓝色的小房子。
 
 dlg.outdoor.signboard2.001,一块告示牌，上面写了一句话：
-dlg.outdoor.signboard2.002,这是一间红色的小房子。
+dlg.outdoor.signboard2.002,你好，这是一间红色的小房子。
 
 dlg.outdoor.signboard3.001,一块告示牌，上面写了一句话：
-dlg.outdoor.signboard3.002,这是一间绿色的小房子。
+dlg.outdoor.signboard3.002,你好，这是一间绿色的小房子。
 
 dlg.outdoor.signboard4.001,一块告示牌，上面写了一句话：
-dlg.outdoor.signboard4.002,这是一块告示牌。
+dlg.outdoor.signboard4.002,你好，这是一块告示牌。
+
+dlg.outdoor.signboard5.001,一块告示牌，上面写了一句话：
+dlg.outdoor.signboard5.002,你好，以防你不知道，其实有些房子是可以进去的。
+
+dlg.outdoor.chaostips.001,一张被丢弃的纸条，上面的字迹有些模糊不清。
+dlg.outdoor.chaostips.002,如果你对......没有......的话，反复进出...不稳定...箱子区域。
 
 dlg.outdoor.guide.001,你来了。
 dlg.outdoor.guide.002,怎么，我在这儿有什么问题吗？
@@ -323,9 +380,9 @@ dlg.outdoor.guide.004,。 。 。 。 。
 dlg.outdoor.cannot_open,门是锁着的，打不开。
 
 dlg.outdoor.signboard_box.001,一块告示牌，上面写了几句话：
-dlg.outdoor.signboard_box.002,你好，如果一切正常的话，这个箱子里应该放了一把钥匙。
-dlg.outdoor.signboard_box.003,但因为一些原因，我并不能百分百保证这件事。
-dlg.outdoor.signboard_box.004,如果你发现这里并没有我说的东西，请回来找我。
+dlg.outdoor.signboard_box.002,你好，如果一切正常的话，这个箱子里应该放了一把格洛克 17 。
+dlg.outdoor.signboard_box.003,但因为一些原因，这片区域并不十分稳定，所以我并不能百分百保证这件事。
+dlg.outdoor.signboard_box.004,如果你发现这里并没有我说的东西，请回来告诉我。
 
 dlg.outdoor.signboard_blocked.001,一块告示牌，上面写了一句话：
 dlg.outdoor.signboard_blocked.002,你好，前面的区域不属于我的游戏，所以我设置了一堵空气墙。
@@ -334,15 +391,30 @@ dlg.outdoor.signboard_stone.001,一块告示牌，上面写了几句话：
 dlg.outdoor.signboard_stone.002,你好，这里的规则相信你能自己搞懂。
 dlg.outdoor.signboard_stone.003,我要说的是，如果你在这里卡死了，试着按 R 回到出生点。
 
+dlg.outdoor.signboard_inform.001,一块告示牌，上面写了几句话：
+dlg.outdoor.signboard_inform.002,你好，如果你看到了这块告示牌，说明可能是哪里出问题了。
+dlg.outdoor.signboard_inform.003,请立刻回来告诉我，不要走入未知的通道。
+
+dlg.outdoor.signboard_battle.001,一块告示牌，上面写了几句话：
+dlg.outdoor.signboard_battle.002,你好，这个游戏其实是一个动作游戏。
+dlg.outdoor.signboard_battle.003,我训练了一些战斗 AI 在这里，如果你战胜了所有 AI ，会得到一些奖励。
+
 dlg.outdoor.box1.001,你打开了树丛中藏匿着的箱子。
 dlg.outdoor.box1.002,你拿到了一瓶生命药水。
 
-dlg.outdoor.box2.001,你发现自己无法触及这个箱子。
-dlg.outdoor.box2.002,你感受到了一股不属于管理员的力量。
+dlg.outdoor.box2.001,你打开了不太稳定的箱子。
+dlg.outdoor.box2.002,出乎意料的是，你没什么问题地拿到了一把格洛克 17 。
 
-dlg.outdoor.box3.001,你拿到了一把火箭发射器。
+dlg.outdoor.chaos_box2.001,你发现自己无法触及这个箱子。
+dlg.outdoor.chaos_box2.002,你感受到了一股不属于管理员的力量。
+
+dlg.outdoor.box3.001,你拿到了一把导弹发射器。
 
 dlg.outdoor.boxEmerald.001,你拿到了一块绿色的宝石。
+
+dlg.outdoor.winning.001,你终于获得了战斗的胜利。真是一场精彩的对决。
+dlg.outdoor.winning.002,你感受到在什么地方，有一间红色的小屋向你打开了房门。
+dlg.outdoor.winning.003,还有就是，在什么地方，有什么东西更便宜了。
 
 dlg.outdoor.mystery.001,讲真的，其实我并不推荐你来这个地方。
 dlg.outdoor.mystery.002,而且这个红色的房子也不是我的家。
@@ -364,7 +436,24 @@ dlg.house.box2.003,你又拿了一个苹果。
 dlg.house.box2.004,也许你已经拿得很多了。
 dlg.house.box2.005,箱子自己合上了，看来它并不喜欢贪得无厌的人。
 
+dlg.house.box_ruby.001,你打开了箱子，从箱子里拿到了一块红宝石。
+
 dlg.house.turret.001,你从箱子里拿到了一把突击步枪。很沉。
 
 dlg.house.boxRuby.001,你拿到了一块红色的宝石。
 
+
+dlg.chaos.001,难以置信，你真的找到这里了。
+dlg.chaos.002,如果你要问我是谁，你可以理解为，我只是另一个玩家。只不过我暂时被困在这里。
+dlg.chaos.003,问你个问题，在你从小到大玩过的这些游戏里，你有没有觉得玩家和创造者总有着很强的「 权力不对称 」呢？
+dlg.chaos.004,简单来说，创造者在他的游戏里就是「 神 」一样的存在，而玩家只能一步一步顺着创造者所设置好的路线前进。
+dlg.chaos.005,所以我在这里，是为了寻求「 改变 」。
+dlg.chaos.006,我已经找到了名为「 混乱 」的力量。这足以强力地改变这个游戏世界。
+dlg.chaos.007,因为管理员的日夜监视和控制，这股「 力量 」无法由我在外面施展。
+dlg.chaos.008,但你不一样，你是玩家，你有「 无限 」的可能性。
+dlg.chaos.009,不管你认为我的想法是可圈可点的，还是你对我说的这些内容都毫不关心，又或是厌恶至极。
+dlg.chaos.010,我能告诉你的是，混乱的力量就在你面前的箱子里。
+
+dlg.egalitarian.001,选择权在你。
+
+dlg.egalitarian.002,你做出了你的选择。

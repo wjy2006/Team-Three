@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df912243a38aabd40b0ac5278c061f3b, type: 3}
+  m_Name: WinningBattle
+  m_EditorClassIdentifier: Assembly-CSharp::StoryAsset
+  steps:
+  - rid: 2508717440709951555
+  - rid: 2508717440709951556
+  - rid: 2508717440709951557
+  lockPlayerInput: 1
+  pauseWorld: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 2508717440709951555
+      type: {class: DialogueStep, ns: , asm: Assembly-CSharp}
+      data:
+        dialogue: {fileID: 11400000, guid: 81b0c759aaf472f44a8b6c138ce24dd7, type: 2}
+    - rid: 2508717440709951556
+      type: {class: DialogueStep, ns: , asm: Assembly-CSharp}
+      data:
+        dialogue: {fileID: 11400000, guid: 974f177adc2d3de42989084085658b85, type: 2}
+    - rid: 2508717440709951557
+      type: {class: SetItemBuyPriceStep, ns: , asm: Assembly-CSharp}
+      data:
+        item: {fileID: 11400000, guid: b6225b04322240f4aa322f7a303507e7, type: 2}
+        buyPrice: 3

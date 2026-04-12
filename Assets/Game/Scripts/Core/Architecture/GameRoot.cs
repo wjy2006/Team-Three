@@ -1,6 +1,7 @@
 using System.Collections;
 using Game.Core;
 using Game.Gameplay.Player;
+using Game.Systems.Items.Runtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,6 +29,13 @@ public class GameRoot : MonoBehaviour
     [SerializeField] private PauseManager pause;
     [SerializeField] private TriggerManager triggerManager;
 
+    [Header("Display")]
+    [SerializeField] private bool forceBuildResolution = true;
+    [SerializeField] private bool applyForcedResolutionInEditor = false;
+    [SerializeField] private int forcedScreenWidth = 1920;
+    [SerializeField] private int forcedScreenHeight = 1080;
+    [SerializeField] private bool reapplyResolutionOnFocus = true;
+
     [Header("Runtime (auto found)")]
     [SerializeField] private GameObject player;
 
@@ -42,14 +50,17 @@ public class GameRoot : MonoBehaviour
     public bool InputLocked { get; private set; }
     public bool IsTransitioning { get; private set; }
     public const string STATE_GLITCH_WORLD = "IsGlitchWorld";
+    public const string STATE_WORLD_BOX1_ENTER_COUNT = "world.box1.enter.count";
+    public const string STATE_ADMIN_DISABLED = "story.admin.disabled";
     public bool IsGlitchWorld => Global.GetBool(STATE_GLITCH_WORLD);
 
     private void Awake()
     {
         if (I != null && I != this) { Destroy(gameObject); return; }
         I = this;
+        ApplyForcedResolution();
 
-        // ✅ 初始化组件获取
+        // 鉁?鍒濆鍖栫粍浠惰幏鍙?
         if (localization == null) localization = GetComponentInChildren<LocalizationService>(true);
         if (dialogue == null) dialogue = GetComponentInChildren<DialogueSystem>(true);
         if (pause == null) pause = GetComponentInChildren<PauseManager>(true);
@@ -61,13 +72,23 @@ public class GameRoot : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
         RefreshRuntimeRefs();
-        BindRoomChaosForScene(SceneManager.GetActiveScene());
+        var initialScene = SceneManager.GetActiveScene();
+        BindRoomChaosForScene(initialScene);
+        TrackSpecialSceneCounters(initialScene);
         if (globalSfxSource != null)
         {
             globalSfxSource.ignoreListenerPause = true;
         }
 
         SceneManager.sceneLoaded += OnSceneLoaded;
+        StartCoroutine(ApplyForcedResolutionNextFrame());
+    }
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        if (!hasFocus) return;
+        if (!reapplyResolutionOnFocus) return;
+        ApplyForcedResolution();
     }
 
     private void OnDestroy()
@@ -82,9 +103,19 @@ public class GameRoot : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         BindRoomChaosForScene(scene);
+        TrackSpecialSceneCounters(scene);
         RefreshRuntimeRefs();
         if (IsTransitioning) return;
         ApplyLevelCameraSettings();
+    }
+
+    private void TrackSpecialSceneCounters(Scene scene)
+    {
+        if (!scene.IsValid()) return;
+        if (Global == null) return;
+
+        if (scene.name == "World_Box1")
+            Global.AddInt(STATE_WORLD_BOX1_ENTER_COUNT, 1);
     }
 
     private void BindRoomChaosForScene(Scene scene)
@@ -144,6 +175,38 @@ public class GameRoot : MonoBehaviour
         if (playerInput != null) playerInput.SetMoveEnabled(!locked);
     }
 
+    public void ResetRuntimeForNewGame()
+    {
+        if (Global != null)
+            Global.ClearAll();
+
+        SceneTransfer.NextSpawnId = null;
+        SceneTransfer.HoldUp = false;
+        SceneTransfer.HoldDown = false;
+        SceneTransfer.HoldLeft = false;
+        SceneTransfer.HoldRight = false;
+
+        if (Inventory != null)
+            Inventory.ClearAll();
+        RuntimeItemPriceOverrides.ClearAll();
+
+        if (playerHeldItem != null)
+            playerHeldItem.SetHeld(null);
+
+        if (player != null)
+        {
+            var stats = player.GetComponent<PlayerStats>();
+            if (stats != null)
+                stats.ResetForNewGame();
+        }
+
+        if (pause != null)
+            pause.ForceResume();
+
+        SetInputLocked(false);
+        SetMoveLocked(false);
+    }
+
     public void ApplyLevelCameraSettings()
     {
         if (cameraFollow == null) return;
@@ -165,22 +228,32 @@ public class GameRoot : MonoBehaviour
     {
         IsTransitioning = true;
         SetInputLocked(true);
+        bool usedFadeOut = false;
+        bool usedGlitchOut = false;
 
         try
         {
             if (Dialogue != null && Dialogue.IsOpen) Dialogue.Close();
 
-            // ✅ 转场开始：视听同步
+            // 鉁?杞満寮€濮嬶細瑙嗗惉鍚屾
             if (IsGlitchWorld)
             {
                 if (globalSfxSource != null && glitchTransitionSfx != null)
                     globalSfxSource.PlayOneShot(glitchTransitionSfx);
 
-                if (glitchVolume != null) yield return glitchVolume.GlitchOut();
+                if (glitchVolume != null)
+                {
+                    yield return glitchVolume.GlitchOut();
+                    usedGlitchOut = true;
+                }
             }
             else
             {
-                if (fade != null) yield return fade.FadeOut(fadeOutTime);
+                if (fade != null)
+                {
+                    yield return fade.FadeOut(fadeOutTime);
+                    usedFadeOut = true;
+                }
             }
 
             SceneTransfer.NextSpawnId = toSpawnId;
@@ -213,13 +286,23 @@ public class GameRoot : MonoBehaviour
             }
             
 
-            // ✅ 转场结束
+            // 鉁?杞満缁撴潫
             if (IsGlitchWorld)
             {
                 if (glitchVolume != null) yield return glitchVolume.GlitchIn();
+
+                // If we faded out before load but now resolved to glitch-in path,
+                // ensure fade canvas is cleared so the screen cannot stay black.
+                if (usedFadeOut && fade != null)
+                    fade.SetAlpha(0f);
             }
             else
             {
+                // Symmetric guard: if we glitched out before load but now resolved to
+                // non-glitch path, bring glitch intensity back down explicitly.
+                if (usedGlitchOut && glitchVolume != null)
+                    yield return glitchVolume.GlitchIn();
+
                 if (fade != null) yield return fade.FadeIn(fadeInTime);
             }
         }
@@ -234,4 +317,22 @@ public class GameRoot : MonoBehaviour
     }
 
     private void OnApplicationQuit() { I = null; }
+
+    private void ApplyForcedResolution()
+    {
+        if (!forceBuildResolution) return;
+        if (!applyForcedResolutionInEditor && Application.isEditor) return;
+
+        int w = Mathf.Max(320, forcedScreenWidth);
+        int h = Mathf.Max(180, forcedScreenHeight);
+        Screen.fullScreen = false;
+        Screen.fullScreenMode = FullScreenMode.Windowed;
+        Screen.SetResolution(w, h, FullScreenMode.Windowed);
+    }
+
+    private IEnumerator ApplyForcedResolutionNextFrame()
+    {
+        yield return null;
+        ApplyForcedResolution();
+    }
 }

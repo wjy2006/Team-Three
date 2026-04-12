@@ -36,7 +36,12 @@ namespace Game.Gameplay.Combat
             }
             OnDamaged?.Invoke(info);
             GameRoot.I.Triggers.Raise(new DamagedEvent(gameObject, info));
-            if (hp <= 0) Destroy(gameObject);
+            if (hp <= 0)
+            {
+                Debug.Log($"[Health2D] Death -> raise HealthDeathEvent: target={gameObject.name}, scene={gameObject.scene.name}, layer={LayerMask.LayerToName(gameObject.layer)}");
+                GameRoot.I?.Triggers?.Raise(new HealthDeathEvent(gameObject, info));
+                Destroy(gameObject);
+            }
         }
     }
 }

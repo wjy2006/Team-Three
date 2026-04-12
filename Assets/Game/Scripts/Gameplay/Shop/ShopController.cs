@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using Game.Systems.Items;
+using Game.Systems.Items.Runtime;
 using Game.Gameplay.Player;
 
 namespace Game.UI.Shop
@@ -112,6 +113,10 @@ namespace Game.UI.Shop
         public TMP_Text[] sellNameTexts = new TMP_Text[8];
         public TMP_Text[] sellPriceTexts = new TMP_Text[8];
         public string sellUnsellableTextKey = "ui.shop.sell.unsellable";
+
+        [Header("Sell Rules")]
+        [Tooltip("When enabled, every non-null item can be sold (including Quest, Key, and 0G items).")]
+        [SerializeField] private bool allowSellAllItems = false;
 
         [Header("Portrait")]
         public ShopPortraitController portrait;
@@ -346,7 +351,7 @@ namespace Game.UI.Shop
                 return;
             }
 
-            int price = slot.item.BuyPrice;
+            int price = RuntimeItemPriceOverrides.GetBuyPrice(slot.item);
             if (stats.Money < price) { ShowHintFail(hintNotEnoughMoneyKey); return; }
             if (!CanPlacePurchasedItem()) { ShowHintFail(hintBagFullKey); return; }
 
@@ -397,7 +402,7 @@ namespace Game.UI.Shop
 
             BuySlot slot = GetBuySlot(idx);
             if (slot == null || slot.item == null) { ShowHintFail(hintNoItemKey); return; }
-            int price = slot.item.BuyPrice;
+            int price = RuntimeItemPriceOverrides.GetBuyPrice(slot.item);
 
             bool placed = TryPlacePurchasedItem(slot.item);
             if (!placed) { ShowHintFail(hintBagFullKey); return; }
@@ -610,7 +615,7 @@ namespace Game.UI.Shop
                 }
                 if (priceTmp != null)
                 {
-                    priceTmp.text = (slot == null || slot.item == null || soldOut) ? "" : $"{slot.item.BuyPrice}G";
+                    priceTmp.text = (slot == null || slot.item == null || soldOut) ? "" : $"{RuntimeItemPriceOverrides.GetBuyPrice(slot.item)}G";
                     priceTmp.color = (i == buyIndex) ? Color.yellow : Color.white;
                 }
             }
@@ -911,7 +916,12 @@ namespace Game.UI.Shop
             return false;
         }
 
-        private static bool IsSellable(ItemDefinition item) => item != null && item.Type != ItemType.Key && item.Type != ItemType.Quest && item.SellPrice > 0;
+        private bool IsSellable(ItemDefinition item)
+        {
+            if (item == null) return false;
+            if (allowSellAllItems) return true;
+            return item.Type != ItemType.Key && item.Type != ItemType.Quest && item.SellPrice > 0;
+        }
 
         private BuySlot GetBuySlot(int idx) => (buySlots != null && idx >= 0 && idx < buySlots.Length) ? buySlots[idx] : null;
 

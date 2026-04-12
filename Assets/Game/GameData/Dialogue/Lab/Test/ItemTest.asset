@@ -25,7 +25,7 @@ MonoBehaviour:
     condition: {fileID: 0}
     intKey: 
     intValue: 0
-    itemToGive: {fileID: 11400000, guid: ebf80e89a49e4f8188c3f1d7763c55bc, type: 2}
+    itemToGive: {fileID: 11400000, guid: 550937ed97873ce418eedbde2730f58c, type: 2}
     successNextId: 2
     failNextId: 
   - id: 2
@@ -53,8 +53,8 @@ MonoBehaviour:
     condition: {fileID: 0}
     intKey: 
     intValue: 0
-    itemToGive: {fileID: 11400000, guid: 8a51e379a603dd440b355ff0a9ba1465, type: 2}
-    successNextId: 4
+    itemToGive: {fileID: 11400000, guid: ebf80e89a49e4f8188c3f1d7763c55bc, type: 2}
+    successNextId: 
     failNextId: 
   - id: 4
     type: 6

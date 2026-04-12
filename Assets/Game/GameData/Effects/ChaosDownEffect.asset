@@ -20,3 +20,7 @@ MonoBehaviour:
   levelDownDialogue: {fileID: 11400000, guid: 5da138b7b5054d11af624c9076e5746d, type: 2}
   alreadyMaxDialogue: {fileID: 11400000, guid: 88e5c454ea6d46eb91e2045d4efc5902, type: 2}
   alreadyMinDialogue: {fileID: 11400000, guid: 3b63e8f90fb74d3da43f40edc4deab91, type: 2}
+  increaseBlockedDialogue: {fileID: 11400000, guid: dca169f5349f4f519074b15df5b6f0ff, type: 2}
+  gateIncreaseByScenePrefix: 1
+  gatedScenePrefix: Room_Lab
+  increaseUnlockBoolKey: story.admin.disabled

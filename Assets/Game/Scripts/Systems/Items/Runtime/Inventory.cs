@@ -19,7 +19,7 @@ namespace Game.Systems.Items
         {
             if (capacity < 1) capacity = 1;
 
-            // 初始化 slots（避免你忘了配）
+            // 鍒濆鍖?slots锛堥伩鍏嶄綘蹇樹簡閰嶏級
             if (slots == null || slots.Length != capacity)
             {
                 slots = new ItemSlot[capacity];
@@ -29,7 +29,7 @@ namespace Game.Systems.Items
         }
 
         /// <summary>
-        /// 兼容旧用法：传 ItemDefinition 会自动包装成 ItemInstance
+        /// 鍏煎鏃х敤娉曪細浼?ItemDefinition 浼氳嚜鍔ㄥ寘瑁呮垚 ItemInstance
         /// </summary>
         public bool TryAdd(ItemDefinition item)
         {
@@ -38,14 +38,14 @@ namespace Game.Systems.Items
         }
 
         /// <summary>
-        /// ✅ 新用法：直接添加实例（能保留 InstanceId / 状态）
+        /// 鉁?鏂扮敤娉曪細鐩存帴娣诲姞瀹炰緥锛堣兘淇濈暀 InstanceId / 鐘舵€侊級
         /// </summary>
         public bool TryAdd(ItemInstance inst)
         {
             if (inst == null || inst.Definition == null) return false;
 
             int idx = FindFirstEmptyIndex();
-            if (idx < 0) return false; // 满了
+            if (idx < 0) return false; // 婊′簡
 
             slots[idx].Set(inst);
             OnChanged?.Invoke();
@@ -53,7 +53,7 @@ namespace Game.Systems.Items
         }
 
         /// <summary>
-        /// ✅ 新：拿到实例（推荐）
+        /// 鉁?鏂帮細鎷垮埌瀹炰緥锛堟帹鑽愶級
         /// </summary>
         public ItemInstance GetAt(int index)
         {
@@ -62,7 +62,7 @@ namespace Game.Systems.Items
         }
 
         /// <summary>
-        /// 兼容旧代码：如果还在用 GetAtDefinition / DisplayName
+        /// 鍏煎鏃т唬鐮侊細濡傛灉杩樺湪鐢?GetAtDefinition / DisplayName
         /// </summary>
         public ItemDefinition GetAtDefinition(int index)
         {
@@ -80,6 +80,20 @@ namespace Game.Systems.Items
             return true;
         }
 
+        public void ClearAll()
+        {
+            bool changed = false;
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i] == null || slots[i].IsEmpty) continue;
+                slots[i].Clear();
+                changed = true;
+            }
+
+            if (changed)
+                OnChanged?.Invoke();
+        }
+
         public bool IsFull() => FindFirstEmptyIndex() < 0;
 
         private int FindFirstEmptyIndex()
@@ -90,7 +104,7 @@ namespace Game.Systems.Items
         }
 
         /// <summary>
-        /// ✅ 新：设置实例（允许 inst 为 null 表示清空）
+        /// 鉁?鏂帮細璁剧疆瀹炰緥锛堝厑璁?inst 涓?null 琛ㄧず娓呯┖锛?
         /// </summary>
         public bool SetAt(int index, ItemInstance inst)
         {
@@ -106,7 +120,7 @@ namespace Game.Systems.Items
         }
 
         /// <summary>
-        /// 兼容旧用法：传 definition 会包装成新实例（注意：会生成新 InstanceId）
+        /// 鍏煎鏃х敤娉曪細浼?definition 浼氬寘瑁呮垚鏂板疄渚嬶紙娉ㄦ剰锛氫細鐢熸垚鏂?InstanceId锛?
         /// </summary>
         public bool SetAt(int index, ItemDefinition item)
         {
@@ -115,7 +129,7 @@ namespace Game.Systems.Items
         }
 
         /// <summary>
-        /// ✅ Contains：按 definition 判断（背包里只要有同类物品就算）
+        /// 鉁?Contains锛氭寜 definition 鍒ゆ柇锛堣儗鍖呴噷鍙鏈夊悓绫荤墿鍝佸氨绠楋級
         /// </summary>
         public bool Contains(ItemDefinition item)
         {
@@ -129,7 +143,7 @@ namespace Game.Systems.Items
         }
 
         /// <summary>
-        /// ✅ RemoveOne：移除任意一个该 definition 的实例
+        /// 鉁?RemoveOne锛氱Щ闄や换鎰忎竴涓 definition 鐨勫疄渚?
         /// </summary>
         public bool RemoveOne(ItemDefinition item)
         {
@@ -140,7 +154,7 @@ namespace Game.Systems.Items
                 if (inst != null && inst.Definition == item)
                 {
                     RemoveAt(i);
-                    // RemoveAt 已经 Invoke 了
+                    // RemoveAt 宸茬粡 Invoke 浜?
                     return true;
                 }
             }
@@ -148,7 +162,7 @@ namespace Game.Systems.Items
         }
 
         /// <summary>
-        /// ✅（可选）移除指定实例：用于你以后做“消耗某一份实例”
+        /// 鉁咃紙鍙€夛級绉婚櫎鎸囧畾瀹炰緥锛氱敤浜庝綘浠ュ悗鍋氣€滄秷鑰楁煇涓€浠藉疄渚嬧€?
         /// </summary>
         public bool RemoveInstance(ItemInstance inst)
         {
@@ -168,7 +182,7 @@ namespace Game.Systems.Items
         private bool IsValidIndex(int index) => index >= 0 && index < slots.Length;
 
         // -----------------------------
-        // ✅ 内部 Slot：改成存 ItemInstance
+        // 鉁?鍐呴儴 Slot锛氭敼鎴愬瓨 ItemInstance
         // -----------------------------
         [Serializable]
         public class ItemSlot
@@ -176,7 +190,7 @@ namespace Game.Systems.Items
             [SerializeField] private ItemInstance instance;
 
             public ItemInstance Instance => instance;
-            public ItemDefinition Item => instance != null ? instance.Definition : null; // 兼容旧访问
+            public ItemDefinition Item => instance != null ? instance.Definition : null; // 鍏煎鏃ц闂?
 
             public bool IsEmpty => instance == null || instance.Definition == null;
 

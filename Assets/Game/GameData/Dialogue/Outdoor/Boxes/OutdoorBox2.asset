@@ -15,14 +15,10 @@ MonoBehaviour:
   startNodeId: start
   nodes:
   - id: start
-    type: 0
-    lines:
-    - speakerKey: npc.outdoor.system.name
-      textKey: dlg.outdoor.box2.001
-    - speakerKey: npc.outdoor.system.name
-      textKey: dlg.outdoor.box2.002
-    nextId: set
-    boolKey: outdoor.box2
+    type: 1
+    lines: []
+    nextId: 
+    boolKey: outdoor.box2.given
     trueNextId: say no
     falseNextId: give
     boolValue: 0
@@ -32,19 +28,85 @@ MonoBehaviour:
     itemToGive: {fileID: 0}
     successNextId: 
     failNextId: 
-  - id: set
-    type: 3
+  - id: say no
+    type: 0
     lines:
     - speakerKey: npc.outdoor.system.name
       textKey: dlg.all.default_given
     nextId: 
-    boolKey: outdoor.box2
+    boolKey: lab.box3.given
     trueNextId: say no
     falseNextId: give
-    boolValue: 1
+    boolValue: 0
     condition: {fileID: 0}
     intKey: 
     intValue: 0
     itemToGive: {fileID: 0}
     successNextId: 
     failNextId: 
+  - id: give
+    type: 6
+    lines:
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest2.003
+    nextId: 
+    boolKey: lab.box3.given
+    trueNextId: say no
+    falseNextId: give
+    boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: 5bbf180b58a504647a4f989e49be0c8d, type: 2}
+    successNextId: say
+    failNextId: say full
+  - id: say full
+    type: 0
+    lines:
+    - speakerKey: npc.outdoor.system.name
+      textKey: dlg.all.default_full
+    nextId: 
+    boolKey: lab.box3.given
+    trueNextId: say no
+    falseNextId: give
+    boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: 8a51e379a603dd440b355ff0a9ba1465, type: 2}
+    successNextId: say
+    failNextId: say full
+  - id: say
+    type: 0
+    lines:
+    - speakerKey: npc.outdoor.system.name
+      textKey: dlg.outdoor.box2.001
+    - speakerKey: npc.outdoor.system.name
+      textKey: dlg.outdoor.box2.002
+    nextId: set
+    boolKey: lab.box3.given
+    trueNextId: say no
+    falseNextId: give
+    boolValue: 0
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: 8a51e379a603dd440b355ff0a9ba1465, type: 2}
+    successNextId: say
+    failNextId: say full
+  - id: set
+    type: 3
+    lines:
+    - speakerKey: npc.lab.system.name
+      textKey: dlg.lab.chest3.001
+    nextId: 
+    boolKey: outdoor.box2.given
+    trueNextId: say no
+    falseNextId: give
+    boolValue: 1
+    condition: {fileID: 0}
+    intKey: 
+    intValue: 0
+    itemToGive: {fileID: 11400000, guid: 8a51e379a603dd440b355ff0a9ba1465, type: 2}
+    successNextId: say
+    failNextId: say full

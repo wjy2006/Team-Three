@@ -9219,6 +9219,7 @@ MonoBehaviour:
   - {fileID: 736583419}
   - {fileID: 1033984017}
   sellUnsellableTextKey: ui.shop.sell.dog_unsellable
+  allowSellAllItems: 1
   portrait: {fileID: 1840312533}
 --- !u!114 &1829840400
 MonoBehaviour:

@@ -454,7 +454,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7eec0b808e5941f45b36483ceb1e3eff, type: 3}
   m_Color: {r: 0.9986298, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -497,6 +497,7 @@ Transform:
   - {fileID: 622713047}
   - {fileID: 1835071233}
   - {fileID: 1866465222}
+  - {fileID: 1176474640}
   m_Father: {fileID: 1532438886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &304511140
@@ -862,6 +863,9 @@ GameObject:
   - component: {fileID: 834454957}
   - component: {fileID: 834454958}
   - component: {fileID: 834454959}
+  - component: {fileID: 834454960}
+  - component: {fileID: 834454961}
+  - component: {fileID: 834454962}
   m_Layer: 10
   m_Name: StoryTriggers
   m_TagString: Untagged
@@ -896,13 +900,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1a531d213682ba4cab4598bc9b5f1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoryTrigger
-  priority: 0
+  priority: 1
   triggerOnce: 0
-  consumeEvent: 1
+  consumeEvent: 0
   story: {fileID: 11400000, guid: 2b472e03af84f7140b0f81d8dec865a8, type: 2}
   conditions:
   - {fileID: 11400000, guid: c7f1434bdd482ec46a7576212076e598, type: 2}
-  onceKey: story.once.Death
+  onceKey: 
 --- !u!114 &834454959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -922,6 +926,67 @@ MonoBehaviour:
   conditions:
   - {fileID: 11400000, guid: 295b478e2e6e8b046aa073893d10056d, type: 2}
   onceKey: story.once.PlayerHitAdmin
+--- !u!114 &834454960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834454956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a531d213682ba4cab4598bc9b5f1fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StoryTrigger
+  priority: 0
+  triggerOnce: 1
+  consumeEvent: 1
+  story: {fileID: 11400000, guid: 7b08b92ff9810b44fac7eb7b6451b180, type: 2}
+  conditions:
+  - {fileID: 11400000, guid: 6db092224e86aa542895043307fa4a7f, type: 2}
+  onceKey: story.once.anchor
+--- !u!114 &834454961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834454956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a531d213682ba4cab4598bc9b5f1fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StoryTrigger
+  priority: 2
+  triggerOnce: 1
+  consumeEvent: 1
+  story: {fileID: 11400000, guid: f9ab93af6181446bbd2a52938cbdcaee, type: 2}
+  conditions:
+  - {fileID: 11400000, guid: fab11b4d71a34bbc98ee0ec608deb885, type: 2}
+  - {fileID: 11400000, guid: fb607024c3f94cd6894f5cb2c588728f, type: 2}
+  - {fileID: 11400000, guid: 8e6aa9eb44854d5cb4f4395e040d720b, type: 2}
+  onceKey: story.once.admin.chaos.warn
+--- !u!114 &834454962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834454956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a531d213682ba4cab4598bc9b5f1fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StoryTrigger
+  priority: 3
+  triggerOnce: 1
+  consumeEvent: 1
+  story: {fileID: 11400000, guid: e455ec248b6a4bfbaf4fc9cb9490527b, type: 2}
+  conditions:
+  - {fileID: 11400000, guid: fab11b4d71a34bbc98ee0ec608deb885, type: 2}
+  - {fileID: 11400000, guid: fb607024c3f94cd6894f5cb2c588728f, type: 2}
+  - {fileID: 11400000, guid: 4f5f9287640949db915261878bd3a0c7, type: 2}
+  onceKey: story.once.admin.chaos.fight
 --- !u!1 &1116376149
 GameObject:
   m_ObjectHideFlags: 0
@@ -1391,7 +1456,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1146974050}
-  m_Father: {fileID: 1532438886}
+  m_Father: {fileID: 304511139}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &1176474641
 Grid:
@@ -1740,7 +1805,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 8
-      m_TileSpriteIndex: 3
+      m_TileSpriteIndex: 7
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -1991,16 +2056,16 @@ Tilemap:
     m_Data: {fileID: 1117754831, guid: be615d8f665cb0f4db9ef8dd45d610d3, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 1314599570, guid: be615d8f665cb0f4db9ef8dd45d610d3, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 1178656256, guid: be615d8f665cb0f4db9ef8dd45d610d3, type: 3}
   - m_RefCount: 2
@@ -4089,7 +4154,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 304511139}
-  - {fileID: 1176474640}
   - {fileID: 1116376150}
   - {fileID: 1435101473}
   - {fileID: 1892779950}
@@ -4257,7 +4321,7 @@ CompositeCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:

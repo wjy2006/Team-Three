@@ -37,6 +37,12 @@ public class TriggerManager : MonoBehaviour
     {
         if (evt == null) return;
 
+        if (evt is HealthDeathEvent death)
+        {
+            string targetName = death.target != null ? death.target.name : "null";
+            Debug.Log($"[TriggerManager] Raise HealthDeathEvent: target={targetName}, registeredTriggers={triggers.Count}");
+        }
+
         dispatching = true;
 
         // ✅ 先清理 null（Destroy 了的对象/脚本引用）
@@ -80,7 +86,7 @@ public class TriggerManager : MonoBehaviour
                 Debug.LogException(ex);
             }
 
-            if (consumed)
+            if (consumed && trigger is not StoryTrigger)
                 break;
         }
 

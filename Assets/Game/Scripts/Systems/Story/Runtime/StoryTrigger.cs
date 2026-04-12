@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class StoryTrigger : MonoBehaviour, IStoryTrigger
@@ -19,6 +20,8 @@ public class StoryTrigger : MonoBehaviour, IStoryTrigger
 
     // 场景内缓存：同一场景生命周期内避免重复
     private bool firedLocal;
+    private bool registered;
+    private Coroutine registerRoutine;
 
     private void Reset()
     {
@@ -29,12 +32,53 @@ public class StoryTrigger : MonoBehaviour, IStoryTrigger
 
     private void OnEnable()
     {
-        GameRoot.I?.Triggers?.Register(this);
+        StartRegisterRoutine();
     }
 
     private void OnDisable()
     {
-        GameRoot.I?.Triggers?.Unregister(this);
+        if (registerRoutine != null)
+        {
+            StopCoroutine(registerRoutine);
+            registerRoutine = null;
+        }
+
+        if (registered)
+        {
+            GameRoot.I?.Triggers?.Unregister(this);
+            registered = false;
+        }
+    }
+
+    private void StartRegisterRoutine()
+    {
+        if (registerRoutine != null)
+        {
+            StopCoroutine(registerRoutine);
+            registerRoutine = null;
+        }
+
+        registerRoutine = StartCoroutine(RegisterWhenReady());
+    }
+
+    private IEnumerator RegisterWhenReady()
+    {
+        while (isActiveAndEnabled)
+        {
+            var manager = GameRoot.I != null ? GameRoot.I.Triggers : null;
+            if (manager != null)
+            {
+                manager.Register(this);
+                registered = true;
+                Debug.Log($"[StoryTrigger] Registered: {name} (scene={gameObject.scene.name})");
+                registerRoutine = null;
+                yield break;
+            }
+
+            yield return null;
+        }
+
+        registerRoutine = null;
     }
 
     public bool OnEvent(GameEvent evt)

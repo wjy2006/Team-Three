@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class DialogueSystem : MonoBehaviour
     public DialogueState DialogueState { get; private set; } = new DialogueState();
 
     public bool IsOpen => ui != null && ui.IsOpen;
+    public bool HasActiveSession => graph != null || waitingContinue || IsOpen;
+    public event Action OnSessionClosed;
 
     private string currentNpcId;
     private GraphDialogueAsset graph;
@@ -51,6 +54,7 @@ public class DialogueSystem : MonoBehaviour
 
         // 3) 最后再清理 runtime（以前你是先清理，导致后面跑不动）
         ClearGraphRuntime();
+        OnSessionClosed?.Invoke();
     }
 
     private void DrainGraphActionsUntilSayOrEnd()

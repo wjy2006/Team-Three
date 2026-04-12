@@ -24,6 +24,6 @@ MonoBehaviour:
     z: 0
   useSfx: {fileID: 0}
   type: 4
-  buyPrice: 0
-  sellPrice: 0
+  buyPrice: 999
+  sellPrice: 999
   effect: {fileID: 11400000, guid: 214413aa910766d41a26a43862744aff, type: 2}
